@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introducción a los sistemas operativos | Sistemas Operativos</title>
+    <meta
+      name="description"
+      content="Concepto, propósito y funciones del sistema operativo: relación con el hardware, las aplicaciones y el usuario, y administración de los recursos."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=EB+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="../index.html">
+          SO
+          <span>Sistemas Operativos</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-label="Abrir menú de navegación"
+          aria-expanded="false"
+          aria-controls="menu-principal"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <ul class="nav-links" id="menu-principal">
+          <li><a href="../index.html">Inicio</a></li>
+          <li>
+            <a href="conocimientos-previos.html">Conocimientos previos</a>
+          </li>
+          <li><a href="../index.html#temas">Temas</a></li>
+          <li><a href="../index.html#introduccion">Introducción</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container content-column">
+          <h1>Introducción a los sistemas operativos</h1>
+          <p>
+            Un sistema operativo permite ejecutar programas y administrar el
+            hardware sin que cada usuario tenga que controlar la CPU, la
+            memoria o el disco por su cuenta. Este tema explica para qué sirve,
+            cómo se relaciona con las aplicaciones y de qué manera reparte los
+            recursos cuando varias tareas ocurren al mismo tiempo.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container content-column">
+          <article class="prose">
+            <nav class="toc" aria-label="Contenido del tema">
+              <p>En este tema</p>
+              <ol>
+                <li><a href="#concepto">Concepto y propósito</a></li>
+                <li><a href="#relacion">Hardware, software, usuario y aplicaciones</a></li>
+                <li><a href="#funciones">Funciones principales</a></li>
+                <li><a href="#recursos">Administración de recursos</a></li>
+                <li><a href="#procesos">Procesos y planificación</a></li>
+                <li><a href="#memoria">Memoria</a></li>
+                <li><a href="#dispositivos">Dispositivos de entrada y salida</a></li>
+                <li><a href="#archivos">Archivos y directorios</a></li>
+                <li><a href="#nucleo">Núcleo, drivers y llamadas al sistema</a></li>
+                <li><a href="#consola">Consola y shell</a></li>
+              </ol>
+            </nav>
+
+            <h2 id="concepto">Concepto y propósito del sistema operativo</h2>
+            <p>
+              Un sistema operativo es el software que permite ejecutar otros
+              programas y administrar los recursos físicos del computador: la
+              memoria, los periféricos, el almacenamiento y la CPU. Lo hace de
+              manera eficiente, ordenada y segura, y al mismo tiempo ofrece
+              interfaces para que usar el equipo no dependa de conocer cada
+              componente por dentro.
+            </p>
+            <p>
+              La forma principal de lograrlo es la virtualización. El sistema
+              operativo toma un recurso físico, como el procesador, la memoria
+              o el disco, y lo presenta como una versión más general y fácil de
+              usar. Por eso a veces se describe como una máquina virtual: no
+              reemplaza al hardware, lo organiza para que varios programas
+              puedan compartirlo (Arpaci-Dusseau y Arpaci-Dusseau, 2023).
+            </p>
+
+            <h3>Qué pasaría sin un sistema operativo</h3>
+            <p>
+              Sin ese intermediario, el usuario tendría que hablar directamente
+              con el hardware. El problema no es solo de comodidad. Hace falta
+              saber qué hace cada componente, cuáles son sus límites y cómo
+              configurarlo sin dañarlo. Además, el sistema operativo existe
+              para cumplir tres objetivos que un usuario no podría sostener a
+              mano en el día a día (Wolf et al., 2015):
+            </p>
+            <ul class="feature-list">
+              <li>
+                <strong>Abstracción.</strong> Oculta el detalle del hardware.
+                Guardar un documento se parece a elegir una carpeta, no a
+                decidir en qué bloque del disco va cada byte.
+              </li>
+              <li>
+                <strong>Administración de recursos.</strong> Reparte memoria,
+                almacenamiento y tiempo de procesador para que cada programa
+                reciba lo que necesita.
+              </li>
+              <li>
+                <strong>Aislamiento.</strong> Permite que varias personas y
+                varios programas usen el mismo equipo sin pisarse los datos ni
+                los recursos.
+              </li>
+            </ul>
+            <p>
+              En la práctica, eso se nota en tareas que hoy parecen simples. Sin
+              sistema operativo habría que asignar a mano el espacio para crear
+              o abrir un archivo, vigilar que un solo programa no consuma toda
+              la CPU y la memoria, y controlar lo que hace cada persona si el
+              computador lo comparten compañeros o familiares. El resultado no
+              sería ni cómodo ni eficaz. Por eso el sistema operativo quedó
+              como la base para el trabajo, el estudio y el uso cotidiano.
+            </p>
+
+            <div class="note">
+              <strong>Idea clave:</strong> el hardware aporta la capacidad
+              física; el sistema operativo la vuelve utilizable, la reparte y
+              evita que un programa o un usuario la acapare.
+            </div>
+
+            <h2 id="relacion">
+              Relación entre hardware, software, usuario y aplicaciones
+            </h2>
+            <p>
+              Estos cuatro elementos no trabajan por separado. Forman un flujo
+              de instrucciones: el usuario pide algo, la aplicación traduce esa
+              petición, el sistema operativo prepara los recursos y el hardware
+              ejecuta el trabajo físico.
+            </p>
+
+            <h3>Cada elemento</h3>
+            <p>
+              El <strong>hardware</strong> son los componentes físicos que
+              aportan los recursos: CPU, RAM, almacenamiento, GPU y dispositivos
+              de entrada y salida. Son los únicos que ejecutan instrucciones de
+              verdad. Por sí solos solo repiten un ciclo —leer una instrucción,
+              avanzar y ejecutar— hasta que alguien carga un programa.
+            </p>
+            <p>
+              El <strong>software</strong> son los programas que se guardan en
+              el computador y usan esos recursos para funcionar. Dentro de este
+              grupo están el sistema operativo y las aplicaciones.
+            </p>
+            <p>
+              El <strong>sistema operativo</strong> gestiona el hardware y sirve
+              de intermediario. Virtualiza los recursos para que las
+              aplicaciones los usen sin competir de forma desordenada. El
+              usuario también puede hablarle directamente mediante el intérprete
+              de comandos, o shell.
+            </p>
+            <p>
+              Las <strong>aplicaciones</strong> son los programas con los que la
+              persona trabaja todo el tiempo: el navegador, el editor de texto,
+              el reproductor de música. Suelen escribirse en lenguajes de alto
+              nivel, como Python, Java o C#, y por eso pueden llevarse a
+              distintos sistemas. Aun así dependen de un compilador o un
+              intérprete, y del sistema operativo, para que esas instrucciones
+              lleguen al hardware.
+            </p>
+            <p>
+              El <strong>usuario</strong>, para el sistema, no es “la persona”
+              en abstracto. También se virtualiza: una cuenta, con un
+              identificador y unos permisos, que el sistema revisa antes de
+              dejar ejecutar una acción.
+            </p>
+
+            <h3>Cómo se apilan</h3>
+            <p>
+              Carretero et al. (2001) ordenan esta relación en capas. Arriba
+              está el usuario. En el medio, el software: las aplicaciones y el
+              sistema operativo, y este último se divide a su vez en shell,
+              servicios y núcleo. Abajo queda el hardware.
+            </p>
+
+            <figure class="diagram">
+              <ol class="layers" aria-label="Capas del sistema informático">
+                <li>
+                  <strong>Usuario</strong>
+                  <span>Da la instrucción desde una cuenta, con sus permisos.</span>
+                </li>
+                <li>
+                  <strong>Aplicaciones</strong>
+                  <span>Traducen la acción del usuario a una petición.</span>
+                </li>
+                <li>
+                  <strong>Sistema operativo</strong>
+                  <span>Shell, servicios y núcleo. Reparte y protege los recursos.</span>
+                </li>
+                <li>
+                  <strong>Hardware</strong>
+                  <span>CPU, RAM, almacenamiento y periféricos ejecutan el trabajo.</span>
+                </li>
+              </ol>
+              <figcaption>
+                Figura 1. Capas del computador, del usuario al hardware.
+              </figcaption>
+            </figure>
+
+            <h3>Ejemplo: guardar un archivo de Word</h3>
+            <p>
+              El flujo se ve claro al guardar un documento. Participan los
+              cuatro elementos, en este orden:
+            </p>
+            <ol class="sequence">
+              <li>
+                <strong>Usuario.</strong> En Word pulsa Ctrl+G o elige Archivo
+                y luego Guardar.
+              </li>
+              <li>
+                <strong>Aplicación.</strong> Word convierte esa acción en una
+                petición para almacenar el estado del archivo.
+              </li>
+              <li>
+                <strong>Sistema operativo.</strong> Comprueba la ruta y los
+                permisos, y organiza la escritura mediante el sistema de
+                archivos.
+              </li>
+              <li>
+                <strong>Hardware.</strong> La CPU y la RAM intervienen en la
+                operación, y el disco duro o el SSD conservan la información.
+              </li>
+            </ol>
+
+            <h2 id="funciones">Funciones principales del sistema operativo</h2>
+            <p>
+              Carretero et al. (2001) agrupan el trabajo del sistema en tres
+              grandes tareas: gestionar los recursos, ofrecer servicios a los
+              programas y ejecutar los mandatos del usuario. De ahí salen
+              funciones que se notan en el uso diario.
+            </p>
+
+            <h3>Ejecución de programas y gestión de procesos</h3>
+            <p>
+              El sistema reparte el procesador entre los programas que están
+              abiertos. Al virtualizar la CPU, varios programas pueden avanzar
+              aunque el equipo tenga un solo procesador. Al iniciar sesión en
+              Windows, por ejemplo, arrancan varias aplicaciones a la vez: el
+              sistema las va turnando sin que la persona decida el orden de cada
+              instrucción.
+            </p>
+
+            <h3>Gestión de la memoria</h3>
+            <p>
+              A cada programa le asigna un conjunto de direcciones privadas y
+              las relaciona con la memoria física. Así, tener muchas pestañas
+              en el navegador y, al mismo tiempo, un documento de Office no
+              hace que un programa escriba encima de los datos del otro.
+            </p>
+
+            <h3>Gestión de dispositivos de entrada y salida</h3>
+            <p>
+              El sistema controla teclado, ratón, impresora, cámara y discos
+              para que ni el usuario ni cada aplicación los configuren a mano.
+              Ese trabajo lo hacen los drivers: código del propio sistema que
+              sabe hablar con un dispositivo concreto (Arpaci-Dusseau y
+              Arpaci-Dusseau, 2023). Al conectar una impresora, el sistema busca
+              ese controlador, en el equipo o en internet, y a partir de ahí
+              puede usarla.
+            </p>
+
+            <h3>Protección y aislamiento</h3>
+            <p>
+              El sistema evita que una aplicación dañe a las demás o al propio
+              sistema. Para eso separa dos modos de ejecución. En
+              <strong>modo usuario</strong>, un programa no puede hacer por su
+              cuenta operaciones delicadas, como acceder directo a un disco. Si
+              necesita un servicio, hace una llamada al sistema: una instrucción
+              especial, el trap, pasa el control al sistema y sube el privilegio
+              a <strong>modo kernel</strong>. Cuando la operación termina, el
+              control vuelve al programa y se restablece el modo usuario.
+            </p>
+            <p>
+              Por eso, si un programa se cierra por un fallo interno, las demás
+              ventanas siguen abiertas. Y si alguien intenta manipular la unidad
+              de almacenamiento saltándose esas reglas, el sistema puede negar
+              la operación antes de que el componente quede en un estado
+              inconsistente.
+            </p>
+
+            <h3>Interfaz de usuario</h3>
+            <p>
+              También facilita el diálogo con la persona. El shell permite
+              escribir comandos, y la interfaz gráfica permite abrir un programa
+              con un icono, mover archivos o revisar una carpeta sin memorizar
+              la sintaxis. Un acceso directo y un <code>ping</code> para probar
+              una red son la misma función vista de dos maneras.
+            </p>
+
+            <h2 id="recursos">Administración de los recursos del sistema</h2>
+            <p>
+              Decir que el sistema operativo administra recursos significa que
+              el procesador, la RAM, el almacenamiento y los dispositivos tienen
+              un límite, y los procesos compiten por ellos. El sistema aplica
+              políticas para repartirlos según lo que el equipo necesita en ese
+              momento. Esa política puede buscar eficiencia, equidad o una
+              mezcla de ambas (Wolf et al., 2015; Arpaci-Dusseau y
+              Arpaci-Dusseau, 2023).
+            </p>
+            <p>
+              Como gestor, el sistema cumple tres labores: asignar el recurso,
+              protegerlo para que nadie lo use fuera de lo permitido y llevar
+              la cuenta de quién lo está usando (Carretero et al., 2001).
+            </p>
+
+            <h3>Procesador</h3>
+            <p>
+              El tiempo de CPU se reparte en turnos. Al virtualizar el
+              procesador, cada programa trabaja como si lo tuviera para sí,
+              aunque en realidad lo comparte. Un temporizador interrumpe de
+              forma periódica para que el sistema recupere el control: así no
+              depende de que un programa suelte la CPU por voluntad propia.
+              Luego un planificador elige el siguiente proceso y el cambio se
+              hace con un cambio de contexto. Decidir cuál corre es la política;
+              la forma de cambiar de uno a otro es el mecanismo.
+            </p>
+
+            <h3>Memoria RAM</h3>
+            <p>
+              Cada proceso recibe un espacio de direcciones privado, asociado a
+              la memoria física. La Unidad de Manejo de Memoria (MMU) es el
+              hardware que impide que un proceso sobrescriba la memoria de otro,
+              incluida la del propio sistema operativo.
+            </p>
+
+            <h3>Dispositivos</h3>
+            <p>
+              Hay dos formas de compartirlos. Algunos, como la impresora,
+              necesitan acceso exclusivo: si dos trabajos se mezclan, el
+              resultado se corrompe. El sistema forma una cola, el spool, y
+              bloquea el dispositivo para un trabajo a la vez. Otros pueden
+              atender a varios usuarios por un mismo canal, y entonces cada
+              petición espera su turno en una fila.
+            </p>
+
+            <h3>Almacenamiento</h3>
+            <p>
+              El disco se comparte de otra manera. El sistema no fabrica un
+              disco distinto para cada aplicación: los archivos conviven en el
+              mismo medio y el sistema de archivos decide dónde y cómo se
+              guardan. Si una política pone un límite, el usuario no puede
+              saltárselo solo con pedirlo. Para que ese control sea real hacen
+              falta la MMU y la separación entre modo usuario y modo kernel.
+            </p>
+
+            <div class="scenario">
+              <h3>Cuando cuatro tareas quieren la CPU a la vez</h3>
+              <p>
+                Pensemos en un computador con un solo núcleo y un solo hilo.
+                Al mismo tiempo se descarga un archivo, suena música, se abre
+                una página en el navegador y se actualiza una aplicación. Los
+                cuatro procesos pueden necesitar el procesador en el mismo
+                instante: hay datos que guardar, audio que decodificar, un clic
+                que atender y un paquete de actualización que procesar.
+              </p>
+              <p>
+                Como la CPU es una, cada proceso espera su turno. El sistema
+                reparte intervalos cortos con el temporizador. En cada
+                interrupción guarda el estado del proceso que iba corriendo,
+                elige el siguiente y más adelante retoma el anterior desde donde
+                quedó. La alternancia es tan rápida que la persona percibe que
+                todo ocurre a la vez. Si la descarga está esperando paquetes de
+                la red y no necesita la CPU, ese tiempo se lo ceden a las otras
+                tres.
+              </p>
+              <p>
+                Si el sistema no pudiera quitarle la CPU a un proceso, cada
+                programa la conservaría hasta que decidiera soltarla. Uno que
+                se quede al 100% y no ceda el turno congelaría la descarga, la
+                música, la actualización y el navegador.
+              </p>
+            </div>
+            <p>
+              Los procesadores actuales tienen varios núcleos e hilos, así que
+              sí pueden avanzar varias tareas en el mismo instante. Aun así
+              suele haber más procesos que núcleos, y el reparto sigue siendo
+              necesario.
+            </p>
+
+            <h2 id="procesos">Gestión del procesador y de los procesos</h2>
+            <p>
+              Un <strong>programa</strong> es un conjunto de instrucciones y
+              datos guardado en el almacenamiento. Un <strong>proceso</strong>
+              es ese programa en ejecución: una instancia concreta, ya cargada y
+              trabajando (Arpaci-Dusseau y Arpaci-Dusseau, 2023; Wolf et al.,
+              2015).
+            </p>
+            <p>
+              El proceso se reconoce por su estado de máquina: la memoria que
+              puede direccionar, los registros (incluido el contador de programa
+              y el puntero de pila) y la información de entrada y salida, como
+              los archivos que tiene abiertos. El procesador es la unidad que
+              ejecuta tanto los procesos del usuario como los del sistema. Sobre
+              esa CPU, el sistema se encarga de arrancar el equipo, atender
+              interrupciones y excepciones, y multiplexar el tiempo entre
+              procesos.
+            </p>
+
+            <h3>Cómo se turnan</h3>
+            <p>
+              El sistema ejecuta un proceso, lo interrumpe con el temporizador
+              —o porque el proceso pasa a bloqueado— y luego corre otro. Da la
+              ilusión de varios procesadores, aunque sea uno solo avanzando en
+              ciclos muy cortos. El costo es que cada proceso tarda un poco más
+              que si estuviera solo; a cambio, las tareas progresan “a la vez”.
+            </p>
+            <p>
+              En el modelo básico, un proceso está en uno de tres estados. El
+              sistema alterna listo y en ejecución según a quién le toque la
+              CPU. Bloqueado aparece cuando el proceso espera una operación de
+              entrada o salida; al completarse, vuelve a listo.
+            </p>
+
+            <figure class="diagram">
+              <div class="states" aria-label="Estados de un proceso">
+                <div class="state">
+                  <strong>Listo</strong>
+                  <span>Puede usar la CPU y espera su turno.</span>
+                </div>
+                <div class="state is-current">
+                  <strong>En ejecución</strong>
+                  <span>El procesador está corriendo sus instrucciones.</span>
+                </div>
+                <div class="state">
+                  <strong>Bloqueado</strong>
+                  <span>Espera un disco, la red u otro dispositivo.</span>
+                </div>
+              </div>
+              <figcaption>
+                Figura 2. Estados de un proceso. Listo y en ejecución se
+                alternan; bloqueado regresa a listo cuando termina la espera.
+              </figcaption>
+            </figure>
+
+            <p>
+              Para no perder el hilo, el sistema guarda una lista de procesos.
+              Cada entrada tiene el estado, un identificador y el contexto de
+              los registros. Al detener un proceso, copia esos registros; al
+              reanudarlo, los restaura. La política —qué proceso conviene
+              ejecutar— queda separada del mecanismo —cómo se hace el cambio—.
+              Así se puede cambiar la regla de turno sin rehacer el cambio de
+              contexto.
+            </p>
+
+            <h3>Planificación de la CPU</h3>
+            <p>
+              El planificador elige cuál de los procesos en estado listo usará
+              el procesador. Se apoya en el historial de cuánto ha corrido cada
+              uno, en el tipo de carga y en métricas como el tiempo de retorno
+              (desde que el proceso llega hasta que termina), el tiempo de
+              respuesta (hasta la primera vez que se ejecuta) y la equidad.
+              Equidad y rendimiento suelen tirar para lados distintos: acelerar
+              unos trabajos puede dejar otros esperando.
+            </p>
+            <p>
+              Hay varias políticas, y ninguna gana en todo:
+            </p>
+            <ul class="feature-list">
+              <li>
+                <strong>FIFO</strong> (primero en llegar, primero en salir)
+                atiende en orden de llegada. Si entra primero un trabajo muy
+                largo, los cortos quedan detrás hasta que ese termine.
+              </li>
+              <li>
+                <strong>SJF</strong> y <strong>STCF</strong> prefieren el
+                trabajo más corto, o el que menos tiempo le queda. Mejoran el
+                retorno cuando se conoce la duración, y castigan a los trabajos
+                largos.
+              </li>
+              <li>
+                <strong>Round robin</strong> da a cada proceso un intervalo
+                corto y luego pasa al siguiente. Responde pronto, aunque el
+                trabajo completo puede tardar más por tantos cambios.
+              </li>
+            </ul>
+            <p>
+              La entrada y la salida también cuentan. Si un proceso está
+              bloqueado esperando un disco o la red, el planificador le cede la
+              CPU a otro que sí esté listo.
+            </p>
+
+            <h3>Si los procesos no se administran</h3>
+            <ul class="feature-list">
+              <li>
+                <strong>Acaparamiento.</strong> Un proceso se queda con la CPU
+                hasta que él decida devolverla, y el equipo puede congelarse.
+              </li>
+              <li>
+                <strong>Mala respuesta.</strong> Con una cola estricta, un
+                trabajo largo bloquea a los demás. En una terminal pasa algo
+                parecido: hay que esperar a que el comando actual termine para
+                lanzar el siguiente.
+              </li>
+              <li>
+                <strong>CPU desaprovechada.</strong> Si un proceso bloqueado en
+                una espera no suelta el procesador, ese tiempo no se reutiliza.
+              </li>
+              <li>
+                <strong>Falta de equidad.</strong> Algunos procesos listos
+                tardarían demasiado o no llegarían a ejecutarse.
+              </li>
+            </ul>
+
+            <h2 id="memoria">Administración de la memoria</h2>
+            <p>
+              La RAM (Random Access Memory, memoria de acceso aleatorio) es la
+              memoria principal. Ahí se cargan, de forma temporal, las
+              instrucciones y los datos de lectura y escritura de los programas
+              que están en marcha. El procesador toma de esa memoria lo que va
+              a ejecutar. Gracias a ella, cambiar de un programa a otro es
+              rápido: el sistema no tiene que ir al disco en cada alternancia.
+            </p>
+            <p>
+              Mediante la virtualización, cada proceso recibe un espacio propio
+              con tres zonas. El <strong>código</strong> son las instrucciones.
+              La <strong>pila</strong> (stack) sigue la cadena de llamadas, las
+              variables locales y los parámetros. El <strong>heap</strong>
+              guarda la memoria que el programa pide de forma dinámica mientras
+              corre. Entre el heap y la pila queda un hueco, porque ambas zonas
+              crecen o se reducen con el tiempo.
+            </p>
+            <p>
+              Ese espacio se numera con direcciones virtuales, de 32 o 64 bits
+              según el sistema. Si el proceso A pide su dirección 0, el hardware
+              y el sistema la traducen a otra dirección física, por ejemplo
+              320 KB. El programa no tiene que enterarse. La virtualización de
+              la memoria persigue tres metas: transparencia, para que el
+              programa crea que usa la memoria física; eficiencia, para que la
+              traducción sea rápida y no gaste demasiada memoria en las propias
+              tablas (aquí ayuda el TLB, una caché de traducciones dentro de la
+              MMU); y protección, para que un proceso no lea ni escriba la
+              memoria de otro ni la del sistema operativo.
+            </p>
+
+            <h3>RAM y almacenamiento permanente</h3>
+            <p>
+              Las dos guardan datos, y aun así cumplen papeles distintos. La
+              RAM sostiene lo que está en ejecución. El HDD o el SSD conservan
+              el sistema, las aplicaciones y los archivos aunque se corte la
+              energía. De ahí el sistema los carga hacia la RAM cuando hacen
+              falta.
+            </p>
+
+            <div class="table-wrap">
+              <table class="compare">
+                <caption>
+                  Comparación entre la memoria RAM y el almacenamiento permanente.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Aspecto</th>
+                    <th scope="col">Memoria RAM</th>
+                    <th scope="col">HDD o SSD</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Función</th>
+                    <td>Guarda programas en ejecución y sus datos de trabajo.</td>
+                    <td>
+                      Conserva de forma permanente programas y archivos. El
+                      sistema los carga a la RAM para usarlos.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Volatilidad</th>
+                    <td>Al apagar o cortar la energía, pierde su contenido.</td>
+                    <td>Mantiene los datos sin energía.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Velocidad y capacidad</th>
+                    <td>Es más rápida y, en comparación, tiene menos espacio.</td>
+                    <td>
+                      Es más lenta y ofrece mucha más capacidad. Ejecutar todo
+                      desde el disco haría el equipo demasiado lento.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Quién la organiza</th>
+                    <td>El gestor de memoria, con la MMU y los espacios de direcciones.</td>
+                    <td>El sistema de archivos.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h2 id="dispositivos">Gestión de dispositivos de entrada y salida</h2>
+            <p>
+              Los periféricos no se conectan todos igual de cerca del
+              procesador. Un bus más rápido suele ser un camino más corto y más
+              costoso, así que la memoria vive junto a la CPU y dispositivos
+              como el teclado, el ratón o un disco USB quedan más afuera. En un
+              equipo actual, la gráfica suele hablar con el procesador al nivel
+              de la memoria, mientras la red, los USB y muchos discos pasan por
+              un chip dedicado a la entrada y la salida.
+            </p>
+            <p>
+              El sistema no adivina el estado de un dispositivo: lo lee y lo
+              escribe en registros de estado, de comando y de datos. El protocolo
+              básico es esperar a que el dispositivo esté libre, enviarle los
+              datos y escribir el comando. Si el sistema se queda preguntando
+              una y otra vez si ya terminó —eso es el polling—, desperdicia CPU.
+              Por eso, con dispositivos lentos, deja el proceso dormido y atiende
+              otro; cuando el dispositivo acaba, manda una interrupción y una
+              rutina del sistema despierta al proceso. En dispositivos muy
+              rápidos, el polling a veces conviene más que la interrupción,
+              porque avisar tantas veces también tiene un costo.
+            </p>
+            <p>
+              Otro cuello de botella es la E/S programada: la CPU copia ella
+              misma cada dato entre la memoria y el periférico. Para un bloque
+              grande, eso ocupa al procesador en un traslado mecánico. El DMA
+              (acceso directo a memoria) es un componente que hace esa copia y,
+              al terminar, avisa con una interrupción. Las instrucciones que
+              mueven estos dispositivos son privilegiadas. Si cualquier programa
+              pudiera leer o escribir el disco por su cuenta, no habría control
+              posible sobre los datos.
+            </p>
+
+            <h3>Para qué sirve un driver</h3>
+            <p>
+              El sistema se mantiene neutro respecto al aparato concreto. Un
+              sistema de archivos tiene que funcionar igual si el disco es SATA,
+              USB o NVMe. El driver es el trozo de software que sí conoce ese
+              aparato y encapsula el detalle. En Linux, el camino simplificado
+              va de la aplicación a la API, de ahí al sistema de archivos, luego
+              a una capa genérica de bloques, después al driver y, al final, al
+              hardware, mediante registros e interrupciones.
+            </p>
+            <p>
+              Cuando un driver falla o no corresponde al equipo, las
+              consecuencias se notan enseguida:
+            </p>
+            <ul class="feature-list">
+              <li>
+                <strong>Fallos del núcleo.</strong> Los drivers son una parte
+                enorme del código del sistema —en Linux se ha estimado cerca
+                del 70%— y muchos los escriben quienes fabrican el dispositivo,
+                no un equipo dedicado al kernel. Por eso son una fuente frecuente
+                de cuelgues.
+              </li>
+              <li>
+                <strong>Errores poco claros.</strong> Al encapsular el
+                dispositivo se pueden perder detalles. Un disco SCSI en Linux
+                informa mejor un fallo; otros dispositivos devuelven un error
+                genérico y cuesta saber qué pasó.
+              </li>
+              <li>
+                <strong>Incompatibilidad.</strong> Un driver se escribe para un
+                núcleo concreto. El de Windows no sirve en Linux, y al revés.
+                Si el driver coincide con el sistema pero no con el hardware, el
+                sistema puede instalarlo y, aun así, no usarlo, porque no hay
+                un dispositivo que responda a esas órdenes.
+              </li>
+            </ul>
+
+            <h2 id="archivos">Administración de archivos y directorios</h2>
+            <p>
+              Un <strong>archivo</strong> es la unidad lógica del almacenamiento
+              permanente. Agrupa información relacionada bajo un nombre, y es la
+              forma que tiene el usuario de manejar ese almacenamiento. Por
+              dentro es una secuencia de bytes. El sistema, en general, no
+              decide si esos bytes son una foto, un video o código: los guarda
+              y los devuelve tal cual. En UNIX, además del nombre visible, el
+              archivo tiene un identificador numérico interno, el i-number.
+            </p>
+            <p>
+              Un <strong>directorio</strong>, o carpeta, relaciona el nombre que
+              ve la persona con ese identificador. En UNIX, un directorio guarda
+              pares de nombre e i-number. Como un directorio puede contener
+              otros, se forma un árbol desde una raíz. Cada carpeta incluye dos
+              entradas especiales: <code>.</code> apunta a sí misma y
+              <code>..</code> apunta a la carpeta padre.
+            </p>
+
+            <h3>Qué hace el sistema con ellos</h3>
+            <p>
+              Un proceso solo llega a un archivo por la interfaz del sistema
+              operativo. Las operaciones de todos los días pasan por ahí:
+            </p>
+            <ul class="feature-list">
+              <li>
+                <strong>Crear y abrir.</strong> El sistema comprueba que el
+                archivo exista o pueda crearse, que los permisos alcancen y que
+                el medio lo permita. Luego entrega un descriptor. En UNIX, abrir
+                o crear se pide con <code>open</code>, y la bandera
+                <code>O_CREAT</code> indica que hay que crearlo si no está.
+              </li>
+              <li>
+                <strong>Leer y modificar.</strong> El sistema mantiene un
+                apuntador a la última posición, que avanza con cada lectura o
+                escritura y también puede recolocarse. Al cerrar, vuelca a disco
+                lo que todavía estaba en buffers de la RAM. Renombrar se pide
+                con <code>rename</code>.
+              </li>
+              <li>
+                <strong>Eliminar.</strong> En UNIX, <code>unlink</code> quita un
+                nombre del directorio. El archivo desaparece del todo cuando ya
+                no queda ningún nombre apuntándolo.
+              </li>
+              <li>
+                <strong>Organizar carpetas.</strong>
+                <code>mkdir</code> crea un directorio, <code>opendir</code> y
+                <code>readdir</code> leen su contenido, y <code>rmdir</code> lo
+                borra solo si está vacío.
+              </li>
+              <li>
+                <strong>Concurrencia.</strong> El sistema lleva tablas de
+                archivos abiertos y puede negar un segundo acceso aunque los
+                permisos existan. Así dos procesos no escriben el mismo archivo
+                a la vez y dejan los datos a medias.
+              </li>
+            </ul>
+
+            <h3>Permisos</h3>
+            <p>
+              CPU y RAM se reparten en espacios bastante privados. El disco, en
+              cambio, lo comparten usuarios y procesos, así que hace falta decir
+              quién puede leer, escribir o ejecutar. Tres modelos cubren la
+              mayoría de los casos:
+            </p>
+            <ul class="feature-list">
+              <li>
+                <strong>FAT</strong> usa atributos simples: oculto, solo
+                lectura, sistema o archivado. Nació para equipos de un solo
+                usuario.
+              </li>
+              <li>
+                <strong>UNIX</strong> usa nueve bits en tres grupos —dueño,
+                grupo y otros—, cada uno con lectura, escritura y ejecución. En
+                una carpeta, escribir permite crear o borrar entradas, leer
+                permite listarlas y ejecutar permite entrar. Con
+                <code>chmod 600</code> un archivo queda solo para su dueño, con
+                lectura y escritura.
+              </li>
+              <li>
+                Las <strong>listas de control de acceso (ACL)</strong> guardan,
+                en cada archivo, permisos por usuario o por grupo. Así no hace
+                falta que el archivo pertenezca a un único grupo. Las versiones
+                de Windows con núcleo NT las incorporan.
+              </li>
+            </ul>
+
+            <h3>Sistemas de archivos</h3>
+            <p>
+              Un sistema de archivos es el esquema con el que se organiza un
+              volumen. Si el sistema operativo no lo reconoce, no puede mostrar
+              el contenido y, en un mal caso, puede dañarlo. Al crear una
+              partición queda una unidad con su propia descripción: estructura,
+              descriptores, bloques libres y bloques de datos.
+            </p>
+            <p>
+              De cada archivo se guardan metadatos —dueño, permisos, fechas,
+              tamaño y ubicación—, normalmente asociados al i-number. El
+              directorio solo guarda el nombre y ese número. En conjunto, el
+              sistema de archivos convierte bloques sueltos en archivos y
+              carpetas comprensibles, permite elegir un formato según el uso
+              (rendimiento, intercambio entre equipos o límites del hardware) y,
+              con el montaje, deja convivir varios formatos en un mismo árbol.
+            </p>
+
+            <h2 id="nucleo">Núcleo, controladores y llamadas al sistema</h2>
+            <h3>Núcleo o kernel</h3>
+            <p>
+              Es la capa del sistema operativo más cercana al hardware. Gestiona
+              los recursos y concentra la funcionalidad básica, por eso se
+              ejecuta en modo kernel. El resto de capas puede trabajar con menos
+              privilegios. En un núcleo monolítico, esas rutinas viven en un
+              único componente privilegiado. En un micronúcleo, el núcleo se
+              reduce al mínimo y deja el manejo de muchos servicios en procesos
+              sin privilegio.
+            </p>
+
+            <h3>Controlador y driver</h3>
+            <p>
+              En el habla cotidiana, controlador y driver se usan como
+              sinónimos. Conviene separarlos, como hacen Carretero et al.
+              (2001). El <strong>controlador</strong> es hardware: una unidad
+              que maneja uno o varios dispositivos del mismo tipo, intercambia
+              datos con la memoria, compensa la diferencia de velocidad y
+              detecta errores. El <strong>driver</strong>, o manejador, es
+              software del sistema operativo. Recibe una petición abstracta, la
+              traduce a lo que el controlador entiende y envía las órdenes en
+              el orden correcto.
+            </p>
+
+            <h3>Llamada al sistema</h3>
+            <p>
+              Un proceso sin privilegios no llega directo a los dispositivos.
+              Cuando necesita una acción privilegiada, la pide con una llamada
+              al sistema. Las librerías y los lenguajes envuelven esas llamadas
+              en APIs, para que quien programa no tenga que armar la instrucción
+              de bajo nivel a mano.
+            </p>
+
+            <h3>Leer un archivo, paso a paso</h3>
+            <p>
+              Si una aplicación abre <code>notas.txt</code> desde un disco, los
+              tres componentes se encadenan así:
+            </p>
+            <ol class="sequence">
+              <li>
+                La aplicación pide abrir <code>notas.txt</code>. El sistema
+                comprueba que el archivo exista y que la cuenta tenga permiso.
+              </li>
+              <li>
+                El núcleo devuelve un descriptor: un entero con el que la
+                aplicación se referirá a ese archivo abierto.
+              </li>
+              <li>
+                Con el descriptor, la aplicación llama a <code>read</code>. El
+                control pasa al núcleo.
+              </li>
+              <li>
+                El sistema de archivos calcula qué bloques hay que leer, según
+                la posición y el tamaño pedidos, y se los solicita al manejador
+                del disco. A veces lee un bloque entero aunque solo haga falta
+                un fragmento.
+              </li>
+              <li>
+                El manejador traduce la petición y se la entrega al controlador.
+                Con un disco, el proceso suele bloquearse a la espera de una
+                interrupción.
+              </li>
+              <li>
+                El controlador termina la lectura y avisa con una interrupción.
+                El manejador revisa si hubo errores y devuelve el estado al
+                sistema de archivos.
+              </li>
+              <li>
+                Los datos quedan en el buffer de la aplicación y
+                <code>read</code> informa cuántos bytes leyó.
+              </li>
+            </ol>
+
+            <h2 id="consola">Intérprete de comandos y consola</h2>
+            <h3>Consola o terminal</h3>
+            <p>
+              La terminal de texto es el medio por el que el computador recibe
+              y envía una secuencia de caracteres. Hoy se usan emuladores: toman
+              lo que se teclea, se lo entregan al sistema y muestran la
+              respuesta, imitando a las terminales físicas de antes.
+            </p>
+
+            <h3>Shell</h3>
+            <p>
+              El intérprete de comandos, o shell, es el módulo que permite
+              dialogar con el sistema de forma interactiva. Funciona como un
+              bucle: espera una orden, la analiza, la ejecuta con los servicios
+              del sistema y vuelve a esperar. En modo texto, al terminar muestra
+              un indicador, el prompt, para avisar que ya puede recibir otra
+              línea. Algunas órdenes las resuelve el propio intérprete, sin
+              llegar a crear un proceso nuevo.
+            </p>
+
+            <h3>Interfaz gráfica e interfaz de línea de comandos</h3>
+            <div class="table-wrap">
+              <table class="compare">
+                <caption>
+                  Diferencias entre la línea de comandos y la interfaz gráfica.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Aspecto</th>
+                    <th scope="col">Línea de comandos</th>
+                    <th scope="col">Interfaz gráfica</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Cómo se da una orden</th>
+                    <td>Se escribe un mandato con su nombre y sus argumentos.</td>
+                    <td>Se usan el teclado y el ratón sobre ventanas e iconos.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Aprendizaje</th>
+                    <td>
+                      Hay que recordar la sintaxis, y cambia de un sistema a
+                      otro.
+                    </td>
+                    <td>Muestra las acciones y se explora de forma más directa.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Recursos</th>
+                    <td>Usa poca memoria y poco procesador.</td>
+                    <td>
+                      Gasta más, porque tiene que dibujar la interfaz y atender
+                      sus eventos.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Automatizar</th>
+                    <td>
+                      Un script del shell encadena órdenes, condiciones y
+                      repeticiones.
+                    </td>
+                    <td>
+                      Hace falta un mecanismo aparte, que reproduzca clics y
+                      pulsaciones.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              Borrar un archivo ilustra las dos vías: en la terminal,
+              <code>del</code> en Windows o <code>rm</code> en UNIX; en la
+              gráfica, el icono de la papelera o la tecla Supr sobre el archivo
+              seleccionado.
+            </p>
+
+            <h3>Cinco comandos de Windows</h3>
+            <p>
+              Estos mandatos salen de la consola de Windows (cmd). La sintaxis
+              completa está en la documentación de Microsoft; aquí queda la
+              forma de uso y un ejemplo concreto.
+            </p>
+
+            <div class="command">
+              <h3><code>dir</code></h3>
+              <p class="command-syntax">
+                <code>dir [&lt;unidad&gt;:][&lt;ruta&gt;][&lt;archivo&gt;]</code>
+              </p>
+              <p>
+                Muestra los archivos y subdirectorios de una carpeta. Sin
+                parámetros, lista el directorio actual, con fecha, hora, tamaño
+                y espacio libre.
+              </p>
+              <p>
+                Ejemplo: <code>dir /a</code> incluye también los archivos
+                ocultos.
+              </p>
+            </div>
+
+            <div class="command">
+              <h3><code>cd</code></h3>
+              <p class="command-syntax">
+                <code>cd [/d] [&lt;unidad&gt;:][&lt;ruta&gt;]</code>
+              </p>
+              <p>
+                Muestra o cambia el directorio actual. Sin parámetros, solo
+                indica en qué unidad y carpeta está la terminal.
+                <code>cd ..</code> sube a la carpeta padre.
+              </p>
+              <p>
+                Ejemplo:
+                <code>cd C:\Users\Jeronimo\Documents</code>
+              </p>
+            </div>
+
+            <div class="command">
+              <h3><code>mkdir</code></h3>
+              <p class="command-syntax">
+                <code>mkdir [&lt;unidad&gt;:]&lt;ruta&gt;</code>
+              </p>
+              <p>
+                Crea un directorio. Si el nombre lleva espacios, hay que
+                ponerlo entre comillas: sin ellas, la consola interpreta cada
+                palabra como una carpeta distinta.
+              </p>
+              <p>
+                Ejemplo:
+                <code>mkdir C:\Users\Jeronimo\Documents\Sistemas_Operativos</code>
+              </p>
+            </div>
+
+            <div class="command">
+              <h3><code>copy</code></h3>
+              <p class="command-syntax">
+                <code>copy &lt;origen&gt; &lt;destino&gt;</code>
+              </p>
+              <p>
+                Copia uno o varios archivos de una ubicación a otra. Si el
+                origen no está en la carpeta actual, hay que indicar la ruta.
+              </p>
+              <p>
+                Ejemplo:
+                <code>copy notas.txt C:\Users\Jeronimo\Documents\Sistemas_Operativos</code>
+              </p>
+            </div>
+
+            <div class="command">
+              <h3><code>del</code></h3>
+              <p class="command-syntax">
+                <code>del [/p] [/f] [/s] [/q] &lt;nombres&gt;</code>
+              </p>
+              <p>
+                Elimina uno o varios archivos. Lo borrado por esta vía no pasa
+                por la papelera. Conviene listar antes con <code>dir</code> para
+                confirmar el nombre. Una carpeta no se borra con
+                <code>del</code>: si está vacía, se usa <code>rmdir</code>.
+              </p>
+              <p>Ejemplo: <code>del notas.txt</code></p>
+            </div>
+          </article>
+
+          <section class="summary-block" aria-labelledby="resumen-conceptos">
+            <h2 id="resumen-conceptos">Resumen: cinco ideas del tema</h2>
+            <p>
+              Haz clic en cada tarjeta para voltearla y repasar la idea central.
+            </p>
+
+            <div class="flip-grid" aria-label="Tarjetas reversibles de conceptos">
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Virtualización: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Virtualización</h3>
+                    <p>La técnica de base del sistema operativo</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      Toma un recurso físico y lo presenta como una versión más
+                      general y fácil de compartir entre varios programas.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Proceso: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Proceso</h3>
+                    <p>Un programa que ya se está ejecutando</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      Incluye su memoria, sus registros y sus archivos abiertos.
+                      Puede estar listo, en ejecución o bloqueado.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Kernel: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Kernel</h3>
+                    <p>El núcleo del sistema operativo</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      Es la capa más cercana al hardware. Corre en modo
+                      privilegiado y concentra la gestión básica de recursos.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Llamada al sistema: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Llamada al sistema</h3>
+                    <p>El pedido de un servicio privilegiado</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      La aplicación pide, el trap pasa a modo kernel y, al
+                      terminar, el control regresa a modo usuario.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Shell: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Shell</h3>
+                    <p>El intérprete de comandos</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      Espera una orden, la analiza, la ejecuta con los servicios
+                      del sistema y vuelve a mostrar el prompt.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="activity" aria-labelledby="adivina-titulo">
+            <h2 id="adivina-titulo">Actividad: adivina el concepto</h2>
+            <p>
+              Lee cada pista y escribe el concepto correspondiente. Usa una sola
+              palabra, sin espacios ni acentos. Como ayuda, las respuestas están
+              entre estas palabras: <strong>proceso</strong>,
+              <strong>kernel</strong>, <strong>driver</strong>,
+              <strong>shell</strong> y <strong>virtualizacion</strong>. El
+              orden de las pistas cambia cada vez que cargas la página o pulsas
+              “Nueva ronda”.
+            </p>
+
+            <div class="crossword">
+              <ol class="crossword-clues" id="guess-clues"></ol>
+
+              <div
+                class="crossword-board"
+                id="crossword-board"
+                data-activity="introduccion"
+                aria-label="Respuestas de la actividad"
+              ></div>
+
+              <div class="crossword-actions">
+                <button class="btn btn-primary" type="button" id="check-crossword">
+                  Comprobar
+                </button>
+                <button class="btn btn-secondary" type="button" id="reset-crossword">
+                  Limpiar
+                </button>
+                <button class="btn btn-secondary" type="button" id="shuffle-guess">
+                  Nueva ronda
+                </button>
+              </div>
+              <p class="crossword-feedback" id="crossword-feedback" aria-live="polite"></p>
+            </div>
+          </section>
+
+          <section class="refs" aria-labelledby="referencias">
+            <h2 id="referencias">Referencias</h2>
+            <ol>
+              <li>
+                Arpaci-Dusseau, R. H. y Arpaci-Dusseau, A. C. (2023).
+                <em>Operating systems: Three easy pieces</em>.
+              </li>
+              <li>
+                Carretero Pérez, J., de Miguel Anasagasti, P., García Carballeira,
+                F. y Pérez Costoya, F. (2001).
+                <em>Sistemas operativos: Una visión aplicada</em>. McGraw-Hill.
+              </li>
+              <li>
+                Microsoft. (s. f.). <em>Windows commands</em>. Microsoft Learn.
+                https://learn.microsoft.com/windows-server/administration/windows-commands/windows-commands
+              </li>
+              <li>
+                Wolf, G., Ruiz, E., Bergero, F. y Meza, E. (2015).
+                <em>Fundamentos de sistemas operativos</em>. Universidad Nacional
+                Autónoma de México.
+              </li>
+            </ol>
+          </section>
+
+          <nav class="topic-pager" aria-label="Navegación entre temas">
+            <a href="conocimientos-previos.html">
+              <span>Anterior</span>
+              <strong>Conocimientos previos</strong>
+            </a>
+            <a class="next" href="gestion-procesos.html">
+              <span>Siguiente</span>
+              <strong>Gestión de procesos</strong>
+            </a>
+          </nav>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© 2026 Jerónimo Orozco Urrego</p>
+        <p>
+          <a
+            href="https://github.com/Darkkthrax"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+  </body>
+</html>

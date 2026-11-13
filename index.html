@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistemas Operativos | Proyecto Final</title>
+    <meta
+      name="description"
+      content="Página educativa sobre sistemas operativos: introducción, conocimientos previos de hardware y temas del curso."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=EB+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="index.html">
+          SO
+          <span>Sistemas Operativos</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-label="Abrir menú de navegación"
+          aria-expanded="false"
+          aria-controls="menu-principal"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <ul class="nav-links" id="menu-principal">
+          <li><a href="index.html" aria-current="page">Inicio</a></li>
+          <li>
+            <a href="temas/conocimientos-previos.html">Conocimientos previos</a>
+          </li>
+          <li><a href="#temas">Temas</a></li>
+          <li><a href="#introduccion">Introducción</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <h1>Sistemas Operativos</h1>
+          <p class="hero-lead">
+            Un sistema operativo es el software intermediario entre el usuario,
+            las aplicaciones y el hardware. Administra recursos como el
+            procesador, la memoria, el almacenamiento y los dispositivos, y
+            ofrece un entorno seguro para ejecutar programas sin que el usuario
+            deba controlar cada detalle del computador.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#temas">Explorar temas</a>
+            <a class="btn btn-secondary" href="temas/conocimientos-previos.html"
+              >Ver conocimientos previos</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="introduccion">
+        <div class="container intro-layout">
+          <div class="prose">
+            <h2>¿Qué es un sistema operativo?</h2>
+            <p>
+              El sistema operativo oculta la complejidad del hardware y
+              proporciona una plataforma común para las aplicaciones. Gracias a
+              él podemos abrir programas, guardar archivos, usar la red o
+              imprimir documentos sin escribir instrucciones de bajo nivel para
+              cada componente.
+            </p>
+            <p>
+              También actúa como administrador de recursos: decide qué proceso
+              usa la CPU, cuánta memoria recibe cada programa y cómo se
+              comparten los dispositivos cuando varias tareas se ejecutan al
+              mismo tiempo.
+            </p>
+            <p>
+              <a href="temas/introduccion.html"
+                >Continuar con la introducción a los sistemas operativos →</a
+              >
+            </p>
+          </div>
+
+          <aside>
+            <ul class="aside-list">
+              <li>
+                <strong>Procesos</strong>
+                Organiza la ejecución concurrente de programas.
+              </li>
+              <li>
+                <strong>Memoria</strong>
+                Asigna y protege el espacio de trabajo de cada aplicación.
+              </li>
+              <li>
+                <strong>Archivos</strong>
+                Estructura el almacenamiento permanente y los permisos.
+              </li>
+              <li>
+                <strong>Dispositivos</strong>
+                Media entre software y hardware mediante controladores.
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="temas">
+        <div class="container">
+          <div class="section-header">
+            <h2>Temas vistos en la materia</h2>
+            <p>
+              Revisión de todos los temas vistos en clases e investigados para las actividades.
+            </p>
+          </div>
+
+          <ul class="topic-list">
+            <li class="topic-item">
+              <div>
+                <h3>Conocimientos previos</h3>
+                <p>
+                  Componentes principales del computador (CPU, RAM, placa base,
+                  GPU y almacenamiento) y su relación con el sistema operativo.
+                </p>
+              </div>
+              <a class="read-more" href="temas/conocimientos-previos.html"
+                >Leer más →</a
+              >
+            </li>
+
+            <li class="topic-item">
+              <div>
+                <h3>Introducción a los sistemas operativos</h3>
+                <p>
+                  Concepto, propósito, relación hardware-software-usuario y
+                  funciones del SO como administrador de procesos, memoria,
+                  dispositivos y archivos.
+                </p>
+              </div>
+              <a class="read-more" href="temas/introduccion.html">Leer más →</a>
+            </li>
+
+            <li class="topic-item">
+              <div>
+                <h3>Gestión de procesos</h3>
+                <p>
+                  Diferencia entre programa y proceso, estados, planificación de
+                  CPU, sincronización, secciones críticas, semáforos y deadlock.
+                </p>
+              </div>
+              <a class="read-more" href="temas/gestion-procesos.html"
+                >Leer más →</a
+              >
+            </li>
+
+            <li class="topic-item is-soon">
+              <div>
+                <h3>Gestión de recursos del sistema</h3>
+                <p>
+                  Administración del procesador, la memoria, buses, gráficos
+                  integrados/dedicados y compatibilidad entre componentes.
+                </p>
+              </div>
+              <span class="read-more">Próximamente</span>
+            </li>
+
+            <li class="topic-item is-soon">
+              <div>
+                <h3>Sistemas operativos distribuidos</h3>
+                <p>
+                  Arquitecturas, comunicación entre procesos, transparencia,
+                  tolerancia a fallos, escalabilidad y archivos distribuidos.
+                </p>
+              </div>
+              <span class="read-more">Próximamente</span>
+            </li>
+
+            <li class="topic-item is-soon">
+              <div>
+                <h3>Diagnóstico y solución de problemas</h3>
+                <p>
+                  Análisis de fallas relacionadas con procesos, memoria,
+                  dispositivos, archivos y herramientas del sistema operativo.
+                </p>
+              </div>
+              <span class="read-more">Próximamente</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© 2026 Jerónimo Orozco Urrego</p>
+        <p>
+          <a
+            href="https://github.com/Darkkthrax"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

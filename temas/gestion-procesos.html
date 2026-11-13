@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de procesos | Sistemas Operativos</title>
+    <meta
+      name="description"
+      content="Diferencia entre programa y proceso, estados, planificación de CPU, sincronización, secciones críticas, semáforos y deadlock."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=EB+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="../index.html">
+          SO
+          <span>Sistemas Operativos</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-label="Abrir menú de navegación"
+          aria-expanded="false"
+          aria-controls="menu-principal"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <ul class="nav-links" id="menu-principal">
+          <li><a href="../index.html">Inicio</a></li>
+          <li>
+            <a href="conocimientos-previos.html">Conocimientos previos</a>
+          </li>
+          <li><a href="../index.html#temas">Temas</a></li>
+          <li><a href="../index.html#introduccion">Introducción</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container content-column">
+          <h1>Gestión de procesos</h1>
+          <p>
+            Cuando varios programas están abiertos a la vez, el sistema operativo
+            no los trata como un bloque único. Los convierte en procesos,
+            reparte la CPU entre ellos y evita que se pisen cuando comparten un
+            archivo, una cola o un saldo. Este tema explica esa diferencia, los
+            estados, la planificación y los mecanismos de sincronización.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container content-column">
+          <article class="prose">
+            <nav class="toc" aria-label="Contenido del tema">
+              <p>En este tema</p>
+              <ol>
+                <li><a href="#programa-proceso">Programa y proceso</a></li>
+                <li><a href="#varios-programas">Varios programas a la vez</a></li>
+                <li><a href="#estados">Estados de un proceso</a></li>
+                <li><a href="#planificacion">Planificación de la CPU</a></li>
+                <li><a href="#fcfs-sjf">FCFS y SJF</a></li>
+                <li><a href="#sincronizacion">Sincronización</a></li>
+                <li><a href="#condicion-carrera">Condición de carrera</a></li>
+                <li><a href="#seccion-critica">Sección crítica</a></li>
+                <li><a href="#semaforos">Semáforos</a></li>
+                <li><a href="#deadlock">Bloqueos y deadlock</a></li>
+              </ol>
+            </nav>
+
+            <h2 id="programa-proceso">Programa y proceso no son lo mismo</h2>
+            <p>
+              Un estudiante puede decir que programa y proceso son exactamente
+              lo mismo porque ambos representan instrucciones. Esa afirmación
+              es incorrecta. Están relacionados, pero no coinciden.
+            </p>
+            <p>
+              Un <strong>programa</strong> es una secuencia de instrucciones
+              escrita en un lenguaje como C, C# o Java. Es estático: vive en la
+              unidad de almacenamiento hasta que alguien lo abre. Un
+              <strong>proceso</strong> es esa secuencia ya cargada y en
+              ejecución dentro de la memoria RAM. Sus estados cambian con el
+              tiempo y, a diferencia del programa, necesita recursos reales:
+              CPU, RAM, GPU y dispositivos de entrada y salida.
+            </p>
+            <p>
+              Los procesos cumplen los objetivos del programa. Un mismo
+              programa puede abrir varios procesos, y el sistema operativo puede
+              hacer avanzar varios de ellos “al mismo tiempo”. Para eso carga
+              las instrucciones desde el disco hacia la RAM, reparte los
+              recursos y administra los estados de cada proceso, de modo que
+              nadie se quede con todo el equipo sin control.
+            </p>
+
+            <div class="note">
+              <strong>Idea clave:</strong> el programa es el archivo con las
+              instrucciones; el proceso es esa ejecución viva, con memoria,
+              registros y un estado que el sistema puede cambiar.
+            </div>
+
+            <h2 id="varios-programas">
+              Varios programas abiertos a la vez
+            </h2>
+            <p>
+              Pensemos en un computador con un navegador, un editor de texto, un
+              reproductor multimedia y un programa de cálculo. Cada aplicación
+              trae sus propios procesos. Esos procesos toman información de
+              entrada —de internet, de un periférico o del usuario—, la
+              procesan con la CPU y entregan una salida: un mensaje, un
+              gráfico, un audio.
+            </p>
+            <p>
+              Sin un administrador, cada proceso intentaría usar la CPU al
+              máximo. Uno que consuma demasiado podría congelar el equipo y
+              dejar a los demás sin turno, o incluso sin ejecutarse nunca. Por
+              eso el sistema planifica el procesador y, al mismo tiempo,
+              reparte memorias privadas entre programas para que un proceso no
+              escriba encima de los datos de otro.
+            </p>
+
+            <h2 id="estados">Estados de un proceso</h2>
+            <p>
+              Durante su vida, un proceso pasa por tres estados principales.
+              Cada uno dice qué puede hacer el sistema con él:
+            </p>
+            <ul class="feature-list">
+              <li>
+                <strong>Listo (Ready).</strong> El proceso puede usar la CPU y
+                espera a que el planificador se la asigne. Se intercambia con
+                “en ejecución” cuando se corta el turno por tiempo o por una
+                interrupción.
+              </li>
+              <li>
+                <strong>En ejecución (Running).</strong> El procesador está
+                corriendo sus instrucciones. Si el turno termina o llega una
+                interrupción, vuelve a listo. Si necesita una respuesta de
+                entrada o salida, pasa a bloqueado.
+              </li>
+              <li>
+                <strong>Bloqueado (Blocked).</strong> El proceso espera a un
+                dispositivo o al usuario: un disco, un clic, una tecla. Cuando
+                llega esa respuesta, no vuelve directo a la CPU: pasa a listo y
+                espera su turno otra vez.
+              </li>
+            </ul>
+
+            <figure class="diagram">
+              <div class="states" aria-label="Estados de un proceso">
+                <div class="state">
+                  <strong>Listo</strong>
+                  <span>Puede usar la CPU y espera el turno del planificador.</span>
+                </div>
+                <div class="state is-current">
+                  <strong>En ejecución</strong>
+                  <span>La CPU corre sus instrucciones en este instante.</span>
+                </div>
+                <div class="state">
+                  <strong>Bloqueado</strong>
+                  <span>Espera disco, red, teclado u otra entrada o salida.</span>
+                </div>
+              </div>
+              <figcaption>
+                Figura 1. Estados principales de un proceso y el papel de cada
+                uno.
+              </figcaption>
+            </figure>
+
+            <h3>Ejemplo: abrir Excel</h3>
+            <ol class="sequence">
+              <li>
+                Al abrir el programa se crea el proceso y empieza en
+                <strong>listo</strong>.
+              </li>
+              <li>
+                El planificador le asigna la CPU y pasa a
+                <strong>en ejecución</strong>.
+              </li>
+              <li>
+                Al cargar la aplicación suele pasar a
+                <strong>bloqueado</strong>, porque lee el disco.
+              </li>
+              <li>
+                Cuando termina la lectura, vuelve a <strong>listo</strong>.
+              </li>
+              <li>
+                El planificador le vuelve a dar la CPU y otra vez queda
+                <strong>en ejecución</strong>.
+              </li>
+              <li>
+                Si espera un clic o una tecla, pasa a
+                <strong>bloqueado</strong>.
+              </li>
+              <li>
+                Tras la entrada del usuario, regresa a <strong>listo</strong> y
+                espera la CPU.
+              </li>
+              <li>
+                Cuando el usuario cierra el programa, el proceso finaliza.
+              </li>
+            </ol>
+
+            <h2 id="planificacion">Por qué hace falta planificar la CPU</h2>
+            <p>
+              En un servidor con cinco procesos de distinta duración, todos
+              compiten por el procesador, pero en cada núcleo solo puede correr
+              uno a la vez. El planificador ordena esa competencia con
+              algoritmos claros: aprovecha mejor la CPU, reduce esperas y
+              reparte el tiempo con más justicia entre trabajos cortos y
+              largos.
+            </p>
+            <p>
+              Si no hubiera un criterio, aparecerían varios problemas. Un
+              proceso corto podría quedar atrás de uno muy largo. Algunos
+              trabajos tardarían demasiado en tocar la CPU, o nunca la
+              tocarían. Si un proceso se queda esperando un dispositivo y nadie
+              le quita el turno, la CPU se desperdicia. El servidor respondería
+              de forma irregular y el rendimiento bajaría. El algoritmo no hace
+              que el procesador sea más rápido; lo hace más eficiente, justo y
+              predecible.
+            </p>
+
+            <h2 id="fcfs-sjf">FCFS y SJF</h2>
+            <p>
+              Dos políticas clásicas ilustran el contraste. FCFS (First Come,
+              First Served) atiende estrictamente en orden de llegada y no mira
+              cuánto dura cada trabajo. SJF (Shortest Job First) elige primero
+              el proceso que menos tiempo de CPU necesita.
+            </p>
+            <p>
+              FCFS es una cola FIFO: el primero en llegar es el primero en
+              salir. No pide estimaciones previas y es fácil de implementar.
+              SJF suele bajar el tiempo de espera promedio, pero necesita
+              conocer o estimar la duración de cada ráfaga de CPU.
+            </p>
+
+            <div class="table-wrap">
+              <table class="compare">
+                <caption>
+                  Comparación entre FCFS y SJF.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Aspecto</th>
+                    <th scope="col">FCFS</th>
+                    <th scope="col">SJF</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Criterio</th>
+                    <td>Orden de llegada.</td>
+                    <td>Menor duración de CPU primero.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Implementación</th>
+                    <td>Cola sencilla; no pide datos previos.</td>
+                    <td>Necesita estimar cuánto durará cada proceso.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Conveniente cuando</th>
+                    <td>Se quiere una ejecución simple y predecible.</td>
+                    <td>Se quiere priorizar los trabajos cortos.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Desventaja principal</th>
+                    <td>Efecto convoy: un trabajo largo atrasa a los cortos.</td>
+                    <td>Inanición: los trabajos largos pueden esperar demasiado.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>Si el sistema solo quiere seguir el orden de llegada</h3>
+            <p>
+              Aquí conviene FCFS. Mantiene una ejecución sencilla, no necesita
+              información previa y cada proceso termina recibiendo su turno,
+              así que ninguno queda postergado para siempre. La gran desventaja
+              es el efecto convoy: si un proceso largo llega primero, los
+              cortos esperan demasiado, sube el tiempo de espera y la CPU o los
+              dispositivos pueden quedar desaprovechados.
+            </p>
+
+            <h3>Si hace falta priorizar los trabajos cortos</h3>
+            <p>
+              En ese caso conviene SJF. Al terminar primero los procesos
+              breves, baja el tiempo de espera promedio y mejora la respuesta.
+              La desventaja es la inanición: si siguen entrando procesos
+              cortos, uno largo puede quedarse esperando indefinidamente.
+              Además, el sistema no conoce de antemano la duración real; solo
+              puede estimarla, por ejemplo a partir del comportamiento
+              anterior del mismo proceso.
+            </p>
+
+            <h2 id="sincronizacion">
+              Sincronización cuando dos procesos tocan el mismo archivo
+            </h2>
+            <p>
+              Si dos procesos modifican el mismo archivo a la vez, el resultado
+              depende del orden en que el planificador intercale las
+              operaciones. Ese orden es impredecible e irrepetible. Pueden
+              aparecer:
+            </p>
+            <ul class="feature-list">
+              <li>
+                <strong>Pérdida de actualizaciones.</strong> La escritura de un
+                proceso desaparece porque el otro la sobrescribe.
+              </li>
+              <li>
+                <strong>Información inconsistente.</strong> El archivo queda
+                con datos mezclados o a medias, sin corresponder a un estado
+                válido.
+              </li>
+              <li>
+                <strong>Corrupción.</strong> Si escriben en la misma posición,
+                el contenido puede quedar ilegible.
+              </li>
+              <li>
+                <strong>Errores difíciles de detectar.</strong> Solo aparecen
+                en ciertos tiempos, así que cuestan de replicar y depurar.
+              </li>
+            </ul>
+            <p>
+              Por eso hace falta un mecanismo de sincronización. Mientras un
+              proceso modifica el archivo, el otro espera. Así la secuencia
+              leer, modificar y escribir se completa sin interrupciones. En la
+              práctica se usan candados o locks: se colocan antes de cambiar el
+              archivo y se liberan al terminar. Hay que soltarlos a tiempo;
+              dejarlos puestos más de lo necesario bloquea a quienes también
+              necesitan el archivo.
+            </p>
+
+            <h2 id="condicion-carrera">Condición de carrera</h2>
+            <p>
+              Una condición de carrera aparece cuando el resultado final
+              depende del orden relativo en que varios procesos tocan un
+              recurso compartido. En una aplicación bancaria, ese recurso es el
+              saldo. Si dos operaciones leen y modifican sin control, pueden
+              leer el mismo valor inicial, calcular por separado y dejar que la
+              última escritura borre el cambio de la primera: otra pérdida de
+              actualización.
+            </p>
+
+            <div class="scenario">
+              <h3>Depósito y retiro al mismo tiempo</h3>
+              <p>
+                El saldo empieza en $100.000. Una operación deposita $50.000 y
+                otra retira $30.000. El resultado correcto es $120.000. Sin
+                control, el saldo final puede quedar en $70.000 o en $150.000,
+                según quién escriba al final. Una operación ya “confirmada”
+                para el cliente puede no verse reflejada.
+              </p>
+            </div>
+
+            <p>
+              Eso afecta la integridad de varias formas: saldos incorrectos,
+              transacciones perdidas, registros poco confiables y fallos
+              intermitentes que solo aparecen cuando ciertos tiempos coinciden.
+              La solución es marcar la secuencia leer–modificar–escribir como
+              sección crítica, con exclusión mutua mediante candados, mutex o
+              semáforos. En sistemas bancarios reales, las transacciones de
+              base de datos suelen ser atómicas: o se ejecutan por completo, o
+              no se ejecutan.
+            </p>
+
+            <h2 id="seccion-critica">Sección crítica</h2>
+            <p>
+              Una sección crítica es el tramo de código donde un proceso
+              accede o modifica un recurso compartido. Esas operaciones no son
+              atómicas por sí solas. Si dos procesos entran ahí a la vez, el
+              resultado puede quedar mal. La exclusión mutua permite que solo
+              uno esté dentro en cada momento.
+            </p>
+            <p>
+              El sistema operativo controla ese acceso por varias razones:
+              evita condiciones de carrera, mantiene los datos en un estado
+              válido, hace predecible el comportamiento del sistema, protege la
+              estabilidad —un recurso corrupto puede afectar a varios procesos—
+              y reparte el recurso con justicia, sin que uno lo monopolice.
+            </p>
+
+            <h3>Ejemplo: la cola de impresión</h3>
+            <p>
+              Varios programas pueden enviar documentos a la misma impresora.
+              La cola guarda una variable, por ejemplo
+              <code>siguiente_posicion</code>, que indica dónde registrar el
+              próximo documento. Esa variable es el recurso compartido. Cada
+              proceso la lee, guarda su documento ahí e incrementa el valor.
+            </p>
+            <p>
+              Sin protección, puede pasar esto:
+            </p>
+            <ol class="sequence">
+              <li>
+                El editor de texto lee la posición actual: vale 2.
+              </li>
+              <li>
+                El navegador también lee la posición: vuelve a ver 2.
+              </li>
+              <li>
+                El editor guarda su documento en la posición 2.
+              </li>
+              <li>
+                El navegador, que también leyó 2, guarda el suyo encima y
+                borra el del editor.
+              </li>
+              <li>
+                El editor aumenta la variable a 3.
+              </li>
+              <li>
+                El navegador también la deja en 3, porque había leído 2.
+              </li>
+            </ol>
+            <p>
+              El documento del editor desaparece de la cola y nunca se
+              imprime, aunque el usuario crea que sí lo envió. Con exclusión
+              mutua, el editor termina su ciclo completo —leer, guardar y
+              aumentar— y solo después entra el navegador, ya sobre la nueva
+              posición.
+            </p>
+
+            <h2 id="semaforos">Semáforos</h2>
+            <p>
+              Un semáforo es una variable entera que cuenta cuántas unidades de
+              un recurso quedan disponibles. Solo se modifica con dos
+              operaciones atómicas: <code>wait</code> y <code>signal</code>.
+            </p>
+            <p>
+              Cuando un proceso necesita el recurso, ejecuta
+              <code>wait</code>. Si el valor es mayor que 0, el semáforo baja
+              en uno y el proceso sigue. Si vale 0, el proceso se bloquea y
+              entra a una cola de espera. Al terminar, ejecuta
+              <code>signal</code>: el semáforo sube y, si hay alguien
+              esperando, ese proceso recibe el recurso. Como las operaciones
+              son atómicas, el semáforo no se corrompe a sí mismo. Y como los
+              procesos en espera quedan bloqueados, no gastan CPU en preguntar
+              una y otra vez.
+            </p>
+
+            <h3>Semáforo binario</h3>
+            <p>
+              Solo toma los valores 0 y 1. Un único proceso puede usar el
+              recurso a la vez. Sirve sobre todo para exclusión mutua en
+              secciones críticas. En la cola de impresión, cualquier proceso
+              hace <code>wait</code> antes de leer, guardar y actualizar
+              <code>siguiente_posicion</code>, y <code>signal</code> al salir.
+              Mientras uno está dentro, el semáforo vale 0 y los demás
+              esperan.
+            </p>
+
+            <h3>Semáforo contador</h3>
+            <p>
+              Puede tomar cualquier valor entero no negativo. Ese número es
+              cuántas unidades hay libres. Hasta N procesos pueden usar el
+              recurso a la vez; el N+1 queda bloqueado hasta que alguien
+              libere. Sirve para recursos con varias copias.
+            </p>
+            <p>
+              Un ejemplo claro es un servidor con un pool de tres conexiones a
+              una base de datos. La variable <code>conexiones</code> empieza en
+              3. Cada proceso hace <code>wait(conexiones)</code> antes de usar
+              una y <code>signal(conexiones)</code> al terminar. Cuando tres
+              procesos ya están dentro, el valor baja a 0 y un cuarto se
+              bloquea hasta que alguno devuelva su conexión.
+            </p>
+            <p>
+              La diferencia práctica es qué protegen. El binario guarda un
+              recurso o una sección crítica de uso exclusivo. El contador
+              administra un conjunto de unidades equivalentes. En el fondo, un
+              semáforo binario es un contador con máximo 1.
+            </p>
+
+            <div class="table-wrap">
+              <table class="compare">
+                <caption>
+                  Semáforo binario frente a semáforo contador.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Aspecto</th>
+                    <th scope="col">Binario</th>
+                    <th scope="col">Contador</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Valores</th>
+                    <td>0 o 1.</td>
+                    <td>Cualquier entero no negativo.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Cuántos procesos a la vez</th>
+                    <td>Uno solo.</td>
+                    <td>Hasta N unidades disponibles.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Uso típico</th>
+                    <td>Exclusión mutua en una sección crítica.</td>
+                    <td>Pools o recursos con varias copias.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Ejemplo</th>
+                    <td>Cola de impresión y su siguiente posición.</td>
+                    <td>Tres conexiones a una base de datos.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h2 id="deadlock">Cuando la sincronización termina en bloqueo</h2>
+            <p>
+              La sincronización protege recursos compartidos y obliga a los
+              procesos a esperar su turno. Si esa espera está mal diseñada,
+              varios pueden quedar bloqueados indefinidamente: cada uno retiene
+              un recurso que otro necesita y espera uno que el otro no suelta.
+              Esa situación se llama <strong>deadlock</strong>, o bloqueo
+              mutuo.
+            </p>
+            <p>
+              El deadlock aparece cuando se cumplen a la vez las cuatro
+              condiciones de Coffman: exclusión mutua, retención y espera,
+              ausencia de expropiación y espera circular. En una aplicación con
+              bloqueos frecuentes, lo más probable es una dependencia circular,
+              o que algún proceso nunca libere lo que tiene. La sincronización
+              es necesaria para la integridad de los datos; mal usada, puede
+              paralizar la aplicación.
+            </p>
+
+            <h3>Medidas de prevención</h3>
+            <ul class="feature-list">
+              <li>
+                <strong>Orden global de recursos.</strong> Se fija un orden —
+                primero A, después B— y todos los procesos piden los recursos
+                en esa misma secuencia. Así no se forma una cadena circular de
+                espera, porque nadie espera un recurso “anterior” al que ya
+                tiene.
+              </li>
+              <li>
+                <strong>Pedir todo de una vez, o usar timeout.</strong> El
+                proceso solicita todos los recursos antes de empezar, o no
+                obtiene ninguno. Otra opción: si no consigue un recurso en un
+                tiempo límite, libera lo que ya tenía y reintenta más tarde.
+                Evita retener recursos mientras se espera otro.
+              </li>
+              <li>
+                <strong>Buenas prácticas.</strong> Mantener las secciones
+                críticas cortas, liberar siempre los recursos —también cuando
+                hay errores— y evitar anidar demasiados recursos unos dentro de
+                otros.
+              </li>
+            </ul>
+          </article>
+
+          <section class="summary-block" aria-labelledby="resumen-conceptos">
+            <h2 id="resumen-conceptos">Resumen: cinco ideas del tema</h2>
+            <p>
+              Haz clic en cada tarjeta para voltearla y repasar la idea central.
+            </p>
+
+            <div class="flip-grid" aria-label="Tarjetas reversibles de conceptos">
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Proceso: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Proceso</h3>
+                    <p>No es lo mismo que un programa</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      El programa está guardado en disco; el proceso es esa
+                      ejecución en RAM, con estado y recursos propios.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Planificador: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Planificador</h3>
+                    <p>Quién usa la CPU y en qué orden</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      No acelera el procesador: lo reparte con un criterio
+                      claro para bajar esperas y ganar justicia.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Condición de carrera: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Condición de carrera</h3>
+                    <p>Cuando el orden decide el resultado</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      Dos procesos tocan el mismo recurso y el resultado
+                      depende de quién llegue primero a escribir.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Semáforo: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Semáforo</h3>
+                    <p>Cuenta unidades con wait y signal</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      El binario protege una sección crítica; el contador
+                      administra varias copias de un recurso.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Deadlock: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Deadlock</h3>
+                    <p>Bloqueo mutuo entre procesos</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      Cada proceso retiene un recurso y espera otro. Un orden
+                      global o un timeout ayudan a evitarlo.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="activity" aria-labelledby="adivina-titulo">
+            <h2 id="adivina-titulo">Actividad: adivina el concepto</h2>
+            <p>
+              Lee cada pista y escribe el concepto correspondiente. Usa una sola
+              palabra, sin espacios ni acentos. Como ayuda, las respuestas están
+              entre estas palabras: <strong>bloqueado</strong>,
+              <strong>FCFS</strong>, <strong>SJF</strong>,
+              <strong>semaforo</strong> y <strong>deadlock</strong>. El orden
+              de las pistas cambia cada vez que cargas la página o pulsas
+              “Nueva ronda”.
+            </p>
+
+            <div class="crossword">
+              <ol class="crossword-clues" id="guess-clues"></ol>
+
+              <div
+                class="crossword-board"
+                id="crossword-board"
+                data-activity="procesos"
+                aria-label="Respuestas de la actividad"
+              ></div>
+
+              <div class="crossword-actions">
+                <button class="btn btn-primary" type="button" id="check-crossword">
+                  Comprobar
+                </button>
+                <button class="btn btn-secondary" type="button" id="reset-crossword">
+                  Limpiar
+                </button>
+                <button class="btn btn-secondary" type="button" id="shuffle-guess">
+                  Nueva ronda
+                </button>
+              </div>
+              <p class="crossword-feedback" id="crossword-feedback" aria-live="polite"></p>
+            </div>
+          </section>
+
+          <section class="refs" aria-labelledby="referencias">
+            <h2 id="referencias">Referencias</h2>
+            <ol>
+              <li>
+                Arpaci-Dusseau, R. H. y Arpaci-Dusseau, A. C. (2023).
+                <em>Operating systems: Three easy pieces</em>.
+              </li>
+              <li>
+                Carretero Pérez, J., de Miguel Anasagasti, P., García Carballeira,
+                F. y Pérez Costoya, F. (2001).
+                <em>Sistemas operativos: Una visión aplicada</em>. McGraw-Hill.
+              </li>
+              <li>
+                Wolf, G., Ruiz, E., Bergero, F. y Meza, E. (2015).
+                <em>Fundamentos de sistemas operativos</em>. Universidad Nacional
+                Autónoma de México.
+              </li>
+            </ol>
+          </section>
+
+          <nav class="topic-pager" aria-label="Navegación entre temas">
+            <a href="introduccion.html">
+              <span>Anterior</span>
+              <strong>Introducción a los sistemas operativos</strong>
+            </a>
+            <a class="next" href="../index.html#temas">
+              <span>Siguiente</span>
+              <strong>Gestión de recursos del sistema</strong>
+            </a>
+          </nav>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© 2026 Jerónimo Orozco Urrego</p>
+        <p>
+          <a
+            href="https://github.com/Darkkthrax"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+  </body>
+</html>

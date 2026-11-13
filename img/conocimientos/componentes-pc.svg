@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#efe5fa"/>
+      <stop offset="100%" stop-color="#d8cfe4"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="720" fill="url(#g)"/>
+  <rect x="48" y="48" width="1104" height="624" fill="none" stroke="#7b2cbf" stroke-width="4" stroke-dasharray="14 12"/>
+  <text x="600" y="340" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#5a189a">Componentes del PC</text>
+  <text x="600" y="400" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#6b6178">Reemplaza este archivo por tu imagen (.jpg/.png)</text>
+</svg>

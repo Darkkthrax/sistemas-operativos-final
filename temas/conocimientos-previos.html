@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conocimientos previos | Sistemas Operativos</title>
+    <meta
+      name="description"
+      content="Componentes principales de una computadora y su importancia para comprender los sistemas operativos."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=EB+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="../index.html">
+          SO
+          <span>Sistemas Operativos</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-label="Abrir menú de navegación"
+          aria-expanded="false"
+          aria-controls="menu-principal"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <ul class="nav-links" id="menu-principal">
+          <li><a href="../index.html">Inicio</a></li>
+          <li>
+            <a href="conocimientos-previos.html" aria-current="page"
+              >Conocimientos previos</a
+            >
+          </li>
+          <li><a href="../index.html#temas">Temas</a></li>
+          <li><a href="../index.html#introduccion">Introducción</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container content-column">
+          <h1>Conocimientos previos: partes de una computadora</h1>
+          <p>
+            Para entender cómo un sistema operativo administra el computador,
+            primero hay que conocer los componentes principales del hardware:
+            qué son, qué contienen y qué función cumplen.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container content-column">
+          <article class="prose">
+            <h2>¿Qué es un componente de hardware?</h2>
+            <p>
+              Un componente es una pieza física del computador que realiza una
+              función específica. Algunos procesan información, otros la
+              almacenan de forma temporal o permanente, y otros permiten la
+              comunicación entre el resto de partes del sistema.
+            </p>
+            <p>
+              En conjunto, estos componentes forman la máquina sobre la cual
+              trabaja el sistema operativo. El SO no reemplaza al hardware: lo
+              organiza, lo protege y ofrece una interfaz para que las
+              aplicaciones lo utilicen de manera ordenada.
+            </p>
+
+            <figure class="media-block">
+              <div class="media-frame">
+                <img
+                  src="../img/conocimientos/Hardware-computadora.png"
+                  alt="Vista general de los componentes internos de una computadora"
+                />
+                <p class="placeholder-label">
+                  Reemplaza esta imagen en
+                  img/conocimientos/componentes-pc.svg
+                </p>
+              </div>
+              <figcaption>
+                Figura 1. Panorama general del hardware interno de un
+                computador.
+              </figcaption>
+            </figure>
+
+            <h2>¿Por qué importa esto en sistemas operativos?</h2>
+            <p>
+              Conceptos como procesos, memoria virtual, drivers o sistemas de
+              archivos solo tienen sentido si se entiende qué recurso físico se
+              está administrando. Por ejemplo:
+            </p>
+            <ul class="feature-list">
+              <li>
+                La <strong>CPU</strong> ejecuta instrucciones; el SO decide qué
+                proceso la usa en cada momento.
+              </li>
+              <li>
+                La <strong>RAM</strong> guarda datos en ejecución; el SO asigna
+                y libera memoria para cada programa.
+              </li>
+              <li>
+                El <strong>almacenamiento</strong> conserva archivos; el SO
+                organiza directorios, permisos y acceso a disco.
+              </li>
+              <li>
+                La <strong>GPU</strong> procesa gráficos; el SO y los
+                controladores median el acceso a ese recurso.
+              </li>
+              <li>
+                La <strong>placa base</strong> conecta todo; sin esa
+                comunicación, el SO no podría coordinar el sistema.
+              </li>
+            </ul>
+
+            <h2>Componentes principales</h2>
+            <p>
+              A continuación se describe cada componente. Al final encontrarás
+              un resumen interactivo con sus funciones.
+            </p>
+
+            <h3>CPU (Unidad Central de Procesamiento)</h3>
+            <p>
+              Es el “cerebro” del computador. Ejecuta las instrucciones de los
+              programas, realiza cálculos y coordina gran parte del trabajo del
+              sistema. Puede tener varios núcleos e hilos para atender varias
+              tareas.
+            </p>
+            <figure class="media-block">
+              <div class="media-frame">
+                <img
+                  src="../img/conocimientos/cpu.svg"
+                  alt="Procesador o CPU de una computadora"
+                />
+                <p class="placeholder-label">
+                  Reemplaza esta imagen en img/conocimientos/cpu.svg
+                </p>
+              </div>
+              <figcaption>Figura 2. Procesador (CPU).</figcaption>
+            </figure>
+
+            <h3>RAM (Memoria de acceso aleatorio)</h3>
+            <p>
+              Es la memoria de trabajo donde se cargan el sistema operativo, los
+              programas abiertos y los datos activos. Más RAM suele permitir más
+              aplicaciones simultáneas; el SO administra cuánta memoria recibe
+              cada proceso.
+            </p>
+            <figure class="media-block">
+              <div class="media-frame">
+                <img
+                  src="../img/conocimientos/ram.svg"
+                  alt="Módulos de memoria RAM"
+                />
+                <p class="placeholder-label">
+                  Reemplaza esta imagen en img/conocimientos/ram.svg
+                </p>
+              </div>
+              <figcaption>Figura 3. Memoria RAM.</figcaption>
+            </figure>
+
+            <h3>Placa base (Motherboard)</h3>
+            <p>
+              Es la tarjeta principal que conecta CPU, RAM, GPU, almacenamiento,
+              puertos y tarjetas de expansión. También ayuda a distribuir
+              energía y define compatibilidades del hardware.
+            </p>
+            <figure class="media-block">
+              <div class="media-frame">
+                <img
+                  src="../img/conocimientos/placa-base.svg"
+                  alt="Placa base de una computadora"
+                />
+                <p class="placeholder-label">
+                  Reemplaza esta imagen en img/conocimientos/placa-base.svg
+                </p>
+              </div>
+              <figcaption>Figura 4. Placa base.</figcaption>
+            </figure>
+
+            <h3>GPU (Unidad de procesamiento gráfico)</h3>
+            <p>
+              Se especializa en cálculos paralelos, especialmente renderizado de
+              imágenes y vídeo. Puede estar integrada en la CPU o presentarse
+              como una tarjeta dedicada.
+            </p>
+            <figure class="media-block">
+              <div class="media-frame">
+                <img
+                  src="../img/conocimientos/gpu.svg"
+                  alt="Tarjeta gráfica o GPU"
+                />
+                <p class="placeholder-label">
+                  Reemplaza esta imagen en img/conocimientos/gpu.svg
+                </p>
+              </div>
+              <figcaption>Figura 5. GPU o tarjeta gráfica.</figcaption>
+            </figure>
+
+            <h3>Unidad de almacenamiento (HDD / SSD)</h3>
+            <p>
+              Conserva el sistema operativo, las aplicaciones y los archivos del
+              usuario aunque el computador esté apagado. El SO organiza esa
+              información mediante sistemas de archivos, carpetas y permisos.
+            </p>
+            <figure class="media-block">
+              <div class="media-frame">
+                <img
+                  src="../img/conocimientos/almacenamiento.svg"
+                  alt="Unidad de almacenamiento HDD o SSD"
+                />
+                <p class="placeholder-label">
+                  Reemplaza esta imagen en img/conocimientos/almacenamiento.svg
+                </p>
+              </div>
+              <figcaption>Figura 6. Unidad de almacenamiento.</figcaption>
+            </figure>
+
+            <div class="note">
+              <strong>Idea clave:</strong> el hardware aporta la capacidad
+              física; el sistema operativo decide cómo se comparte esa capacidad
+              entre usuarios y programas de forma eficiente, ordenada y segura.
+            </div>
+          </article>
+
+          <section class="summary-block" aria-labelledby="resumen-funciones">
+            <h2 id="resumen-funciones">Resumen: función de cada componente</h2>
+            <p>
+              Haz clic en cada tarjeta para voltearla y repasar la función
+              principal de cada pieza de hardware.
+            </p>
+
+            <div
+              class="flip-grid"
+              aria-label="Tarjetas reversibles de componentes"
+            >
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="CPU: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>CPU</h3>
+                    <p>Unidad Central de Procesamiento</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Función</h3>
+                    <p>
+                      Ejecuta instrucciones, realiza cálculos y coordina el
+                      trabajo del sistema. El SO planifica qué procesos la
+                      utilizan.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="RAM: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>RAM</h3>
+                    <p>Memoria de acceso aleatorio</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Función</h3>
+                    <p>
+                      Memoria de trabajo rápida y volátil. Guarda programas y
+                      datos en uso; al apagar el equipo, su contenido se
+                      pierde.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Placa base: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Placa base</h3>
+                    <p>Motherboard</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Función</h3>
+                    <p>
+                      Conecta y comunica CPU, RAM, GPU, almacenamiento y
+                      puertos. Define gran parte de la compatibilidad del
+                      sistema.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="GPU: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>GPU</h3>
+                    <p>Unidad de procesamiento gráfico</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Función</h3>
+                    <p>
+                      Procesa gráficos y cargas paralelas. Puede ir integrada o
+                      como tarjeta dedicada con memoria VRAM propia.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Almacenamiento: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Almacenamiento</h3>
+                    <p>HDD / SSD</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Función</h3>
+                    <p>
+                      Guarda de forma permanente el SO, aplicaciones y
+                      archivos. El SSD suele ser más rápido que el HDD
+                      mecánico.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="activity" aria-labelledby="adivina-titulo">
+            <h2 id="adivina-titulo">Actividad: adivina el componente</h2>
+            <p>
+              Lee cada pista y escribe el componente correspondiente. Usa una
+              sola palabra y sin espacios (por ejemplo, si la respuesta fuera
+              “placa base”, escríbela junta). Como ayuda, las respuestas están
+              entre estas palabras: <strong>CPU</strong>, <strong>RAM</strong>,
+              <strong>placabase</strong>, <strong>GPU</strong> y
+              <strong>SSD</strong>. El orden de las pistas cambia cada vez que
+              cargas la página o pulsas “Nueva ronda”.
+            </p>
+
+            <div class="crossword">
+              <ol class="crossword-clues" id="guess-clues"></ol>
+
+              <div
+                class="crossword-board"
+                id="crossword-board"
+                aria-label="Respuestas de la actividad"
+              ></div>
+
+              <div class="crossword-actions">
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  id="check-crossword"
+                >
+                  Comprobar
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  type="button"
+                  id="reset-crossword"
+                >
+                  Limpiar
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  type="button"
+                  id="shuffle-guess"
+                >
+                  Nueva ronda
+                </button>
+              </div>
+              <p
+                class="crossword-feedback"
+                id="crossword-feedback"
+                aria-live="polite"
+              ></p>
+            </div>
+          </section>
+
+          <nav class="topic-pager" aria-label="Navegación entre temas">
+            <a class="is-disabled" href="#" aria-disabled="true">
+              <span>Anterior</span>
+              <strong>Inicio del recorrido</strong>
+            </a>
+            <a class="next" href="introduccion.html">
+              <span>Siguiente</span>
+              <strong>Introducción a los sistemas operativos</strong>
+            </a>
+          </nav>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© 2026 Jerónimo Orozco Urrego</p>
+        <p>
+          <a
+            href="https://github.com/Darkkthrax"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+  </body>
+</html>
