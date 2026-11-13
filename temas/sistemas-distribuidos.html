@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistemas operativos distribuidos | Sistemas Operativos</title>
+    <meta
+      name="description"
+      content="Fundamentos de sistemas operativos distribuidos: arquitectura cliente-servidor, IPC, transparencia, tolerancia a fallos, escalabilidad y archivos distribuidos."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=EB+Garamond:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="../index.html">
+          SO
+          <span>Sistemas Operativos</span>
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-label="Abrir menú de navegación"
+          aria-expanded="false"
+          aria-controls="menu-principal"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <ul class="nav-links" id="menu-principal">
+          <li><a href="../index.html">Inicio</a></li>
+          <li>
+            <a href="conocimientos-previos.html">Conocimientos previos</a>
+          </li>
+          <li><a href="../index.html#temas">Temas</a></li>
+          <li><a href="../index.html#introduccion">Introducción</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero">
+        <div class="container content-column">
+          <h1>Sistemas operativos distribuidos</h1>
+          <p>
+            Cuando el hardware y el software viven en varias computadoras
+            conectadas por la red, el sistema ya no comparte una sola memoria.
+            Coordina nodos autónomos con mensajes, ofrece una imagen de
+            servicio único y enfrenta fallas, latencia y escalabilidad. Este
+            tema recorre esos fundamentos con ejemplos universitarios y
+            empresariales.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container content-column">
+          <article class="prose">
+            <nav class="toc" aria-label="Contenido del tema">
+              <p>En este tema</p>
+              <ol>
+                <li><a href="#concepto">Concepto y diferencias</a></li>
+                <li><a href="#cliente-servidor">Arquitectura cliente-servidor</a></li>
+                <li><a href="#ipc">Comunicación entre procesos</a></li>
+                <li><a href="#modelos">Comunicación síncrona y asíncrona</a></li>
+                <li><a href="#transparencia">Transparencia</a></li>
+                <li><a href="#fallos">Tolerancia a fallos</a></li>
+                <li><a href="#escalabilidad">Escalabilidad y disponibilidad</a></li>
+                <li><a href="#archivos">Sistemas de archivos distribuidos</a></li>
+                <li><a href="#empresarial">Aplicación empresarial</a></li>
+              </ol>
+            </nav>
+
+            <h2 id="concepto">Qué es un sistema operativo distribuido</h2>
+            <p>
+              Un sistema operativo distribuido reúne componentes de hardware y
+              de software repartidos en distintas computadoras. Esas máquinas
+              se conectan por la red y coordinan su trabajo con paso de
+              mensajes, de modo que varios procesos avancen hacia un objetivo
+              común: por lo general, el correcto funcionamiento de una
+              aplicación.
+            </p>
+
+            <h3>Características</h3>
+            <ul class="feature-list">
+              <li>
+                Cada computador actúa como un <strong>nodo autónomo</strong>,
+                con su propia CPU, RAM y almacenamiento.
+              </li>
+              <li>
+                Están unidos por la red y <strong>no comparten memoria</strong>
+                física.
+              </li>
+              <li>
+                Cooperan y se coordinan solo con
+                <strong>intercambio de mensajes</strong>.
+              </li>
+              <li>
+                El usuario percibe un
+                <strong>servicio integrado</strong>, la llamada imagen de
+                servicio único.
+              </li>
+              <li>
+                El procesamiento y los recursos se
+                <strong>reparten entre varios equipos</strong>.
+              </li>
+            </ul>
+            <p>
+              Coulouris, Dollimore y Kindberg (2001) destacan tres
+              consecuencias técnicas: la concurrencia entre usuarios en
+              distintas máquinas, la inexistencia de un reloj global —solo se
+              coordinan con mensajes— y los fallos independientes: un nodo
+              puede caer y el resto seguir trabajando. Tanenbaum y Van Steen
+              (2008) añaden, en el modelo estricto, protección global,
+              administración uniforme de procesos, sistemas de archivos con la
+              misma apariencia y núcleos idénticos que cooperan.
+            </p>
+
+            <h3>Centralizado frente a distribuido</h3>
+            <div class="table-wrap">
+              <table class="compare">
+                <caption>
+                  Diferencias entre un sistema centralizado y uno distribuido.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Aspecto</th>
+                    <th scope="col">Centralizado</th>
+                    <th scope="col">Distribuido</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Procesamiento</th>
+                    <td>
+                      Un solo sistema operativo. En un multiprocesador hay una
+                      cola compartida en memoria y el planificador se vuelve
+                      sección crítica.
+                    </td>
+                    <td>
+                      No hay una cola central ni memoria compartida. Cada
+                      núcleo planifica lo suyo y los nodos acuerdan dónde corre
+                      cada proceso.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Recursos</th>
+                    <td>
+                      Un sistema controla todo con tablas centrales.
+                    </td>
+                    <td>
+                      Cada nodo tiene una copia del sistema; los recursos se
+                      gestionan de forma coordinada.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Comunicación</th>
+                    <td>
+                      Dentro de la misma máquina, con llamadas al sistema y
+                      memoria compartida.
+                    </td>
+                    <td>
+                      Por mensajes en la red, con protocolos acordados entre
+                      nodos.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Fallos</th>
+                    <td>
+                      Si un componente crítico falla, suele caer todo el
+                      sistema.
+                    </td>
+                    <td>
+                      Algunos nodos pueden fallar y el resto continúa.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Tiempo</th>
+                    <td>Un único reloj para todo el sistema.</td>
+                    <td>No existe un reloj global para todos los nodos.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              En la práctica, los sistemas operativos distribuidos “puros” casi
+              no se usan. Lo habitual es un sistema operativo de red —UNIX o
+              Windows— más una capa de middleware que intermedia entre
+              aplicaciones, bases de datos y redes. Los usuarios prefieren
+              conservar sus programas y la autonomía de cada máquina
+              (Coulouris et al., 2001).
+            </p>
+
+            <div class="note">
+              <strong>Idea clave:</strong> sin memoria compartida, la red es el
+              único puente. El sistema se sostiene con mensajes, protocolos y
+              una imagen de servicio único frente al usuario.
+            </div>
+
+            <h2 id="cliente-servidor">Arquitectura cliente-servidor</h2>
+            <p>
+              En la variante de tres capas, el trabajo se parte así:
+            </p>
+            <ul class="feature-list">
+              <li>
+                El <strong>cliente</strong> es la aplicación o el navegador en
+                el dispositivo del usuario. Muestra la interfaz y hace
+                comprobaciones ligeras.
+              </li>
+              <li>
+                El <strong>servidor de aplicaciones</strong> aplica las reglas
+                de negocio, valida lo importante y coordina las consultas a la
+                base de datos.
+              </li>
+              <li>
+                El <strong>servidor de bases de datos</strong> guarda la
+                información, cuida integridad y consistencia, ejecuta
+                transacciones y hace respaldos.
+              </li>
+            </ul>
+
+            <h3>Ejemplo: plataforma académica universitaria</h3>
+            <figure class="diagram">
+              <ol class="layers" aria-label="Capas cliente-servidor">
+                <li>
+                  <strong>Cliente</strong>
+                  <span
+                    >Interfaz web o móvil, formularios, validaciones básicas y
+                    muestra de respuestas.</span
+                  >
+                </li>
+                <li>
+                  <strong>Servidor de aplicaciones</strong>
+                  <span
+                    >Cupos, prerrequisitos, cruces de horarios, plazos,
+                    promedios, autenticación y permisos por rol.</span
+                  >
+                </li>
+                <li>
+                  <strong>Servidor de bases de datos</strong>
+                  <span
+                    >Usuarios, notas, materias, matrículas, transacciones y
+                    respaldos periódicos.</span
+                  >
+                </li>
+              </ol>
+              <figcaption>
+                Figura 1. Tres capas para una plataforma de estudiantes,
+                docentes y matrículas.
+              </figcaption>
+            </figure>
+            <p>
+              El cliente envía lo que el usuario pide. El servidor de
+              aplicaciones comprueba la lógica y las autorizaciones. La base de
+              datos conserva, de forma íntegra, lo que esos procesos necesitan
+              para responder.
+            </p>
+
+            <h2 id="ipc">Comunicación entre procesos (IPC)</h2>
+            <p>
+              El IPC es el conjunto de mecanismos que permite a distintos
+              procesos hablar entre sí. En un sistema distribuido no hay
+              memoria compartida, así que la cooperación solo puede hacerse con
+              mensajes por la red. Con eso se coordinan tareas, se consultan
+              servicios remotos, se mantienen réplicas coherentes y se sostiene
+              la ilusión de un sistema único. Además, el IPC tiene que lidiar
+              con mensajes que se pierden, se duplican o llegan desordenados.
+            </p>
+
+            <h3>Mecanismos habituales</h3>
+            <ul class="feature-list">
+              <li>
+                <strong>Paso de mensajes con send y receive.</strong> Es el
+                método más básico. El servidor suele quedarse en
+                <code>receive</code> hasta que el cliente hace
+                <code>send</code>; luego calcula y responde con otro
+                <code>send</code>. La fiabilidad puede ir desde un best effort
+                sin confirmación, hasta acuses de núcleo a núcleo, o usar la
+                propia respuesta como confirmación y reenviar si tarda
+                (Tanenbaum, 1996).
+              </li>
+              <li>
+                <strong>RPC (llamada a procedimiento remoto).</strong> Hace
+                que una función en otra máquina se vea como una llamada local.
+                Stubs en cliente y servidor ocultan el paso de mensajes bajo un
+                protocolo petición-respuesta. El cliente solo ve el resultado;
+                los fallos parciales, en cambio, cuestan de ocultar.
+              </li>
+              <li>
+                <strong>Sockets TCP/UDP.</strong> Son puntos finales
+                identificados por dirección y puerto. TCP abre conexión, da un
+                flujo bidireccional con comprobaciones, secuencia y
+                retransmisión. UDP manda datagramas sin confirmación ni
+                reintentos; si falla o no hay proceso en el puerto, el mensaje
+                se pierde. Son de bajo nivel: hay que acordar el formato. HTTP,
+                por ejemplo, suele ir sobre TCP.
+              </li>
+              <li>
+                <strong>Colas de mensajes (MOM).</strong> La aplicación deja el
+                mensaje en una cola y el sistema lo entrega después, aunque el
+                destinatario no esté disponible en ese momento. Esa tolerancia
+                es la ventaja y, a la vez, el límite: no está pensado para
+                entregas inmediatas.
+              </li>
+            </ul>
+
+            <h2 id="modelos">Comunicación síncrona y asíncrona</h2>
+            <p>
+              En el modelo <strong>síncrono</strong>, el emisor se bloquea
+              hasta que su petición se acepta, se entrega o se procesa. Un
+              ejemplo típico es el RPC: envía y espera la respuesta antes de
+              seguir. En el modelo <strong>asíncrono</strong>, el emisor
+              continúa apenas manda el mensaje; la respuesta puede llegar más
+              tarde.
+            </p>
+
+            <div class="table-wrap">
+              <table class="compare">
+                <caption>
+                  Comparación entre comunicación síncrona y asíncrona.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Aspecto</th>
+                    <th scope="col">Síncrona</th>
+                    <th scope="col">Asíncrona</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Espera del emisor</th>
+                    <td>Queda bloqueado hasta la respuesta.</td>
+                    <td>Sigue trabajando de inmediato.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Acoplamiento en el tiempo</th>
+                    <td>Alto: ambos suelen estar activos.</td>
+                    <td>Bajo: el receptor puede no estar activo.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Ventaja</th>
+                    <td>Simple y predecible.</td>
+                    <td>Aprovecha el tiempo de espera y tolera demoras.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Riesgo</th>
+                    <td>
+                      Se bloquea con latencia o fallos; sin timeout puede
+                      esperar indefinidamente.
+                    </td>
+                    <td>
+                      El cliente puede no saber si su petición se procesó.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              Conviene lo síncrono cuando el resultado hace falta para
+              continuar: pantallas interactivas, autorizar un pago antes de
+              confirmar un pedido, o redes locales de baja latencia. Conviene lo
+              asíncrono cuando no se necesita respuesta inmediata —comprobantes,
+              lotes, correos—, cuando la red es lejana y conviene ocultar
+              latencia, cuando el receptor puede estar caído o saturado
+              (colas persistentes), o cuando se publican eventos a varios
+              suscriptores.
+            </p>
+
+            <div class="scenario">
+              <h3>Compra en línea con varias sedes</h3>
+              <p>
+                El cliente autoriza un pago y espera la aprobación del servidor:
+                eso es síncrono. Cuando el pago queda aceptado, el servidor
+                dispara por una cola de eventos la baja de inventario, la
+                notificación al usuario y la facturación. Esos pasos no se
+                esperan uno a uno: son asíncronos y pueden avanzar en paralelo.
+              </p>
+            </div>
+
+            <h2 id="transparencia">Transparencia</h2>
+            <p>
+              La transparencia oculta la separación de los componentes para que
+              usuarios y programadores perciban el sistema como un todo, no
+              como un conjunto de máquinas sueltas. Es más fácil lograrla para
+              el usuario que para quien programa. Hay varias formas:
+            </p>
+            <ul class="feature-list">
+              <li>
+                <strong>Acceso:</strong> ocultar si el recurso es local o
+                remoto.
+              </li>
+              <li>
+                <strong>Ubicación:</strong> ocultar en qué nodo está.
+              </li>
+              <li>
+                <strong>Migración:</strong> ocultar que el recurso se movió.
+              </li>
+              <li>
+                <strong>Replicación:</strong> ocultar que hay varias copias.
+              </li>
+              <li>
+                <strong>Concurrencia:</strong> ocultar que otros también lo
+                usan.
+              </li>
+              <li>
+                <strong>Fallos:</strong> ocultar que un componente falló o se
+                recuperó.
+              </li>
+            </ul>
+            <p>
+              La transparencia de ubicación es la que deja llegar a un recurso
+              sin conocer su dirección física. Se apoya en nombres lógicos —
+              sin la ubicación dentro del nombre— y en un servicio de nombres
+              que los traduce a direcciones. El DNS es el ejemplo cotidiano:
+              un dominio se convierte en una IP.
+            </p>
+            <ol class="sequence">
+              <li>El usuario pide el recurso por su nombre.</li>
+              <li>El servicio de nombres lo traduce a la dirección del nodo.</li>
+              <li>La solicitud llega a ese nodo y la respuesta vuelve.</li>
+              <li>
+                Si el recurso cambia de servidor, solo se actualiza el
+                servicio de nombres; el nombre que usa la persona no cambia.
+              </li>
+            </ol>
+
+            <h3>Dificultades al implementarla</h3>
+            <ul class="feature-list">
+              <li>
+                Nombres que delatan la ubicación y rompen la transparencia.
+              </li>
+              <li>
+                Réplicas que no comparten el mismo nombre, o un DNS que
+                devuelve solo un nodo de varios.
+              </li>
+              <li>
+                Direcciones que cambian cuando el servidor se mueve o tiene
+                varios puntos de acceso.
+              </li>
+              <li>
+                Fallos difíciles de ocultar: no siempre se distingue lentitud
+                de caída.
+              </li>
+              <li>
+                Latencia de red imposible de borrar del todo —un mensaje entre
+                continentes ya carga decenas de milisegundos—.
+              </li>
+              <li>
+                Consistencia entre réplicas: sincronizar todas las copias antes
+                de otra operación se nota.
+              </li>
+              <li>
+                Concurrencia, heterogeneidad de formatos y el roce entre
+                transparencia y rendimiento. A veces, además, conviene
+                mostrar la ubicación en lugar de ocultarla.
+              </li>
+            </ul>
+
+            <h2 id="fallos">Tolerancia a fallos</h2>
+            <p>
+              Si un servidor financiero se interrumpe de golpe durante una
+              transacción, el fallo es de congelación o crash. Hay que cuidar
+              tres frentes: que el servicio siga, que los datos no se corrompan
+              y que se puedan recuperar las operaciones.
+            </p>
+
+            <h3>Continuidad del servicio</h3>
+            <ul class="feature-list">
+              <li>
+                Comprobar de forma recurrente si un nodo responde y usar
+                tiempos de espera: puede estar lento, no caído.
+              </li>
+              <li>
+                Redundancia física: réplicas activas que procesan en paralelo,
+                u esquema primario-respaldo con
+                <strong>failover</strong> automático.
+              </li>
+              <li>
+                Un balanceador que desvíe las peticiones a instancias vivas y
+                reparte la carga.
+              </li>
+            </ul>
+
+            <h3>Integridad de los datos</h3>
+            <ul class="feature-list">
+              <li>
+                Transacciones con propiedades ACID (atómicas, consistentes,
+                aisladas y durables). Lo atómico agrupa varias operaciones
+                para que se completen todas o ninguna.
+              </li>
+              <li>
+                Compromiso de dos fases (2PC) cuando la transacción cruza
+                varios servidores: un coordinador pide voto, cada participante
+                guarda en almacenamiento permanente antes de aceptar, y solo
+                entonces se confirma o se aborta.
+              </li>
+              <li>
+                Discos emparejados para almacenamiento estable: si uno falla,
+                el otro conserva los datos.
+              </li>
+            </ul>
+
+            <h3>Recuperación</h3>
+            <ul class="feature-list">
+              <li>
+                Puntos de control (checkpoints) para volver a un estado
+                anterior.
+              </li>
+              <li>
+                Registros del estado de las transacciones.
+              </li>
+              <li>
+                Copias de seguridad periódicas fuera del camino crítico.
+              </li>
+            </ul>
+
+            <h2 id="escalabilidad">Escalabilidad y disponibilidad</h2>
+            <p>
+              En los días de matrícula, una plataforma universitaria se satura
+              porque no escala con el pico de usuarios. Conviene partir el
+              sistema en tres capas y luego ampliarlo:
+            </p>
+            <ul class="feature-list">
+              <li>
+                <strong>Ampliación horizontal:</strong> más instancias del
+                servidor de aplicaciones para atender más gente a la vez.
+              </li>
+              <li>
+                <strong>Ampliación vertical:</strong> más CPU y RAM en los
+                servidores actuales; sirve de puente, pero puede salir caro.
+              </li>
+              <li>
+                <strong>Balanceador de carga:</strong> un punto de entrada que
+                reparte conexiones y oculta que hay varios servidores.
+              </li>
+              <li>
+                <strong>Redundancia:</strong> varias instancias, varios
+                balanceadores y bases con réplica y failover.
+              </li>
+              <li>
+                <strong>Réplicas y caché:</strong> lecturas desde réplicas y
+                caché para datos que casi no cambian.
+              </li>
+              <li>
+                <strong>Comunicación asíncrona:</strong> colas para
+                comprobantes o correos, que absorben picos y ocultan latencia.
+              </li>
+              <li>
+                <strong>Monitoreo:</strong> detectar nodos caídos y
+                restablecerlos.
+              </li>
+            </ul>
+            <p>
+              Cupos y matrículas no se cachean: se leen y se escriben en la
+              base primaria para no servir datos viejos. La caché y las
+              réplicas de lectura quedan para lo estable, como la oferta de
+              materias o los horarios.
+            </p>
+
+            <h2 id="archivos">Sistemas de archivos distribuidos</h2>
+            <p>
+              Una organización con cuatro sedes necesita compartir documentos
+              desde cualquier ciudad. Un diseño razonable usa arquitectura
+              cliente-servidor: los archivos viven en servidores de archivos,
+              los empleados los ven con una interfaz parecida a un disco local
+              y el acceso remoto sigue un modelo tipo NFS.
+            </p>
+            <ul class="feature-list">
+              <li>
+                Servidores de archivos en las sedes, con réplicas en al menos
+                dos ciudades.
+              </li>
+              <li>
+                Nombres uniformes: la misma ruta funciona desde cualquier sede
+                aunque el archivo cambie de servidor.
+              </li>
+              <li>
+                Caché local en cada cliente para lecturas frecuentes.
+              </li>
+              <li>
+                Autenticación y permisos en los servidores.
+              </li>
+              <li>
+                Copias de seguridad periódicas.
+              </li>
+            </ul>
+
+            <h3>Disponibilidad, consistencia y seguridad</h3>
+            <ul class="feature-list">
+              <li>
+                <strong>Disponibilidad.</strong> Réplicas en distintas sedes y
+                almacenamiento estable, con UPS o planta eléctrica según la
+                duración del corte.
+              </li>
+              <li>
+                <strong>Consistencia.</strong> Semántica de sesión —los cambios
+                se ven al cerrar el archivo—, bloqueos para que dos personas no
+                editen a la vez, copia primaria que ordena a las secundarias, y
+                verificación de versión antes de confiar en la caché local.
+              </li>
+              <li>
+                <strong>Seguridad.</strong> Autenticación, listas de control de
+                acceso, cifrado y firmas entre sedes, y permisos según el
+                cargo.
+              </li>
+            </ul>
+            <p>
+              También hay límites. Replicar cada actualización baja el
+              desempeño. La caché puede mostrar datos viejos un rato. La
+              autenticación central simplifica la administración, pero puede
+              limitar la escala. Si cae el primario, las escrituras se detienen;
+              un voto por quórum —mayoría de servidores de acuerdo— ayuda a
+              seguir escribiendo.
+            </p>
+
+            <h2 id="empresarial">
+              Aplicación empresarial: Coordinadora
+            </h2>
+            <p>
+              Coordinadora es una empresa de carga, paquetería y mensajería
+              por carretera. Tiene sede central, sedes regionales, terminales,
+              vehículos con GPS y dispositivos móviles, y clientes que siguen
+              envíos por web y aplicación. Si cada sede trabaja aislada, la
+              información no se conecta. La propuesta es una arquitectura de
+              tres capas, con réplicas, balanceador y middleware de
+              integración.
+            </p>
+
+            <h3>Servicios a distribuir</h3>
+            <ul class="feature-list">
+              <li>
+                <strong>Pedidos y cotización:</strong> varias instancias detrás
+                de un balanceador para picos y fallos.
+              </li>
+              <li>
+                <strong>Despacho:</strong> nodos por región, con copia en la
+                sede central; las decisiones son locales.
+              </li>
+              <li>
+                <strong>Seguimiento de flota:</strong> procesar posiciones cerca
+                de donde se generan, no en un solo punto.
+              </li>
+              <li>
+                <strong>Facturación:</strong> réplicas con transacciones para
+                cuidar la integridad.
+              </li>
+              <li>
+                <strong>Mantenimiento y documentos:</strong> datos locales con
+                visión global, y un sistema de archivos distribuido para
+                guías, manifiestos y facturas.
+              </li>
+              <li>
+                <strong>Identidad y notificaciones:</strong> autenticación
+                replicada por cargo, y avisos por eventos suscritos.
+              </li>
+            </ul>
+
+            <h3>Comunicación y beneficios</h3>
+            <p>
+              Lo síncrono —RPC o web service— sirve para cotizar, confirmar un
+              pedido, consultar un envío o autenticar. Lo asíncrono, con colas
+              persistentes, sincroniza despachos y facturas entre sedes. La
+              publicación-suscripción anuncia estados como “en tránsito” o
+              “entregado”. El GPS puede mandar posiciones periódicas y guardar
+              datos si no hay señal. Los documentos se alcanzan por acceso
+              remoto al sistema de archivos.
+            </p>
+            <p>
+              La empresa gana integración entre sedes, escalabilidad al agregar
+              nodos, fallas acotadas a un equipo, extensibilidad al publicar
+              interfaces, decisiones cerca del lugar de operación y
+              visibilidad casi en tiempo real. Los retos también cuentan:
+              software más complejo, dependencia de la red, seguridad,
+              conectividad inestable de los vehículos y dispositivos que deben
+              adaptarse a perder la red.
+            </p>
+          </article>
+
+          <section class="summary-block" aria-labelledby="resumen-conceptos">
+            <h2 id="resumen-conceptos">Resumen: cinco ideas del tema</h2>
+            <p>
+              Haz clic en cada tarjeta para voltearla y repasar la idea central.
+            </p>
+
+            <div class="flip-grid" aria-label="Tarjetas reversibles de conceptos">
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Middleware: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Middleware</h3>
+                    <p>La capa que une aplicaciones y redes</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      En la práctica se combina un SO de red con middleware,
+                      más que un sistema distribuido puro.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="RPC: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>RPC</h3>
+                    <p>Llamada a procedimiento remoto</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      Hace que una función en otra máquina se vea local. Los
+                      stubs ocultan el paso de mensajes.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Transparencia: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Transparencia</h3>
+                    <p>Usar el recurso sin ver la separación</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      Nombres lógicos y un servicio de nombres ocultan dónde
+                      está el recurso. La latencia no se borra del todo.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Failover: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Failover</h3>
+                    <p>Cambio automático al respaldo</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      Si cae el primario, el respaldo toma el servicio para
+                      mantener la continuidad.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="flip-card"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                aria-label="Escalabilidad: voltear tarjeta"
+              >
+                <div class="flip-inner">
+                  <div class="flip-face front">
+                    <h3>Escalabilidad</h3>
+                    <p>Soportar más carga sin caer</p>
+                    <span class="flip-hint">Voltear</span>
+                  </div>
+                  <div class="flip-face back">
+                    <h3>Idea</h3>
+                    <p>
+                      Más instancias, balanceo, réplicas y colas asíncronas
+                      absorben picos como los de matrícula.
+                    </p>
+                    <span class="flip-hint">Volver</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="activity" aria-labelledby="adivina-titulo">
+            <h2 id="adivina-titulo">Actividad: adivina el concepto</h2>
+            <p>
+              Lee cada pista y escribe el concepto correspondiente. Usa una sola
+              palabra, sin espacios ni acentos. Como ayuda, las respuestas están
+              entre estas palabras: <strong>middleware</strong>,
+              <strong>RPC</strong>, <strong>transparencia</strong>,
+              <strong>failover</strong> y <strong>replicacion</strong>. El
+              orden de las pistas cambia cada vez que cargas la página o pulsas
+              “Nueva ronda”.
+            </p>
+
+            <div class="crossword">
+              <ol class="crossword-clues" id="guess-clues"></ol>
+
+              <div
+                class="crossword-board"
+                id="crossword-board"
+                data-activity="distribuidos"
+                aria-label="Respuestas de la actividad"
+              ></div>
+
+              <div class="crossword-actions">
+                <button class="btn btn-primary" type="button" id="check-crossword">
+                  Comprobar
+                </button>
+                <button class="btn btn-secondary" type="button" id="reset-crossword">
+                  Limpiar
+                </button>
+                <button class="btn btn-secondary" type="button" id="shuffle-guess">
+                  Nueva ronda
+                </button>
+              </div>
+              <p class="crossword-feedback" id="crossword-feedback" aria-live="polite"></p>
+            </div>
+          </section>
+
+          <section class="refs" aria-labelledby="referencias">
+            <h2 id="referencias">Referencias</h2>
+            <ol>
+              <li>
+                Coulouris, G., Dollimore, J. y Kindberg, T. (2001).
+                <em>Sistemas distribuidos: Conceptos y diseño</em>
+                (A. Otero, Ed.). Addison-Wesley.
+              </li>
+              <li>
+                Mahecha Camargo, O. F. (2026).
+                <em>Sistemas operativos distribuidos</em>.
+              </li>
+              <li>
+                Tanenbaum, A. S. (1996).
+                <em>Sistemas operativos distribuidos</em>. Prentice Hall.
+              </li>
+              <li>
+                Tanenbaum, A. S. y Van Steen, M. (2008).
+                <em>Sistemas distribuidos: Principios y paradigmas</em>.
+                Prentice Hall.
+              </li>
+            </ol>
+          </section>
+
+          <nav class="topic-pager" aria-label="Navegación entre temas">
+            <a href="gestion-procesos.html">
+              <span>Anterior</span>
+              <strong>Gestión de procesos</strong>
+            </a>
+            <a class="next" href="../index.html#temas">
+              <span>Siguiente</span>
+              <strong>Diagnóstico y solución de problemas</strong>
+            </a>
+          </nav>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>© 2026 Jerónimo Orozco Urrego</p>
+        <p>
+          <a
+            href="https://github.com/Darkkthrax"
+            target="_blank"
+            rel="noopener noreferrer"
+            >GitHub</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+  </body>
+</html>

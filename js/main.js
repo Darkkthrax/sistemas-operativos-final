@@ -130,6 +130,36 @@
         },
       ],
     },
+    distribuidos: {
+      success: "¡Correcto! Dominas los sistemas operativos distribuidos.",
+      items: [
+        {
+          clue: "Capa de software que intermedia entre aplicaciones, sistemas y redes.",
+          answer: "MIDDLEWARE",
+          maxLength: 14,
+        },
+        {
+          clue: "Llamada a un procedimiento en otra máquina que parece local.",
+          answer: "RPC",
+          maxLength: 8,
+        },
+        {
+          clue: "Oculta la separación de nodos para percibir el sistema como uno solo.",
+          answer: "TRANSPARENCIA",
+          maxLength: 16,
+        },
+        {
+          clue: "Cambio automático al servidor de respaldo cuando falla el principal.",
+          answer: "FAILOVER",
+          maxLength: 12,
+        },
+        {
+          clue: "Copias de un mismo recurso en varios nodos para disponibilidad.",
+          answer: "REPLICACION",
+          maxLength: 14,
+        },
+      ],
+    },
   };
 
   const activityKey = board?.dataset.activity || "componentes";
