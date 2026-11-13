@@ -3,16 +3,24 @@
   const links = document.querySelector(".nav-links");
 
   if (toggle && links) {
+    const closeMenu = () => {
+      links.classList.remove("is-open");
+      toggle.setAttribute("aria-expanded", "false");
+    };
+
     toggle.addEventListener("click", () => {
       const isOpen = links.classList.toggle("is-open");
       toggle.setAttribute("aria-expanded", String(isOpen));
     });
 
     links.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        links.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
-      });
+      link.addEventListener("click", closeMenu);
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.matchMedia("(min-width: 761px)").matches) {
+        closeMenu();
+      }
     });
   }
 
