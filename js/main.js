@@ -276,4 +276,22 @@
       markEmpty();
     }
   });
+
+  document.querySelectorAll("[data-video-frame]").forEach((frame) => {
+    const video = frame.querySelector("video");
+    const placeholder = frame.querySelector(".video-placeholder");
+    if (!video || !placeholder) return;
+
+    const markEmpty = () => {
+      frame.classList.add("is-empty");
+      placeholder.hidden = false;
+    };
+
+    video.addEventListener("error", markEmpty);
+
+    const source = video.querySelector("source");
+    if (source) {
+      source.addEventListener("error", markEmpty);
+    }
+  });
 })();
