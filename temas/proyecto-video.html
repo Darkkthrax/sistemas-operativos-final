@@ -11,45 +11,62 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700&family=EB+Garamond:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/styles.css?v=20261113" />
+    <link rel="stylesheet" href="../css/styles.css?v=20261113e" />
   </head>
-  <body>
+  <body data-root="../">
     <header class="site-header">
-      <div class="container nav">
+      <div class="nav-bar">
         <a class="brand" href="../index.html">
-          SO
-          <span>Sistemas Operativos</span>
+          <span class="brand-mark">SO</span>
+          Sistemas Operativos
         </a>
-
-        <button
-          class="nav-toggle"
-          type="button"
-          aria-label="Abrir menú de navegación"
-          aria-expanded="false"
-          aria-controls="menu-principal"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
 
         <ul class="nav-links" id="menu-principal">
           <li><a href="../index.html">Inicio</a></li>
-          <li>
-            <a href="conocimientos-previos.html">Conocimientos previos</a>
-          </li>
+          <li><a href="conocimientos-previos.html">Conocimientos previos</a></li>
           <li><a href="../index.html#temas">Temas</a></li>
           <li><a href="../index.html#introduccion">Introducción</a></li>
         </ul>
+
+        <div class="header-tools">
+          <button class="search-trigger" type="button">
+            <span class="search-label">Buscar</span>
+            <kbd>⌘K</kbd>
+          </button>
+          <button
+            class="nav-toggle"
+            type="button"
+            aria-label="Abrir menú de navegación"
+            aria-expanded="false"
+            aria-controls="menu-principal"
+          >
+            <span></span>
+            <span></span>
+          </button>
+        </div>
       </div>
     </header>
 
-    <main>
+    <main class="doc-shell">
+      <nav class="doc-nav" aria-label="Temas del curso">
+        <p class="rail-label">Temas</p>
+        <ul>
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="conocimientos-previos.html">Conocimientos previos</a></li>
+        <li><a href="introduccion.html">Introducción</a></li>
+        <li><a href="gestion-procesos.html">Gestión de procesos</a></li>
+        <li><a href="sistemas-distribuidos.html">Sistemas distribuidos</a></li>
+        <li><a href="proyecto-video.html" aria-current="page">Video tutorial</a></li>
+        </ul>
+      </nav>
+
+      <div class="doc-main">
       <section class="page-hero">
         <div class="container content-column">
+<p class="kicker">Proyecto</p>
           <h1>Proyecto: Video tutorial</h1>
           <p>
             Tutorial en video sobre cómo crear un USB booteable e instalar un
@@ -199,10 +216,15 @@
           </nav>
         </div>
       </section>
-    </main>
+    </div>
+
+    <aside class="doc-rail" aria-label="En esta página">
+      <div id="page-toc"></div>
+    </aside>
+  </main>
 
     <footer class="site-footer">
-      <div class="container footer-inner">
+      <div class="footer-inner">
         <p>© 2026 Jerónimo Orozco Urrego</p>
         <p>
           <a
@@ -215,6 +237,6 @@
       </div>
     </footer>
 
-    <script src="../js/main.js?v=20261113"></script>
+    <script src="../js/main.js?v=20261113e"></script>
   </body>
 </html>
