@@ -194,23 +194,55 @@ pre,
   gap: 0.5rem;
 }
 
-.search-trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
+.page-search {
+  position: relative;
+}
+
+.page-search-input {
+  width: 8.75rem;
   height: 34px;
-  padding: 0 0.45rem 0 0.75rem;
+  padding: 0 0.75rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--card);
-  color: var(--muted);
+  color: var(--ink);
   font-size: 0.82rem;
-  cursor: pointer;
 }
 
-.search-trigger:hover {
+.page-search-input::placeholder {
+  color: var(--muted);
+}
+
+.page-search-input:hover,
+.page-search-input:focus {
   border-color: var(--line-strong);
-  color: var(--ink);
+  outline: none;
+}
+
+.page-search.is-cheat .page-search-input {
+  border-color: #8f1d1d;
+  color: #8f1d1d;
+}
+
+.search-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  width: min(320px, 70vw);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 32px rgba(24, 24, 27, 0.12);
+  overflow: hidden;
+}
+
+.search-panel[hidden] {
+  display: none !important;
+}
+
+.page-search.is-cheat .search-panel {
+  border-color: #8f1d1d;
 }
 
 kbd {
@@ -1338,6 +1370,42 @@ figcaption {
   color: var(--muted);
   font-size: 0.8rem;
   border-top: 1px solid var(--line);
+}
+
+.search-layer.is-cheat {
+  background: rgba(42, 0, 0, 0.72);
+}
+
+.search-layer.is-cheat .search-dialog {
+  border-color: #8f1d1d;
+  box-shadow: 0 0 0 1px #5c1010, 0 24px 70px rgba(90, 0, 0, 0.45);
+}
+
+.search-layer.is-cheat .search-input {
+  color: #ffd0cc;
+}
+
+.search-layer.is-cheat .search-hint {
+  color: #ffb4b0;
+  border-top-color: #3f1616;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.search-results button.is-secret {
+  background: #2a1010;
+  color: #ffe8e4;
+}
+
+.search-results button.is-secret small {
+  color: #ff6b63;
+}
+
+.search-results button.is-secret.is-active,
+.search-results button.is-secret:hover {
+  background: #3d1515;
 }
 
 @media (max-width: 1080px) {

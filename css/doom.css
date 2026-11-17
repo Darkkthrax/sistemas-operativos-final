@@ -1,0 +1,506 @@
+body.doom {
+  margin: 0;
+  min-height: 100vh;
+  color: #f0e2c8;
+  color-scheme: dark;
+  font-family: Inter, "Segoe UI", sans-serif;
+  font-size: 16.5px;
+  line-height: 1.65;
+  background-color: #140e0c;
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgba(140, 28, 18, 0.35), transparent 52%),
+    linear-gradient(180deg, rgba(8, 5, 4, 0.55), rgba(8, 5, 4, 0.82)),
+    repeating-linear-gradient(90deg, #3a221c 0 46px, #241410 46px 48px),
+    repeating-linear-gradient(#4a2c24 0 22px, #2c1814 22px 24px);
+}
+
+body.doom ::selection {
+  background: #7a1c16;
+  color: #fff4e4;
+}
+
+body.doom :focus-visible {
+  outline: 2px solid #e6d3a3;
+  outline-offset: 3px;
+}
+
+body.doom a {
+  color: inherit;
+}
+
+body.doom code {
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 0.9em;
+  color: #f3e0b8;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.doom-top {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.15rem;
+  background: linear-gradient(#3a302c, #221c18 55%, #161210);
+  border-bottom: 4px solid #8f1d18;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.doom-mark,
+.doom-exit,
+.doom-kicker,
+.doom-tag,
+.doom-hud span,
+.doom-hud strong,
+body.doom h1,
+.doom-file,
+.doom-dl,
+.doom-steps li::before {
+  font-family: "Press Start 2P", monospace;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.doom-mark {
+  color: #e10600;
+  text-decoration: none;
+  font-size: 0.82rem;
+  text-shadow: 3px 3px 0 #3a0a08;
+}
+
+.doom-top-note {
+  color: #b5a48e;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.doom-exit {
+  color: #f0e2c8;
+  text-decoration: none;
+  font-size: 0.58rem;
+  line-height: 1.4;
+  padding: 0.55rem 0.7rem;
+  border: 2px solid #6a4030;
+  background: #1a1210;
+}
+
+.doom-exit:hover {
+  border-color: #e10600;
+  color: #fff;
+}
+
+.doom-wrap {
+  position: relative;
+  z-index: 1;
+  width: min(820px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 0 0 3.5rem;
+}
+
+.doom-hero {
+  padding: 2.8rem 0 0.4rem;
+}
+
+.doom-kicker {
+  margin: 0 0 1rem;
+  color: #e10600;
+  font-size: 0.62rem;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+
+body.doom h1 {
+  margin: 0;
+  color: #f3e0b8;
+  font-size: clamp(1.8rem, 6vw, 3.15rem);
+  line-height: 1.35;
+  text-shadow: 0.08em 0.08em 0 #6e1612;
+}
+
+.doom-cursor {
+  display: inline-block;
+  width: 0.42em;
+  height: 0.72em;
+  margin-left: 0.14em;
+  background: #f3e0b8;
+  vertical-align: -0.02em;
+  animation: doom-blink 1.05s steps(1) infinite;
+}
+
+.doom-tag {
+  margin: 0.85rem 0 0;
+  color: #e6d3a3;
+  font-size: 0.62rem;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+
+.doom-lead {
+  max-width: 42rem;
+  margin: 1rem 0 0;
+  color: #f0e2c8;
+  font-size: 1.05rem;
+}
+
+.doom-hud {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin-top: 1.6rem;
+}
+
+.doom-hud > div {
+  padding: 0.7rem 0.7rem 0.65rem;
+  background: linear-gradient(#2c2420, #14100e);
+  border: 1px solid #5c4034;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.doom-hud span {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: #a89078;
+  font-size: 0.48rem;
+}
+
+.doom-hud strong {
+  color: #ff3b32;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.doom-hud .is-armor strong {
+  color: #e2b43a;
+}
+
+.doom-keys strong {
+  position: relative;
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.doom-keys i {
+  display: block;
+  width: 0.72rem;
+  height: 1.05rem;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  transform: skewX(-10deg);
+}
+
+.key-y {
+  background: #e2b43a;
+}
+
+.key-r {
+  background: #d3271e;
+}
+
+.key-b {
+  background: #3a6fbf;
+}
+
+.doom-panel {
+  margin-top: 1.4rem;
+  padding: 1.15rem 1.15rem 1.25rem;
+  background: rgba(12, 8, 7, 0.9);
+  border: 1px solid #4a3028;
+  box-shadow: inset 0 0 0 1px #1a100e, 0 16px 40px rgba(0, 0, 0, 0.28);
+}
+
+body.doom h2 {
+  margin: 0 0 0.85rem;
+  color: #ff3b32;
+  font-family: Inter, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.doom-panel > p,
+.doom-steps li,
+.doom-pickup p,
+.doom-foot p {
+  color: #f0e2c8;
+}
+
+.doom-panel > p {
+  margin: 0 0 0.85rem;
+}
+
+.doom-file {
+  display: flex;
+  gap: 0.55rem;
+  margin: 0.75rem 0 0;
+  color: #c4b39a;
+  font-size: 0.62rem;
+  line-height: 1.6;
+}
+
+.doom-file span {
+  color: #e10600;
+}
+
+.doom-file a {
+  color: #e6d3a3;
+}
+
+.video-frame,
+.video-embed {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: #070504;
+  border: 1px solid #5c4034;
+}
+
+.video-embed {
+  margin: 0.35rem 0 0;
+}
+
+.video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video-frame video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #070504;
+}
+
+.video-placeholder {
+  display: none;
+  margin: 0;
+  color: #c4b39a;
+  font-size: 0.92rem;
+}
+
+.video-frame.is-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-frame.is-empty video {
+  display: none;
+}
+
+.video-frame.is-empty .video-placeholder {
+  display: block;
+  max-width: 28rem;
+  padding: 1.2rem;
+  text-align: center;
+}
+
+.video-placeholder code {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  color: #f3e0b8;
+}
+
+.doom-steps {
+  list-style: none;
+  margin: 0.3rem 0 0.4rem;
+  padding: 0;
+  counter-reset: step;
+}
+
+.doom-steps li {
+  counter-increment: step;
+  position: relative;
+  padding: 0.8rem 0 0.8rem 2.6rem;
+  border-top: 1px solid #3a2a24;
+}
+
+.doom-steps li::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1.05rem;
+  color: #ff3b32;
+  font-size: 0.55rem;
+}
+
+.doom-sub {
+  margin: 1.35rem 0 0.8rem;
+  color: #e6d3a3;
+  font-family: Inter, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.doom-pickups {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.doom-pickup {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0.85rem 0.8rem;
+  background: #1a1210;
+  border: 1px solid #4a3028;
+}
+
+.doom-pickup .idx {
+  color: #ff3b32;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.55rem;
+  padding-top: 0.25rem;
+}
+
+.doom-pickup h3 {
+  margin: 0 0 0.25rem;
+  color: #f3e0b8;
+  font-family: Inter, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.doom-pickup p {
+  margin: 0;
+  color: #d9cbb4;
+  font-size: 0.95rem;
+}
+
+.doom-dl {
+  display: inline-block;
+  margin-top: 0.7rem;
+  padding: 0.45rem 0.7rem;
+  background: #d2a128;
+  color: #1a100c;
+  text-decoration: none;
+  font-family: Inter, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.doom-dl:hover {
+  background: #ff3b32;
+  color: #fff;
+}
+
+.doom-foot {
+  width: min(820px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 0 0 2rem;
+}
+
+.doom-foot p {
+  margin: 0.35rem 0;
+  color: #b5a48e;
+  font-size: 0.86rem;
+}
+
+.doom-foot .doom-name {
+  color: #ff3b32;
+}
+
+.doom-foot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.doom-foot .doom-github {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+  color: #ff3b32;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.doom-github svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+  fill: currentColor;
+}
+
+.doom-foot .doom-github:hover {
+  color: #ff6b63;
+}
+
+.doom-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background: #ff2a22;
+  animation: doom-flash 0.7s ease-out forwards;
+}
+
+@keyframes doom-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes doom-flash {
+  0% {
+    opacity: 0.55;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .doom-top-note {
+    display: none;
+  }
+
+  .doom-hud {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .doom-hero {
+    padding-top: 1.8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doom-cursor {
+    animation: none;
+  }
+
+  .doom-flash {
+    display: none;
+  }
+}

@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/styles.css?v=20261113e" />
+    <link rel="stylesheet" href="../css/styles.css?v=20261115f" />
   </head>
   <body data-root="../">
     <header class="site-header">
@@ -38,10 +38,17 @@
         </ul>
 
         <div class="header-tools">
-          <button class="search-trigger" type="button">
-            <span class="search-label">Buscar</span>
-            <kbd>⌘K</kbd>
-          </button>
+          <form class="page-search" role="search">
+            <input
+              class="page-search-input"
+              type="search"
+              placeholder="Buscar"
+              aria-label="Buscar"
+              autocomplete="off"
+              spellcheck="false"
+              autocapitalize="off"
+            />
+          </form>
           <button
             class="nav-toggle"
             type="button"
@@ -477,6 +484,6 @@
       </div>
     </footer>
 
-    <script src="../js/main.js?v=20261113e"></script>
+    <script src="../js/main.js?v=20261115f"></script>
   </body>
 </html>

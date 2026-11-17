@@ -302,6 +302,10 @@
     if (source) {
       source.addEventListener("error", markEmpty);
     }
+
+    if (video.error || video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
+      markEmpty();
+    }
   });
 
   const copyText = async (text) => {
@@ -443,23 +447,37 @@
     return `${root}${path}`;
   };
 
-  const trigger = document.querySelector(".search-trigger");
-  if (trigger) {
-    const layer = document.createElement("div");
-    layer.className = "search-layer";
-    layer.hidden = true;
-    layer.innerHTML = `
-      <div class="search-dialog" role="dialog" aria-modal="true" aria-label="Buscar en la documentación">
-        <input class="search-input" type="search" placeholder="Buscar en la documentación" aria-label="Buscar" />
-        <ul class="search-results"></ul>
-        <p class="search-hint"><kbd>Enter</kbd> abre · <kbd>Esc</kbd> cierra</p>
-      </div>`;
-    document.body.appendChild(layer);
+  const form = document.querySelector(".page-search");
+  const input = document.querySelector(".page-search-input");
+  if (form && input) {
+    const panel = document.createElement("div");
+    panel.className = "search-panel";
+    panel.hidden = true;
+    panel.innerHTML = `<ul class="search-results"></ul>`;
+    form.appendChild(panel);
 
-    const input = layer.querySelector(".search-input");
-    const results = layer.querySelector(".search-results");
+    const results = panel.querySelector(".search-results");
+    const secretPage = {
+      title: "IDKFA",
+      hint: "Nivel secreto",
+      path: "temas/idkfa.html",
+      secret: true,
+    };
     let active = 0;
     let current = catalog;
+    let cheatTimer = 0;
+    let cheatArmed = false;
+
+    const isCheat = (value) => value.trim().toUpperCase() === "IDKFA";
+
+    const goTo = (path) => {
+      window.location.href = hrefFor(path);
+    };
+
+    const matches = (query) =>
+      catalog.filter((item) =>
+        `${item.title} ${item.hint} ${item.text}`.toLowerCase().includes(query)
+      );
 
     const render = () => {
       results.innerHTML = "";
@@ -475,70 +493,109 @@
         const button = document.createElement("button");
         button.type = "button";
         if (index === active) button.classList.add("is-active");
+        if (item.secret) button.classList.add("is-secret");
         const title = document.createElement("span");
         title.textContent = item.title;
-        const hint = document.createElement("small");
-        hint.textContent = item.hint;
-        button.append(title, hint);
+        const hintText = document.createElement("small");
+        hintText.textContent = item.hint;
+        button.append(title, hintText);
         button.addEventListener("click", () => {
-          window.location.href = hrefFor(item.path);
+          window.clearTimeout(cheatTimer);
+          goTo(item.path);
         });
         li.appendChild(button);
         results.appendChild(li);
       });
     };
 
-    const openSearch = () => {
-      layer.hidden = false;
-      input.value = "";
-      current = catalog;
-      active = 0;
-      render();
-      input.focus();
+    const openPanel = () => {
+      panel.hidden = false;
     };
 
-    const closeSearch = () => {
-      layer.hidden = true;
-      trigger.focus();
+    const closePanel = () => {
+      window.clearTimeout(cheatTimer);
+      cheatArmed = false;
+      form.classList.remove("is-cheat");
+      panel.hidden = true;
     };
 
-    trigger.addEventListener("click", openSearch);
-    layer.addEventListener("click", (event) => {
-      if (event.target === layer) closeSearch();
+    input.addEventListener("focus", () => {
+      if (!isCheat(input.value)) {
+        const query = input.value.trim().toLowerCase();
+        current = query ? matches(query) : catalog;
+        active = 0;
+        render();
+      }
+      openPanel();
     });
 
     input.addEventListener("input", () => {
+      if (isCheat(input.value)) {
+        current = [secretPage];
+        active = 0;
+        form.classList.add("is-cheat");
+        render();
+        openPanel();
+        if (!cheatArmed) {
+          cheatArmed = true;
+          window.clearTimeout(cheatTimer);
+          cheatTimer = window.setTimeout(() => goTo(secretPage.path), 560);
+        }
+        return;
+      }
+
+      window.clearTimeout(cheatTimer);
+      cheatArmed = false;
+      form.classList.remove("is-cheat");
       const query = input.value.trim().toLowerCase();
-      current = catalog.filter((item) =>
-        `${item.title} ${item.hint} ${item.text}`.toLowerCase().includes(query)
-      );
+      current = query ? matches(query) : catalog;
       active = 0;
       render();
+      openPanel();
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (isCheat(input.value)) {
+        window.clearTimeout(cheatTimer);
+        goTo(secretPage.path);
+        return;
+      }
+      if (current[active]) goTo(current[active].path);
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!form.contains(event.target)) closePanel();
     });
 
     document.addEventListener("keydown", (event) => {
       const command = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k";
       if (command) {
         event.preventDefault();
-        if (layer.hidden) openSearch();
-        else closeSearch();
+        input.focus();
+        input.select();
         return;
       }
-      if (layer.hidden) return;
+      if (panel.hidden || document.activeElement !== input) return;
       if (event.key === "Escape") {
         event.preventDefault();
-        closeSearch();
+        closePanel();
+        input.blur();
       } else if (event.key === "ArrowDown") {
         event.preventDefault();
-        active = Math.min(active + 1, current.length - 1);
+        active = Math.min(active + 1, Math.max(current.length - 1, 0));
         render();
       } else if (event.key === "ArrowUp") {
         event.preventDefault();
         active = Math.max(active - 1, 0);
         render();
+      } else if (event.key === "Enter" && isCheat(input.value)) {
+        event.preventDefault();
+        window.clearTimeout(cheatTimer);
+        goTo(secretPage.path);
       } else if (event.key === "Enter" && current[active]) {
         event.preventDefault();
-        window.location.href = hrefFor(current[active].path);
+        goTo(current[active].path);
       }
     });
   }

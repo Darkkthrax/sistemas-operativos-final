@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IDKFA | Shareware de DOOM</title>
+    <meta
+      name="description"
+      content="Nivel secreto: cómo instalar el shareware de DOOM para DOS con VirtualBox y FreeDOS."
+    />
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/doom.css?v=20261117d" />
+  </head>
+  <body class="doom" data-root="../">
+    <div class="doom-flash" aria-hidden="true"></div>
+
+    <header class="doom-top">
+      <a class="doom-mark" href="../index.html">DOOM</a>
+      <span class="doom-top-note">Shareware · DOS</span>
+      <a class="doom-exit" href="../index.html">Salir</a>
+    </header>
+
+    <main class="doom-wrap">
+      <section class="doom-hero">
+        <p class="doom-kicker">E1M9 · Nivel secreto</p>
+        <h1>IDKFA<span class="doom-cursor" aria-hidden="true"></span></h1>
+        <p class="doom-tag">Todas las armas. Todas las llaves.</p>
+        <p class="doom-lead">
+          Proyecto final en video: instalar el shareware de DOOM para DOS
+          dentro de una máquina virtual, con VirtualBox como anfitrión y
+          FreeDOS como sistema operativo invitado.
+        </p>
+
+        <div class="doom-hud" aria-label="Estado del truco">
+          <div>
+            <span>Salud</span>
+            <strong>200%</strong>
+          </div>
+          <div class="is-armor">
+            <span>Armadura</span>
+            <strong>200%</strong>
+          </div>
+          <div>
+            <span>Balas</span>
+            <strong>100</strong>
+          </div>
+          <div class="doom-keys">
+            <span>Llaves</span>
+            <strong>
+              <i class="key-y" aria-hidden="true"></i>
+              <i class="key-r" aria-hidden="true"></i>
+              <i class="key-b" aria-hidden="true"></i>
+              <span class="sr-only">Amarilla, roja y azul</span>
+            </strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="doom-panel" id="video" aria-labelledby="video-title">
+        <h2 id="video-title">Video</h2>
+        <p>
+          Tutorial grabado del proyecto: instalar el shareware de DOOM para
+          DOS con VirtualBox y FreeDOS.
+        </p>
+
+        <figure>
+          <div class="video-embed">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/YLsWUPlEGAs"
+              title="Instalar el shareware de DOOM en FreeDOS"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </figure>
+
+        <p class="doom-file">
+          <span>&gt;</span>
+          <a
+            href="https://youtu.be/YLsWUPlEGAs"
+            target="_blank"
+            rel="noopener noreferrer"
+            >youtu.be/YLsWUPlEGAs</a
+          >
+        </p>
+      </section>
+
+      <section class="doom-panel" id="descripcion" aria-labelledby="desc-title">
+        <h2 id="desc-title">Descripción</h2>
+        <p>
+          El video recorre, de principio a fin, cómo dejar corriendo el
+          shareware de DOOM (id Software, 1993) en FreeDOS. El computador real
+          —Windows, Linux o macOS— solo hospeda la máquina virtual. VirtualBox
+          simula el hardware y FreeDOS, un sistema operativo compatible con
+          DOS, ejecuta el juego para el que fue compilado: el episodio 1,
+          <em>Knee-Deep in the Dead</em>.
+        </p>
+        <p>La grabación muestra estos pasos:</p>
+        <ol class="doom-steps">
+          <li>
+            Crear la máquina virtual con el tipo DOS, al menos 64 MB de
+            memoria y un disco virtual de 500 MB. Montar la LiveCD de
+            FreeDOS y arrancar desde ella.
+          </li>
+          <li>
+            Instalar FreeDOS en el disco virtual. Al terminar, retirar la ISO
+            de instalación para que el siguiente arranque salga de ese disco y
+            no vuelva a abrir el instalador.
+          </li>
+          <li>
+            Pasar el shareware a la máquina. El archivo es
+            <code>doom19s.zip</code> (DOOM 1.9). Descomprimido trae
+            <code>DOOM.EXE</code> y <code>DOOM1.WAD</code>. Con AnyBurn se
+            arma una ISO de esa carpeta, se monta como CD en VirtualBox y se
+            copian los archivos al disco C:.
+          </li>
+          <li>
+            En la línea de comandos de FreeDOS, entrar a la carpeta del juego
+            y ejecutar <code>DOOM</code>. El episodio carga y ya se puede
+            jugar.
+          </li>
+        </ol>
+
+        <h3 class="doom-sub">Aplicaciones usadas</h3>
+        <ul class="doom-pickups">
+          <li class="doom-pickup">
+            <span class="idx">01</span>
+            <div>
+              <h3>Oracle VM VirtualBox</h3>
+              <p>
+                Hipervisor. Crea el computador virtual donde se instala el
+                sistema invitado.
+              </p>
+              <a
+                class="doom-dl"
+                href="https://www.virtualbox.org/wiki/Downloads"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Descargar</a
+              >
+            </div>
+          </li>
+          <li class="doom-pickup">
+            <span class="idx">02</span>
+            <div>
+              <h3>FreeDOS</h3>
+              <p>
+                Sistema operativo utilizado. Para una máquina virtual conviene
+                la imagen LiveCD de la página oficial.
+              </p>
+              <a
+                class="doom-dl"
+                href="https://www.freedos.org/download/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Descargar</a
+              >
+            </div>
+          </li>
+          <li class="doom-pickup">
+            <span class="idx">03</span>
+            <div>
+              <h3>DOOM 1.9 shareware</h3>
+              <p>
+                Episodio 1, de redistribución libre. En /idgames está como
+                <code>doom19s.zip</code>.
+              </p>
+              <a
+                class="doom-dl"
+                href="https://www.doomworld.com/idgames/idstuff/doom/doom19s"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Descargar</a
+              >
+            </div>
+          </li>
+          <li class="doom-pickup">
+            <span class="idx">04</span>
+            <div>
+              <h3>AnyBurn</h3>
+              <p>
+                Crea la ISO con la carpeta del shareware para montarla como CD
+                en la máquina virtual. La edición Free alcanza para el tutorial.
+              </p>
+              <a
+                class="doom-dl"
+                href="https://www.anyburn.com/download.htm"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Descargar</a
+              >
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="doom-foot">
+      <p class="doom-foot-row">
+        <span>Jerónimo Orozco Urrego · 2026</span>
+        <a
+          class="doom-github"
+          href="https://github.com/Darkkthrax"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path
+              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+            />
+          </svg>
+          GitHub
+        </a>
+      </p>
+      <p>
+        <span class="doom-name">DOOM</span> es una marca de id Software. Esta página usa solo el episodio
+        shareware, que se puede redistribuir gratis. El juego completo no.
+      </p>
+    </footer>
+
+    <script src="../js/main.js?v=20261115b"></script>
+  </body>
+</html>
