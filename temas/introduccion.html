@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/styles.css?v=20261115f" />
+    <link rel="stylesheet" href="../css/styles.css?v=20261117d" />
   </head>
   <body data-root="../">
     <header class="site-header">
@@ -222,6 +222,21 @@
               servicios y núcleo. Abajo queda el hardware.
             </p>
 
+            <figure class="media-block">
+              <div class="media-frame is-diagram">
+                <img
+                  src="../img/introduccion/capas-sistema.png"
+                  alt="Diagrama de capas: usuarios, programas de usuario, shell, servicios, núcleo y hardware. El sistema operativo abarca el shell, los servicios y el núcleo."
+                />
+              </div>
+              <figcaption>
+                Figura 1. Capas del sistema informático. El sistema operativo
+                reúne el shell, los servicios y el núcleo, y los programas lo
+                usan a través de la API. Tomado de Carretero et al. (2001,
+                p. 35).
+              </figcaption>
+            </figure>
+
             <figure class="diagram">
               <ol class="layers" aria-label="Capas del sistema informático">
                 <li>
@@ -242,7 +257,7 @@
                 </li>
               </ol>
               <figcaption>
-                Figura 1. Capas del computador, del usuario al hardware.
+                Figura 2. Las mismas capas, resumidas del usuario al hardware.
               </figcaption>
             </figure>
 
@@ -270,6 +285,21 @@
                 operación, y el disco duro o el SSD conservan la información.
               </li>
             </ol>
+
+            <figure class="media-block">
+              <div class="media-frame is-diagram">
+                <img
+                  src="../img/introduccion/flujo-guardar-archivo.png"
+                  alt="Diagrama de flujo para guardar un archivo. El usuario pide guardar, la aplicación traduce la orden a binario, el sistema operativo ejecuta los comandos y el hardware almacena el archivo."
+                />
+              </div>
+              <figcaption>
+                Figura 3. Flujo para guardar un archivo. La zona sombreada es
+                software: la aplicación traduce la petición y el sistema
+                operativo la ejecuta. El hardware queda fuera y es el que
+                escribe en la unidad de almacenamiento.
+              </figcaption>
+            </figure>
 
             <h2 id="funciones">Funciones principales del sistema operativo</h2>
             <p>
@@ -476,8 +506,22 @@
                 </div>
               </div>
               <figcaption>
-                Figura 2. Estados de un proceso. Listo y en ejecución se
+                Figura 4. Estados de un proceso. Listo y en ejecución se
                 alternan; bloqueado regresa a listo cuando termina la espera.
+              </figcaption>
+            </figure>
+
+            <figure class="media-block">
+              <div class="media-frame is-diagram">
+                <img
+                  src="../img/introduccion/estados-proceso.png"
+                  alt="Diagrama de transiciones entre Running, Ready y Blocked. Running pasa a Ready al ser desprogramado, Ready vuelve a Running al ser programado, Running pasa a Blocked al iniciar entrada o salida, y Blocked vuelve a Ready cuando esa operación termina."
+                />
+              </div>
+              <figcaption>
+                Figura 5. Transiciones entre los tres estados. Running es en
+                ejecución, Ready es listo y Blocked es bloqueado. Adaptada de
+                Arpaci-Dusseau y Arpaci-Dusseau (2023, fig. 4.2).
               </figcaption>
             </figure>
 
@@ -568,6 +612,22 @@
               corre. Entre el heap y la pila queda un hueco, porque ambas zonas
               crecen o se reducen con el tiempo.
             </p>
+
+            <figure class="media-block">
+              <div class="media-frame is-diagram">
+                <img
+                  src="../img/introduccion/espacio-direcciones.png"
+                  alt="Espacio de direcciones de 0 a 16 KB. Arriba está el código, debajo el heap que crece hacia abajo, un hueco libre y, al final, la pila que crece hacia arriba."
+                />
+              </div>
+              <figcaption>
+                Figura 6. Un espacio de direcciones. El código queda arriba, el
+                heap crece hacia las direcciones altas y la pila crece hacia
+                las bajas, con memoria libre en medio. Adaptada de
+                Arpaci-Dusseau y Arpaci-Dusseau (2023, fig. 13.3).
+              </figcaption>
+            </figure>
+
             <p>
               Ese espacio se numera con direcciones virtuales, de 32 o 64 bits
               según el sistema. Si el proceso A pide su dirección 0, el hardware
@@ -580,6 +640,21 @@
               MMU); y protección, para que un proceso no lea ni escriba la
               memoria de otro ni la del sistema operativo.
             </p>
+
+            <figure class="media-block">
+              <div class="media-frame is-diagram">
+                <img
+                  src="../img/introduccion/memoria-compartida.png"
+                  alt="Mapa de memoria de 0 a 512 KB. El sistema operativo ocupa el inicio; después hay espacio libre, el proceso C, el proceso B, otro hueco, el proceso A desde 320 KB y un último hueco hasta 512 KB."
+                />
+              </div>
+              <figcaption>
+                Figura 7. Tres procesos en la memoria física, separados por
+                huecos libres. La dirección virtual 0 del proceso A corresponde
+                aquí a 320 KB físicos. Adaptada de Arpaci-Dusseau y
+                Arpaci-Dusseau (2023, fig. 13.2).
+              </figcaption>
+            </figure>
 
             <h3>RAM y almacenamiento permanente</h3>
             <p>
@@ -643,6 +718,36 @@
               de la memoria, mientras la red, los USB y muchos discos pasan por
               un chip dedicado a la entrada y la salida.
             </p>
+
+            <figure class="media-block">
+              <div class="media-frame is-diagram">
+                <img
+                  src="../img/introduccion/arquitectura-clasica.png"
+                  alt="Arquitectura clásica: la CPU y la memoria comparten un bus de memoria; un bus general conecta la gráfica y un bus de periféricos conecta varios discos."
+                />
+              </div>
+              <figcaption>
+                Figura 8. Arquitectura clásica. La memoria va en el bus más
+                cercano a la CPU; la gráfica y los discos quedan en buses más
+                alejados. Adaptada de Arpaci-Dusseau y Arpaci-Dusseau (2023,
+                fig. 36.1).
+              </figcaption>
+            </figure>
+
+            <figure class="media-block">
+              <div class="media-frame is-diagram">
+                <img
+                  src="../img/introduccion/arquitectura-moderna.png"
+                  alt="Arquitectura moderna: la gráfica se une a la CPU, la memoria tiene un enlace propio, y un chip de entrada y salida conecta la red, el teclado, el ratón y los discos."
+                />
+              </div>
+              <figcaption>
+                Figura 9. Arquitectura actual. La gráfica habla con la CPU al
+                nivel de la memoria, y la red, el USB y los discos pasan por un
+                chip de entrada y salida. Adaptada de Arpaci-Dusseau y
+                Arpaci-Dusseau (2023, fig. 36.2).
+              </figcaption>
+            </figure>
             <p>
               El sistema no adivina el estado de un dispositivo: lo lee y lo
               escribe en registros de estado, de comando y de datos. El protocolo
@@ -676,6 +781,35 @@
               a una capa genérica de bloques, después al driver y, al final, al
               hardware, mediante registros e interrupciones.
             </p>
+
+            <figure class="media-block">
+              <div class="media-frame is-diagram">
+                <img
+                  src="../img/introduccion/arquitectura-entrada-salida.png"
+                  alt="Arquitectura de entrada y salida: la interfaz del sistema operativo se divide en sistemas de archivos y gestión de redes. Los archivos pasan por el gestor de bloques y el de caché, y ambos caminos llegan a los manejadores y a los controladores."
+                />
+              </div>
+              <figcaption>
+                Figura 10. Arquitectura del sistema de entrada y salida. Los
+                archivos y la red convergen en los manejadores y, debajo, en
+                los controladores del hardware.
+              </figcaption>
+            </figure>
+
+            <figure class="media-block">
+              <div class="media-frame is-diagram">
+                <img
+                  src="../img/introduccion/pila-sistema-archivos.png"
+                  alt="Pila del sistema de archivos: la aplicación usa la API POSIX en modo usuario; en modo kernel están el sistema de archivos, la capa genérica de bloques, la interfaz específica y el driver."
+                />
+              </div>
+              <figcaption>
+                Figura 11. Pila del sistema de archivos, desde
+                <code>open</code>, <code>read</code> y <code>write</code> hasta
+                el driver. Adaptada de Arpaci-Dusseau y Arpaci-Dusseau (2023,
+                fig. 36.4).
+              </figcaption>
+            </figure>
             <p>
               Cuando un driver falla o no corresponde al equipo, las
               consecuencias se notan enseguida:
@@ -833,6 +967,21 @@
               el orden correcto.
             </p>
 
+            <figure class="media-block">
+              <div class="media-frame is-diagram">
+                <img
+                  src="../img/introduccion/flujo-entrada-salida.png"
+                  alt="Flujo de una operación de entrada y salida. El proceso está en modo usuario. En modo kernel están los servicios, los gestores de archivos, bloques y caché, el manejador del dispositivo y el de la interrupción. El controlador y el disco son hardware."
+                />
+              </div>
+              <figcaption>
+                Figura 12. Software de entrada y salida, y recorrido de una
+                operación. El manejador es software; el controlador y el disco
+                son hardware. Los datos suben copiados hasta la memoria del
+                proceso.
+              </figcaption>
+            </figure>
+
             <h3>Llamada al sistema</h3>
             <p>
               Un proceso sin privilegios no llega directo a los dispositivos.
@@ -881,6 +1030,21 @@
                 <code>read</code> informa cuántos bytes leyó.
               </li>
             </ol>
+
+            <figure class="media-block">
+              <div class="media-frame is-diagram">
+                <img
+                  src="../img/introduccion/lectura-archivo.png"
+                  alt="Diagrama de secuencia de la lectura de notas.txt. La aplicación abre el archivo, recibe un descriptor, pide leer, el núcleo solicita bloques al manejador, el manejador ordena la lectura al controlador y la respuesta vuelve por una interrupción."
+                />
+              </div>
+              <figcaption>
+                Figura 13. Lectura de <code>notas.txt</code>. La aplicación
+                habla con el núcleo, el núcleo con el manejador del disco y el
+                manejador con el controlador. La respuesta vuelve por una
+                interrupción.
+              </figcaption>
+            </figure>
 
             <h2 id="consola">Intérprete de comandos y consola</h2>
             <h3>Consola o terminal</h3>
@@ -1229,40 +1393,60 @@
             </div>
           </section>
 
-          <section class="activity" aria-labelledby="adivina-titulo">
-            <h2 id="adivina-titulo">Actividad: adivina el concepto</h2>
+          <section class="activity" aria-labelledby="arranque-titulo">
+            <h2 id="arranque-titulo">Actividad: arma el arranque</h2>
             <p>
-              Lee cada pista y escribe el concepto correspondiente. Usa una sola
-              palabra, sin espacios ni acentos. Como ayuda, las respuestas están
-              entre estas palabras: <strong>proceso</strong>,
-              <strong>kernel</strong>, <strong>driver</strong>,
-              <strong>shell</strong> y <strong>virtualizacion</strong>. El
-              orden de las pistas cambia cada vez que cargas la página o pulsas
-              “Nueva ronda”.
+              Arma el recorrido para abrir un videojuego. Cada pieza dice quién
+              actúa —la persona, el sistema operativo o el hardware— y qué tema
+              del capítulo entra en ese momento. Arrástralas a la secuencia en
+              el orden real. Con el teclado, enfoca una pieza y usa
+              <kbd>→</kbd> para colocarla, <kbd>←</kbd> para devolverla y
+              <kbd>↑</kbd> <kbd>↓</kbd> para cambiar el orden.
             </p>
 
-            <div class="crossword">
-              <ol class="crossword-clues" id="guess-clues"></ol>
+            <div class="workflow" id="workflow-game">
+              <ul class="flow-legend">
+                <li data-who="usuario">Usuario</li>
+                <li data-who="sistema">Sistema operativo</li>
+                <li data-who="hardware">Hardware</li>
+              </ul>
 
-              <div
-                class="crossword-board"
-                id="crossword-board"
-                data-activity="introduccion"
-                aria-label="Respuestas de la actividad"
-              ></div>
+              <div class="flow-zone flow-zone-line">
+                <p class="flow-zone-label">
+                  Secuencia
+                  <span id="workflow-count">0/10</span>
+                </p>
+                <div class="flow-drop">
+                  <p class="flow-empty" id="workflow-empty">
+                    Suelta aquí el primer paso del arranque.
+                  </p>
+                  <ol
+                    class="flow-list"
+                    id="workflow-line"
+                    aria-label="Secuencia del arranque"
+                  ></ol>
+                </div>
+              </div>
 
-              <div class="crossword-actions">
-                <button class="btn btn-primary" type="button" id="check-crossword">
+              <div class="flow-zone flow-zone-bank">
+                <p class="flow-zone-label">Piezas</p>
+                <ul
+                  class="flow-list"
+                  id="workflow-bank"
+                  aria-label="Piezas sin ordenar"
+                ></ul>
+              </div>
+
+              <div class="flow-actions">
+                <button class="btn btn-primary" type="button" id="workflow-check">
                   Comprobar
                 </button>
-                <button class="btn btn-secondary" type="button" id="reset-crossword">
-                  Limpiar
-                </button>
-                <button class="btn btn-secondary" type="button" id="shuffle-guess">
-                  Nueva ronda
+                <button class="btn btn-secondary" type="button" id="workflow-reset">
+                  Reiniciar
                 </button>
               </div>
-              <p class="crossword-feedback" id="crossword-feedback" aria-live="polite"></p>
+              <p class="flow-feedback" id="workflow-feedback" aria-live="polite"></p>
+              <p class="flow-status" id="workflow-status" aria-live="polite"></p>
             </div>
           </section>
 
@@ -1323,6 +1507,6 @@
       </div>
     </footer>
 
-    <script src="../js/main.js?v=20261115f"></script>
+    <script src="../js/main.js?v=20261117d"></script>
   </body>
 </html>

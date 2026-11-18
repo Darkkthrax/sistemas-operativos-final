@@ -78,36 +78,6 @@
         },
       ],
     },
-    introduccion: {
-      success: "¡Correcto! Dominas los conceptos básicos del sistema operativo.",
-      items: [
-        {
-          clue: "Programa en ejecución, con memoria, registros y archivos abiertos.",
-          answer: "PROCESO",
-          maxLength: 12,
-        },
-        {
-          clue: "Capa del sistema operativo más cercana al hardware.",
-          answer: "KERNEL",
-          maxLength: 12,
-        },
-        {
-          clue: "Software del sistema que sabe manejar un dispositivo concreto.",
-          answer: "DRIVER",
-          maxLength: 12,
-        },
-        {
-          clue: "Intérprete que espera una orden, la ejecuta y vuelve a esperar.",
-          answer: "SHELL",
-          maxLength: 12,
-        },
-        {
-          clue: "Técnica que convierte un recurso físico en una versión más fácil de usar.",
-          answer: "VIRTUALIZACION",
-          maxLength: 16,
-        },
-      ],
-    },
     procesos: {
       success: "¡Correcto! Dominas la gestión de procesos.",
       items: [
@@ -269,6 +239,419 @@
       renderGuessActivity(shuffle(activity.items));
       clearFeedback();
     });
+  }
+
+  const flow = document.getElementById("workflow-game");
+
+  if (flow) {
+    const bank = document.getElementById("workflow-bank");
+    const line = document.getElementById("workflow-line");
+    const lineZone = line.closest(".flow-zone");
+    const bankZone = bank.closest(".flow-zone");
+    const empty = document.getElementById("workflow-empty");
+    const count = document.getElementById("workflow-count");
+    const flowFeedback = document.getElementById("workflow-feedback");
+    const flowStatus = document.getElementById("workflow-status");
+    const flowCheck = document.getElementById("workflow-check");
+    const flowReset = document.getElementById("workflow-reset");
+
+    const steps = [
+      {
+        id: "pedir",
+        who: "usuario",
+        whoLabel: "Usuario",
+        title: "Pide abrir el juego",
+        detail:
+          "Doble clic en el icono, o el nombre del ejecutable escrito en la terminal. La persona no reparte memoria ni habla con el disco.",
+        topic: "Hardware, software, usuario y aplicaciones",
+      },
+      {
+        id: "shell",
+        who: "sistema",
+        whoLabel: "Sistema operativo",
+        title: "El shell traduce esa orden",
+        detail:
+          "El intérprete, gráfico o de texto, analiza la acción y prepara la petición. Un icono y un comando son la misma orden vista de dos maneras.",
+        topic: "Consola y shell",
+      },
+      {
+        id: "trap",
+        who: "sistema",
+        whoLabel: "Sistema operativo",
+        title: "La llamada entra al núcleo",
+        detail:
+          "Crear un proceso es privilegiado. Un trap pasa a modo kernel y el núcleo toma el control.",
+        topic: "Núcleo, drivers y llamadas al sistema",
+      },
+      {
+        id: "archivo",
+        who: "sistema",
+        whoLabel: "Sistema operativo",
+        title: "El sistema de archivos abre el ejecutable",
+        detail:
+          "Busca el nombre en el directorio y revisa los permisos. Si la cuenta no puede leerlo, el arranque se detiene ahí.",
+        topic: "Archivos y directorios",
+      },
+      {
+        id: "disco",
+        who: "hardware",
+        whoLabel: "Hardware",
+        title: "El disco entrega el programa",
+        detail:
+          "El manejador pide los bloques al controlador. Quien lanzó la orden queda bloqueado hasta que una interrupción avisa que la lectura terminó.",
+        topic: "Dispositivos de entrada y salida",
+      },
+      {
+        id: "memoria",
+        who: "sistema",
+        whoLabel: "Sistema operativo",
+        title: "Se arma el espacio de direcciones",
+        detail:
+          "El código, el heap y la pila quedan en direcciones virtuales. La MMU las traduce a RAM física, aparte de los demás procesos.",
+        topic: "Memoria",
+      },
+      {
+        id: "proceso",
+        who: "sistema",
+        whoLabel: "Sistema operativo",
+        title: "Nace un proceso en estado listo",
+        detail:
+          "El archivo pasa a ser un proceso: registros, contador de programa y archivos abiertos. Entra a la cola en estado listo.",
+        topic: "Procesos y planificación",
+      },
+      {
+        id: "aislamiento",
+        who: "sistema",
+        whoLabel: "Sistema operativo",
+        title: "Queda aislado del resto del equipo",
+        detail:
+          "Queda en modo usuario y con memoria propia. Puede usar los recursos, pero no pisar a otros programas ni escribir el disco por su cuenta.",
+        topic: "Concepto y propósito",
+      },
+      {
+        id: "cpu",
+        who: "sistema",
+        whoLabel: "Sistema operativo",
+        title: "El planificador le da la CPU",
+        detail:
+          "Pasa de listo a en ejecución. Un temporizador puede quitársela para que el navegador, la música o una descarga también avancen.",
+        topic: "Administración de recursos",
+      },
+      {
+        id: "frame",
+        who: "hardware",
+        whoLabel: "Hardware",
+        title: "CPU y GPU sacan el primer fotograma",
+        detail:
+          "La CPU ejecuta instrucciones y la GPU dibuja la ventana. Ahí se juntan la ejecución, la interfaz y los dispositivos.",
+        topic: "Funciones principales",
+      },
+    ];
+
+    const moveLabel = {
+      up: "Subir",
+      down: "Bajar",
+      take: "Colocar en la secuencia",
+      back: "Devolver a las piezas",
+    };
+
+    const moveGlyph = {
+      up: "↑",
+      down: "↓",
+      take: "→",
+      back: "←",
+    };
+
+    const makeMove = (action) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.dataset.move = action;
+      button.setAttribute("aria-label", moveLabel[action]);
+      button.textContent = moveGlyph[action];
+      return button;
+    };
+
+    const makeCard = (step) => {
+      const card = document.createElement("li");
+      card.className = "flow-card";
+      card.dataset.id = step.id;
+      card.tabIndex = 0;
+      card.setAttribute("aria-label", `${step.whoLabel}. ${step.title}`);
+
+      const grip = document.createElement("span");
+      grip.className = "flow-grip";
+      grip.setAttribute("aria-hidden", "true");
+
+      const main = document.createElement("div");
+      main.className = "flow-card-main";
+
+      const kicker = document.createElement("div");
+      kicker.className = "flow-kicker";
+
+      const index = document.createElement("span");
+      index.className = "flow-index";
+      index.hidden = true;
+
+      const who = document.createElement("p");
+      who.className = "flow-who";
+      who.textContent = step.whoLabel;
+
+      const title = document.createElement("p");
+      title.className = "flow-title";
+      title.textContent = step.title;
+
+      const detail = document.createElement("p");
+      detail.className = "flow-detail";
+      detail.textContent = step.detail;
+
+      const topic = document.createElement("p");
+      topic.className = "flow-topic";
+      topic.textContent = step.topic;
+
+      kicker.append(index, who);
+      main.append(kicker, title, detail, topic);
+
+      const moves = document.createElement("div");
+      moves.className = "flow-moves";
+      moves.append(makeMove("up"), makeMove("down"), makeMove("take"), makeMove("back"));
+
+      card.append(grip, main, moves);
+      card.dataset.who = step.who;
+      return card;
+    };
+
+    const clearFlowFeedback = () => {
+      flowFeedback.textContent = "";
+      flowFeedback.classList.remove("is-ok", "is-bad");
+    };
+
+    const sync = () => {
+      const paint = (list, inLine) => {
+        [...list.querySelectorAll(":scope > .flow-card")].forEach((card, index) => {
+          card.classList.remove("is-correct", "is-wrong");
+          const indexEl = card.querySelector(".flow-index");
+          indexEl.hidden = !inLine;
+          indexEl.textContent = inLine ? String(index + 1).padStart(2, "0") : "";
+          card.querySelector('[data-move="take"]').hidden = inLine;
+          card.querySelector('[data-move="back"]').hidden = !inLine;
+          card.querySelector('[data-move="up"]').hidden = !inLine || index === 0;
+          card.querySelector('[data-move="down"]').hidden =
+            !inLine || index === list.querySelectorAll(":scope > .flow-card").length - 1;
+        });
+      };
+
+      paint(bank, false);
+      paint(line, true);
+      const placed = line.querySelectorAll(":scope > .flow-card").length;
+      const pending = Boolean(line.querySelector(":scope > .flow-slot"));
+      empty.hidden = placed > 0 || pending;
+      count.textContent = `${placed + (pending ? 1 : 0)}/${steps.length}`;
+    };
+
+    const announce = (card) => {
+      const title = card.querySelector(".flow-title").textContent;
+      const inLine = card.parentElement === line;
+      if (!inLine) {
+        flowStatus.textContent = `${title} volvió a las piezas.`;
+        return;
+      }
+      const index = [...line.querySelectorAll(":scope > .flow-card")].indexOf(card);
+      flowStatus.textContent = `${title} quedó en el paso ${index + 1}.`;
+    };
+
+    const placeCards = () => {
+      bank.replaceChildren();
+      line.replaceChildren();
+      shuffle(steps).forEach((step) => bank.appendChild(makeCard(step)));
+      sync();
+      clearFlowFeedback();
+      flowStatus.textContent = "";
+    };
+
+    const moveCard = (card, action) => {
+      if (action === "take") line.appendChild(card);
+      if (action === "back") bank.appendChild(card);
+      if (action === "up" && card.previousElementSibling) {
+        card.parentElement.insertBefore(card, card.previousElementSibling);
+      }
+      if (action === "down" && card.nextElementSibling) {
+        card.parentElement.insertBefore(card.nextElementSibling, card);
+      }
+      sync();
+      clearFlowFeedback();
+      announce(card);
+      card.focus();
+    };
+
+    let drag = null;
+
+    const clearHover = () => {
+      lineZone.classList.remove("is-over");
+      bankZone.classList.remove("is-over");
+    };
+
+    const liftCard = (event) => {
+      const rect = drag.card.getBoundingClientRect();
+      const slot = document.createElement("li");
+      slot.className = "flow-slot";
+      slot.style.height = `${rect.height}px`;
+      drag.slot = slot;
+      drag.card.before(slot);
+      drag.offsetX = event.clientX - rect.left;
+      drag.offsetY = event.clientY - rect.top;
+      drag.card.style.width = `${rect.width}px`;
+      drag.card.style.left = `${rect.left}px`;
+      drag.card.style.top = `${rect.top}px`;
+      drag.card.classList.add("is-lifted");
+      document.body.appendChild(drag.card);
+      document.body.classList.add("is-dragging-flow");
+      drag.active = true;
+      sync();
+    };
+
+    const moveSlot = (event) => {
+      drag.card.style.pointerEvents = "none";
+      const target = document.elementFromPoint(event.clientX, event.clientY);
+      drag.card.style.pointerEvents = "";
+      if (!target || target === drag.slot || drag.slot.contains(target)) return;
+
+      const zone = target.closest(".flow-zone");
+      if (!zone || !flow.contains(zone)) {
+        clearHover();
+        return;
+      }
+
+      const list = zone.querySelector(".flow-list");
+      lineZone.classList.toggle("is-over", zone === lineZone);
+      bankZone.classList.toggle("is-over", zone === bankZone);
+
+      const over = target.closest(".flow-card");
+      if (over && over !== drag.card && list.contains(over)) {
+        const rect = over.getBoundingClientRect();
+        const after = event.clientY > rect.top + rect.height / 2;
+        if (after) over.after(drag.slot);
+        else over.before(drag.slot);
+        return;
+      }
+
+      list.appendChild(drag.slot);
+    };
+
+    const dropCard = () => {
+      drag.slot.replaceWith(drag.card);
+      drag.card.classList.remove("is-lifted");
+      drag.card.style.width = "";
+      drag.card.style.left = "";
+      drag.card.style.top = "";
+      document.body.classList.remove("is-dragging-flow");
+      clearHover();
+      sync();
+      clearFlowFeedback();
+      announce(drag.card);
+    };
+
+    flow.addEventListener("pointerdown", (event) => {
+      if (event.button !== 0) return;
+      const card = event.target.closest(".flow-card");
+      if (!card || !flow.contains(card) || event.target.closest("button")) return;
+      if (event.pointerType === "touch" && !event.target.closest(".flow-grip")) return;
+      event.preventDefault();
+      drag = {
+        card,
+        pointerId: event.pointerId,
+        x: event.clientX,
+        y: event.clientY,
+        active: false,
+      };
+    });
+
+    window.addEventListener("pointermove", (event) => {
+      if (!drag || event.pointerId !== drag.pointerId) return;
+      const dx = event.clientX - drag.x;
+      const dy = event.clientY - drag.y;
+      if (!drag.active && Math.hypot(dx, dy) < 6) return;
+      if (!drag.active) liftCard(event);
+      drag.card.style.left = `${event.clientX - drag.offsetX}px`;
+      drag.card.style.top = `${event.clientY - drag.offsetY}px`;
+      moveSlot(event);
+      const edge = 80;
+      if (event.clientY < edge) window.scrollBy(0, -14);
+      else if (event.clientY > window.innerHeight - edge) window.scrollBy(0, 14);
+    });
+
+    const finishDrag = (event) => {
+      if (!drag || event.pointerId !== drag.pointerId) return;
+      if (drag.active) dropCard();
+      drag = null;
+    };
+
+    window.addEventListener("pointerup", finishDrag);
+    window.addEventListener("pointercancel", finishDrag);
+
+    flow.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-move]");
+      if (!button || !flow.contains(button)) return;
+      moveCard(button.closest(".flow-card"), button.dataset.move);
+    });
+
+    flow.addEventListener("keydown", (event) => {
+      const card = event.target.closest(".flow-card");
+      if (!card || !flow.contains(card)) return;
+      const keys = {
+        ArrowUp: "up",
+        ArrowDown: "down",
+        ArrowRight: "take",
+        ArrowLeft: "back",
+      };
+      const action = keys[event.key];
+      if (!action) return;
+      if (action === "take" && card.parentElement !== bank) return;
+      if (action === "back" && card.parentElement !== line) return;
+      if ((action === "up" || action === "down") && card.parentElement !== line) return;
+      event.preventDefault();
+      moveCard(card, action);
+    });
+
+    flowCheck.addEventListener("click", () => {
+      const placed = [...line.querySelectorAll(":scope > .flow-card")];
+      let exact = 0;
+      let firstBad = -1;
+
+      placed.forEach((card, index) => {
+        const ok = card.dataset.id === steps[index].id;
+        card.classList.remove("is-correct", "is-wrong");
+        card.classList.add(ok ? "is-correct" : "is-wrong");
+        if (ok) exact += 1;
+        else if (firstBad === -1) firstBad = index;
+      });
+
+      flowFeedback.classList.remove("is-ok", "is-bad");
+
+      if (placed.length === steps.length && exact === steps.length) {
+        flowFeedback.textContent =
+          "Correcto. La persona lo pide, el sistema lo traduce, lo busca, lo carga y lo aísla, y el hardware dibuja el primer fotograma.";
+        flowFeedback.classList.add("is-ok");
+        flowStatus.textContent = flowFeedback.textContent;
+        return;
+      }
+
+      flowFeedback.classList.add("is-bad");
+
+      if (placed.length === 0) {
+        flowFeedback.textContent = "La secuencia está vacía. Coloca las diez piezas en orden.";
+      } else if (firstBad === -1) {
+        flowFeedback.textContent = `Las ${placed.length} piezas van en orden. Faltan ${steps.length - placed.length}.`;
+      } else if (placed.length < steps.length) {
+        flowFeedback.textContent = `${exact} en su sitio. Revisa desde el paso ${firstBad + 1}. Faltan ${steps.length - placed.length}.`;
+      } else {
+        flowFeedback.textContent = `${exact} de ${steps.length} en su sitio. Revisa desde el paso ${firstBad + 1}.`;
+      }
+
+      flowStatus.textContent = flowFeedback.textContent;
+    });
+
+    flowReset.addEventListener("click", placeCards);
+    placeCards();
   }
 
   document.querySelectorAll(".media-frame img").forEach((img) => {
