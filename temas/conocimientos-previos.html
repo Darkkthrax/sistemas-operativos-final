@@ -6,7 +6,7 @@
     <title>Conocimientos previos | Sistemas Operativos</title>
     <meta
       name="description"
-      content="Componentes principales de una computadora y su importancia para comprender los sistemas operativos."
+      content="Componentes de una computadora: unidades de medida, caché, buffer, tasa de transferencia de RAM y criterios al comprar hardware."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/styles.css?v=20261115f" />
+    <link rel="stylesheet" href="../css/styles.css?v=20261117g" />
   </head>
   <body data-root="../">
     <header class="site-header">
@@ -84,7 +84,8 @@
           <p>
             Para entender cómo un sistema operativo administra el computador,
             primero hay que conocer los componentes principales del hardware:
-            qué son, qué contienen y qué función cumplen.
+            qué son, en qué unidades se miden, qué datos importan al elegirlos
+            y cómo se relacionan con la caché, el buffer y la memoria.
           </p>
         </div>
       </section>
@@ -92,7 +93,22 @@
       <section class="section">
         <div class="container content-column">
           <article class="prose">
-            <h2>¿Qué es un componente de hardware?</h2>
+            <nav class="toc" aria-label="Contenido del tema">
+              <p>En este tema</p>
+              <ol>
+                <li><a href="#componente">Qué es un componente</a></li>
+                <li><a href="#por-que-importa">Por qué importa en SO</a></li>
+                <li><a href="#unidades">Unidades de medida</a></li>
+                <li><a href="#cpu">CPU</a></li>
+                <li><a href="#ram">RAM</a></li>
+                <li><a href="#placa-base">Placa base</a></li>
+                <li><a href="#gpu">GPU</a></li>
+                <li><a href="#almacenamiento">Almacenamiento</a></li>
+                <li><a href="#cache-buffer">Caché, buffer y transferencia</a></li>
+              </ol>
+            </nav>
+
+            <h2 id="componente">¿Qué es un componente de hardware?</h2>
             <p>
               Un componente es una pieza física del computador que realiza una
               función específica. Algunos procesan información, otros la
@@ -119,7 +135,7 @@
               </figcaption>
             </figure>
 
-            <h2>¿Por qué importa esto en sistemas operativos?</h2>
+            <h2 id="por-que-importa">¿Por qué importa esto en sistemas operativos?</h2>
             <p>
               Conceptos como procesos, memoria virtual, drivers o sistemas de
               archivos solo tienen sentido si se entiende qué recurso físico se
@@ -148,19 +164,100 @@
               </li>
             </ul>
 
-            <h2>Componentes principales</h2>
+            <h2 id="unidades">Unidades de medida que conviene conocer</h2>
             <p>
-              A continuación se describe cada componente. Al final encontrarás
-              un resumen interactivo con sus funciones.
+              En fichas técnicas y en el Administrador de tareas aparecen
+              siempre las mismas unidades. Sirven para comparar componentes y
+              para entender qué está midiendo el sistema operativo.
+            </p>
+            <div class="table-wrap">
+              <table class="compare">
+                <caption>
+                  Unidades habituales en hardware.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Unidad</th>
+                    <th scope="col">Mide</th>
+                    <th scope="col">Dónde se ve</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Hz, MHz, GHz</th>
+                    <td>Frecuencia o “reloj”.</td>
+                    <td>CPU, GPU, bus de memoria.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">KB, MB, GB, TB</th>
+                    <td>Capacidad de almacenamiento o memoria.</td>
+                    <td>RAM, VRAM, disco, caché.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">MT/s</th>
+                    <td>Millones de transferencias por segundo.</td>
+                    <td>Velocidad efectiva de la RAM.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">MB/s, GB/s</th>
+                    <td>Tasa de transferencia de datos.</td>
+                    <td>Disco, red, ancho de banda de memoria.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">IOPS</th>
+                    <td>Operaciones de entrada/salida por segundo.</td>
+                    <td>Rendimiento de SSD en muchas peticiones pequeñas.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">W (vatios)</th>
+                    <td>Consumo o disipación térmica (TDP).</td>
+                    <td>CPU, GPU, fuente de poder.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">ms, ns</th>
+                    <td>Latencia o tiempo de respuesta.</td>
+                    <td>Memoria, disco, red.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h2 id="componentes">Componentes principales</h2>
+            <p>
+              A continuación, cada pieza con su función, unidades, datos clave y
+              qué revisar si vas a comprar un reemplazo o una mejora.
             </p>
 
-            <h3>CPU (Unidad Central de Procesamiento)</h3>
+            <h3 id="cpu">CPU (Unidad Central de Procesamiento)</h3>
             <p>
               Es el “cerebro” del computador. Ejecuta las instrucciones de los
               programas, realiza cálculos y coordina gran parte del trabajo del
               sistema. Puede tener varios núcleos e hilos para atender varias
-              tareas.
+              tareas; el sistema operativo reparte esos turnos entre procesos.
             </p>
+            <ul class="feature-list">
+              <li>
+                <strong>Unidades:</strong> frecuencia en
+                <strong>GHz</strong>; cantidad de
+                <strong>núcleos</strong> e <strong>hilos</strong>; caché en
+                <strong>MB</strong>; consumo térmico en <strong>W</strong>
+                (TDP).
+              </li>
+              <li>
+                <strong>Datos clave:</strong> un núcleo ejecuta trabajo propio;
+                un hilo es una vía lógica para aprovechar mejor ese núcleo. Más
+                GHz ayuda en tareas de un solo hilo; más núcleos ayudan cuando
+                hay muchos procesos a la vez.
+              </li>
+              <li>
+                <strong>Al comprar:</strong> el
+                <strong>socket</strong> debe coincidir con la placa base; mira
+                generación y chipset compatibles; revisa si necesitas buen
+                rendimiento en un hilo (ofimática, algunos juegos) o en muchos
+                (edición, virtualización); confirma que el disipador y la
+                fuente aguanten el TDP.
+              </li>
+            </ul>
             <figure class="media-block">
               <div class="media-frame">
                 <img
@@ -171,13 +268,45 @@
               <figcaption>Figura 2. Procesador (CPU).</figcaption>
             </figure>
 
-            <h3>RAM (Memoria de acceso aleatorio)</h3>
+            <h3 id="ram">RAM (Memoria de acceso aleatorio)</h3>
             <p>
               Es la memoria de trabajo donde se cargan el sistema operativo, los
-              programas abiertos y los datos activos. Más RAM suele permitir más
-              aplicaciones simultáneas; el SO administra cuánta memoria recibe
-              cada proceso.
+              programas abiertos y los datos activos. Es <strong>volátil</strong>:
+              al apagar el equipo, su contenido se pierde. Más RAM suele permitir
+              más aplicaciones simultáneas; el SO administra cuánta memoria
+              recibe cada proceso.
             </p>
+            <ul class="feature-list">
+              <li>
+                <strong>Unidades:</strong> capacidad en
+                <strong>GB</strong>; velocidad en <strong>MT/s</strong> (o MHz
+                en fichas antiguas); latencia CAS (<strong>CL</strong>);
+                canales (simple, dual…).
+              </li>
+              <li>
+                <strong>Tasa de transferencia:</strong> indica qué tan rápido
+                pueden moverse datos entre la RAM y el resto del sistema. En
+                DDR4/DDR5 se expresa sobre todo en
+                <strong>MT/s</strong>. A más transferencias por segundo, mayor
+                ancho de banda potencial (en GB/s), siempre que CPU y placa lo
+                soporten.
+              </li>
+              <li>
+                <strong>Datos clave:</strong> la capacidad evita que el SO
+                recurra demasiado al disco (memoria virtual lenta). La
+                velocidad y la latencia influyen en la respuesta, pero primero
+                importa tener GB suficientes y módulos en
+                <strong>dual channel</strong> si la placa lo permite.
+              </li>
+              <li>
+                <strong>Al comprar:</strong> el tipo
+                (<strong>DDR4</strong> o <strong>DDR5</strong>) debe ser el de
+                la placa; no mezcles tipos. Revisa la velocidad máxima
+                oficialmente soportada por CPU/placa; prioriza dos módulos
+                iguales (por ejemplo 2×8 GB) frente a uno solo; confirma el
+                formato (DIMM de escritorio o SO-DIMM de portátil).
+              </li>
+            </ul>
             <figure class="media-block">
               <div class="media-frame">
                 <img
@@ -188,12 +317,34 @@
               <figcaption>Figura 3. Memoria RAM.</figcaption>
             </figure>
 
-            <h3>Placa base (Motherboard)</h3>
+            <h3 id="placa-base">Placa base (Motherboard)</h3>
             <p>
               Es la tarjeta principal que conecta CPU, RAM, GPU, almacenamiento,
               puertos y tarjetas de expansión. También ayuda a distribuir
-              energía y define compatibilidades del hardware.
+              energía y define la compatibilidad del hardware: si la placa no
+              acepta una pieza, el sistema operativo ni siquiera llega a
+              administrarla.
             </p>
+            <ul class="feature-list">
+              <li>
+                <strong>Unidades y datos de ficha:</strong> factor de forma
+                (ATX, microATX…); <strong>socket</strong> de CPU; tipo y
+                cantidad máxima de RAM (GB y MT/s); versión de
+                <strong>PCIe</strong>; puertos SATA y ranuras M.2.
+              </li>
+              <li>
+                <strong>Datos clave:</strong> el chipset limita funciones
+                (almacenamiento, USB, overclock). La calidad del VRM importa si
+                la CPU consume muchos vatios. Más ranuras y puertos dan margen
+                para crecer.
+              </li>
+              <li>
+                <strong>Al comprar:</strong> verifica socket y generación de
+                CPU; tipo de RAM; si tienes GPU dedicada, una ranura PCIe x16
+                adecuada; espacio M.2/NVMe si quieres SSD rápido; puertos que
+                realmente uses (USB, video, red). Que quepa en el gabinete.
+              </li>
+            </ul>
             <figure class="media-block">
               <div class="media-frame">
                 <img
@@ -204,12 +355,35 @@
               <figcaption>Figura 4. Placa base.</figcaption>
             </figure>
 
-            <h3>GPU (Unidad de procesamiento gráfico)</h3>
+            <h3 id="gpu">GPU (Unidad de procesamiento gráfico)</h3>
             <p>
-              Se especializa en cálculos paralelos, especialmente renderizado de
+              Se especializa en cálculos paralelos, sobre todo renderizado de
               imágenes y vídeo. Puede estar integrada en la CPU o presentarse
-              como una tarjeta dedicada.
+              como una tarjeta dedicada con memoria propia (VRAM). El SO y el
+              driver median el acceso a ese recurso.
             </p>
+            <ul class="feature-list">
+              <li>
+                <strong>Unidades:</strong> VRAM en <strong>GB</strong>;
+                frecuencia en <strong>MHz</strong> o GHz; ancho de bus en
+                <strong>bits</strong>; consumo en <strong>W</strong>; interfaz
+                PCIe.
+              </li>
+              <li>
+                <strong>Datos clave:</strong> más VRAM ayuda con resoluciones
+                altas, texturas pesadas o modelos grandes. La arquitectura y
+                los núcleos de sombreado pesan tanto como los GB. La GPU
+                integrada basta para ofimática; la dedicada, para juegos o
+                diseño.
+              </li>
+              <li>
+                <strong>Al comprar:</strong> confirma que la fuente tenga los
+                conectores y vatios necesarios; que la tarjeta quepa en el
+                gabinete; mira la VRAM según resolución (1080p, 1440p, 4K); y
+                que la placa ofrezca el slot PCIe correcto. En laptops, la GPU
+                suele ir soldada: ahí se elige el equipo completo.
+              </li>
+            </ul>
             <figure class="media-block">
               <div class="media-frame">
                 <img
@@ -220,12 +394,38 @@
               <figcaption>Figura 5. GPU o tarjeta gráfica.</figcaption>
             </figure>
 
-            <h3>Unidad de almacenamiento (HDD / SSD)</h3>
+            <h3 id="almacenamiento">Unidad de almacenamiento (HDD / SSD)</h3>
             <p>
               Conserva el sistema operativo, las aplicaciones y los archivos del
               usuario aunque el computador esté apagado. El SO organiza esa
-              información mediante sistemas de archivos, carpetas y permisos.
+              información con sistemas de archivos, carpetas y permisos. Un HDD
+              usa platos mecánicos; un SSD, memoria flash (mucho más rápida en
+              la práctica diaria).
             </p>
+            <ul class="feature-list">
+              <li>
+                <strong>Unidades:</strong> capacidad en
+                <strong>GB/TB</strong>; lectura/escritura en
+                <strong>MB/s</strong> o <strong>GB/s</strong>;
+                <strong>IOPS</strong> para muchas operaciones pequeñas; en HDD
+                también <strong>RPM</strong>; en SSD, resistencia
+                <strong>TBW</strong> (terabytes escritos a lo largo de la vida).
+              </li>
+              <li>
+                <strong>Datos clave:</strong> el arranque y la apertura de
+                programas dependen mucho del disco. NVMe (PCIe) suele superar a
+                SATA. Capacidad y velocidad no son lo mismo: un disco grande y
+                lento sigue sintiéndose pesado.
+              </li>
+              <li>
+                <strong>Al comprar:</strong> para el sistema, prioriza
+                <strong>SSD NVMe</strong> si la placa tiene M.2; mira capacidad
+                real que necesitas (SO + apps + archivos); revisa interfaz
+                (NVMe/SATA) y, en portátiles, el formato (M.2 2280, etc.). El
+                TBW y la garantía importan si escribes mucho (edición de vídeo,
+                bases de datos).
+              </li>
+            </ul>
             <figure class="media-block">
               <div class="media-frame">
                 <img
@@ -236,10 +436,131 @@
               <figcaption>Figura 6. Unidad de almacenamiento.</figcaption>
             </figure>
 
+            <h2 id="cache-buffer">Caché, buffer y tasa de transferencia</h2>
+            <p>
+              Además de los componentes grandes, el sistema usa memorias y
+              zonas temporales más pequeñas. Entenderlas ayuda a leer
+              especificaciones y a interpretar por qué a veces la CPU “espera”
+              datos.
+            </p>
+
+            <h3>Caché</h3>
+            <p>
+              La <strong>caché</strong> es una memoria muy rápida y pequeña,
+              cerca del procesador (o dentro de él), que guarda copias de datos
+              e instrucciones de uso reciente. Si la CPU encuentra ahí lo que
+              necesita, no tiene que ir hasta la RAM ni al disco.
+            </p>
+            <ul class="feature-list">
+              <li>
+                Suele organizarse en niveles: <strong>L1</strong> (más rápida y
+                pequeña, KB), <strong>L2</strong> y <strong>L3</strong> (más
+                grande, a menudo en MB).
+              </li>
+              <li>
+                Unidades típicas: <strong>KB</strong> y <strong>MB</strong>.
+              </li>
+              <li>
+                Para el SO: una buena tasa de aciertos en caché reduce esperas;
+                si falla, el acceso cae a RAM o, peor, a disco.
+              </li>
+              <li>
+                Al mirar una CPU, más caché L3 suele ayudar en cargas con
+                muchos datos reutilizados, pero no sustituye núcleos ni RAM
+                suficiente.
+              </li>
+            </ul>
+
+            <h3>Buffer</h3>
+            <p>
+              Un <strong>buffer</strong> es una zona temporal donde se acumulan
+              datos mientras se transfieren entre dos partes de distinta
+              velocidad: por ejemplo, entre la red y la aplicación, o entre la
+              RAM y el disco. No es lo mismo que la caché: la caché acelera
+              reutilizando datos; el buffer absorbe diferencias de ritmo.
+            </p>
+            <ul class="feature-list">
+              <li>
+                Ejemplos: buffer de impresión, buffer de audio/vídeo, buffer de
+                disco, colas de red.
+              </li>
+              <li>
+                El sistema operativo y los drivers reservan estos espacios en
+                RAM para que un dispositivo lento no frene del todo al resto.
+              </li>
+              <li>
+                Si el buffer se llena o se vacía mal, aparecen tirones,
+                pérdida de paquetes o escrituras incompletas.
+              </li>
+            </ul>
+
+            <h3>Tasa de transferencia de la RAM</h3>
+            <p>
+              La <strong>tasa de transferencia</strong> de la memoria dice cuántos
+              datos puede mover la RAM por unidad de tiempo. En módulos DDR
+              modernas se anuncia sobre todo en <strong>MT/s</strong>
+              (megatransferencias por segundo). A partir de ahí se estima el
+              ancho de banda en <strong>GB/s</strong>, según el ancho del bus y
+              si hay uno o dos canales.
+            </p>
+            <ul class="feature-list">
+              <li>
+                Ejemplo de lectura de ficha: “16 GB DDR4-3200” ≈ 16 GB de
+                capacidad a 3200 MT/s.
+              </li>
+              <li>
+                Subir MT/s ayuda solo hasta el límite que CPU y placa
+                certifican; por encima, puede no arrancar o no ganar nada
+                estable.
+              </li>
+              <li>
+                En la práctica diaria, quedarse sin GB de RAM duele más que
+                bajar un poco la velocidad del módulo.
+              </li>
+            </ul>
+
+            <div class="table-wrap">
+              <table class="compare">
+                <caption>
+                  Caché, buffer y RAM frente a frente.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Concepto</th>
+                    <th scope="col">Para qué sirve</th>
+                    <th scope="col">Unidades típicas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Caché</th>
+                    <td>Acelerar accesos repetidos cerca de la CPU.</td>
+                    <td>KB, MB</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Buffer</th>
+                    <td>Suavizar el paso de datos entre dispositivos.</td>
+                    <td>KB, MB (en RAM)</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">RAM</th>
+                    <td>Memoria de trabajo de programas y del SO.</td>
+                    <td>GB, MT/s, CL</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Disco</th>
+                    <td>Guardar datos de forma permanente.</td>
+                    <td>GB/TB, MB/s, IOPS</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
             <div class="note">
               <strong>Idea clave:</strong> el hardware aporta la capacidad
-              física; el sistema operativo decide cómo se comparte esa capacidad
-              entre usuarios y programas de forma eficiente, ordenada y segura.
+              física y las unidades con las que se mide; el sistema operativo
+              decide cómo se comparte esa capacidad entre usuarios y programas
+              de forma eficiente, ordenada y segura.
             </div>
           </article>
 
@@ -465,6 +786,6 @@
       </div>
     </footer>
 
-    <script src="../js/main.js?v=20261115f"></script>
+    <script src="../js/main.js?v=20261117g"></script>
   </body>
 </html>

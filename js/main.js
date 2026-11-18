@@ -1221,7 +1221,7 @@
     {
       title: "Conocimientos previos",
       hint: "CPU, RAM, placa base, GPU y almacenamiento",
-      text: "hardware componentes",
+      text: "hardware componentes caché buffer MT/s unidades GHz GB SSD NVMe",
       path: "temas/conocimientos-previos.html",
     },
     {
