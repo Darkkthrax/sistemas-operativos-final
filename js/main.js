@@ -78,36 +78,6 @@
         },
       ],
     },
-    procesos: {
-      success: "¡Correcto! Dominas la gestión de procesos.",
-      items: [
-        {
-          clue: "Estado del proceso mientras espera disco, red o entrada del usuario.",
-          answer: "BLOQUEADO",
-          maxLength: 12,
-        },
-        {
-          clue: "Algoritmo que atiende procesos estrictamente en orden de llegada.",
-          answer: "FCFS",
-          maxLength: 8,
-        },
-        {
-          clue: "Algoritmo que prioriza el trabajo con menor tiempo de CPU.",
-          answer: "SJF",
-          maxLength: 8,
-        },
-        {
-          clue: "Variable entera con operaciones wait y signal para controlar recursos.",
-          answer: "SEMAFORO",
-          maxLength: 12,
-        },
-        {
-          clue: "Bloqueo mutuo en el que cada proceso espera un recurso que otro retiene.",
-          answer: "DEADLOCK",
-          maxLength: 12,
-        },
-      ],
-    },
     distribuidos: {
       success: "¡Correcto! Dominas los sistemas operativos distribuidos.",
       items: [
@@ -654,6 +624,269 @@
     placeCards();
   }
 
+  const arenaRoot = document.getElementById("scheduler-arena");
+
+  if (arenaRoot) {
+    const tbody = document.getElementById("arena-tbody");
+    const choices = document.getElementById("arena-choices");
+    const results = document.getElementById("arena-results");
+    const feedback = document.getElementById("arena-feedback");
+    const nextBtn = document.getElementById("arena-next");
+    const roundEl = document.getElementById("arena-round");
+    const scoreEl = document.getElementById("arena-score");
+    const processColors = ["#0055ff", "#0f766e", "#b45309", "#7c3aed", "#be123c"];
+
+    let round = 0;
+    let correct = 0;
+    let answered = 0;
+    let processes = [];
+    let locked = false;
+
+    const randInt = (min, max) =>
+      Math.floor(Math.random() * (max - min + 1)) + min;
+
+    const avgWaiting = (gantt) =>
+      gantt.reduce((sum, slot) => sum + slot.waiting, 0) / gantt.length;
+
+    const avgTurnaround = (gantt) =>
+      gantt.reduce((sum, slot) => sum + (slot.end - slot.arrival), 0) /
+      gantt.length;
+
+    const scheduleFCFS = (list) => {
+      const ordered = [...list].sort(
+        (a, b) => a.arrival - b.arrival || a.id - b.id
+      );
+      let time = 0;
+      return ordered.map((proc) => {
+        if (time < proc.arrival) time = proc.arrival;
+        const start = time;
+        const end = start + proc.burst;
+        time = end;
+        return {
+          id: proc.id,
+          name: proc.name,
+          arrival: proc.arrival,
+          start,
+          end,
+          waiting: start - proc.arrival,
+        };
+      });
+    };
+
+    const scheduleSJF = (list) => {
+      const remaining = [...list];
+      const gantt = [];
+      let time = 0;
+
+      while (remaining.length) {
+        const ready = remaining.filter((proc) => proc.arrival <= time);
+        if (!ready.length) {
+          time = Math.min(...remaining.map((proc) => proc.arrival));
+          continue;
+        }
+
+        ready.sort(
+          (a, b) => a.burst - b.burst || a.arrival - b.arrival || a.id - b.id
+        );
+        const proc = ready[0];
+        remaining.splice(remaining.indexOf(proc), 1);
+        const start = time;
+        const end = start + proc.burst;
+        gantt.push({
+          id: proc.id,
+          name: proc.name,
+          arrival: proc.arrival,
+          start,
+          end,
+          waiting: start - proc.arrival,
+        });
+        time = end;
+      }
+
+      return gantt;
+    };
+
+    const makeProcesses = () => {
+      const count = randInt(4, 5);
+      const mode = randInt(0, 3);
+      const list = [];
+
+      for (let i = 0; i < count; i += 1) {
+        let arrival = 0;
+        let burst = randInt(1, 9);
+
+        if (mode === 0) {
+          arrival = 0;
+        } else if (mode === 1) {
+          arrival = i === 0 ? 0 : randInt(0, 6);
+          if (i === 0) burst = randInt(6, 10);
+          else burst = randInt(1, 4);
+        } else if (mode === 2) {
+          arrival = i * randInt(1, 3);
+          burst = randInt(2, 7);
+        } else {
+          arrival = randInt(0, 5);
+          burst = randInt(1, 8);
+        }
+
+        list.push({
+          id: i + 1,
+          name: `P${i + 1}`,
+          arrival,
+          burst,
+        });
+      }
+
+      if (list.every((proc) => proc.burst === list[0].burst)) {
+        list[list.length - 1].burst = Math.max(1, list[0].burst - 2);
+      }
+
+      return list;
+    };
+
+    const winnerOf = (fcfsAvg, sjfAvg) => {
+      const delta = Math.abs(fcfsAvg - sjfAvg);
+      if (delta < 0.001) return "TIE";
+      return fcfsAvg < sjfAvg ? "FCFS" : "SJF";
+    };
+
+    const renderTable = () => {
+      tbody.innerHTML = "";
+      [...processes]
+        .sort((a, b) => a.id - b.id)
+        .forEach((proc) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <th scope="row">${proc.name}</th>
+            <td>${proc.arrival}</td>
+            <td>${proc.burst}</td>
+          `;
+          tbody.appendChild(row);
+        });
+    };
+
+    const ganttHtml = (title, gantt, avgWait, avgTurn) => {
+      const total = Math.max(...gantt.map((slot) => slot.end), 1);
+      const segments = [];
+      let cursor = 0;
+
+      gantt.forEach((slot) => {
+        if (slot.start > cursor) {
+          const idle = slot.start - cursor;
+          segments.push(
+            `<span class="arena-gantt-idle" style="flex:${idle}" title="CPU idle ${cursor}–${slot.start}"></span>`
+          );
+        }
+        const color = processColors[(slot.id - 1) % processColors.length];
+        const span = slot.end - slot.start;
+        segments.push(
+          `<span class="arena-gantt-block" style="flex:${span};background:${color}" title="${slot.name}: ${slot.start}–${slot.end}">${slot.name}</span>`
+        );
+        cursor = slot.end;
+      });
+
+      const order = gantt.map((slot) => slot.name).join(" → ");
+
+      return `
+        <article class="arena-panel">
+          <h3>${title}</h3>
+          <p class="arena-order">Orden: ${order}</p>
+          <div class="arena-gantt" aria-hidden="true">${segments.join("")}</div>
+          <p class="arena-metrics">
+            Espera promedio: <strong>${avgWait.toFixed(2)}</strong>
+            · Retorno promedio: <strong>${avgTurn.toFixed(2)}</strong>
+            · Fin: <strong>${total}</strong>
+          </p>
+        </article>
+      `;
+    };
+
+    const setChoiceEnabled = (enabled) => {
+      choices.querySelectorAll("[data-choice]").forEach((btn) => {
+        btn.disabled = !enabled;
+        btn.classList.toggle("is-selected", false);
+      });
+    };
+
+    const startRound = () => {
+      round += 1;
+      locked = false;
+      processes = makeProcesses();
+      renderTable();
+      results.hidden = true;
+      results.innerHTML = "";
+      feedback.textContent = "";
+      feedback.classList.remove("is-ok", "is-bad");
+      nextBtn.hidden = true;
+      setChoiceEnabled(true);
+      roundEl.textContent = `Ronda ${round}`;
+      scoreEl.textContent = `Aciertos: ${correct} / ${answered}`;
+    };
+
+    const reveal = (choice) => {
+      if (locked) return;
+      locked = true;
+
+      const fcfs = scheduleFCFS(processes);
+      const sjf = scheduleSJF(processes);
+      const fcfsWait = avgWaiting(fcfs);
+      const sjfWait = avgWaiting(sjf);
+      const fcfsTurn = avgTurnaround(fcfs);
+      const sjfTurn = avgTurnaround(sjf);
+      const winner = winnerOf(fcfsWait, sjfWait);
+      const ok = choice === winner;
+
+      answered += 1;
+      if (ok) correct += 1;
+
+      choices.querySelectorAll("[data-choice]").forEach((btn) => {
+        btn.disabled = true;
+        btn.classList.toggle("is-selected", btn.dataset.choice === choice);
+      });
+
+      results.hidden = false;
+      results.innerHTML = `
+        ${ganttHtml("FCFS", fcfs, fcfsWait, fcfsTurn)}
+        ${ganttHtml("SJF", sjf, sjfWait, sjfTurn)}
+      `;
+
+      const label =
+        winner === "TIE"
+          ? "empate"
+          : winner === "FCFS"
+            ? "FCFS"
+            : "SJF";
+
+      feedback.classList.remove("is-ok", "is-bad");
+      if (ok) {
+        feedback.textContent =
+          winner === "TIE"
+            ? "Correcto: ambos dejan la misma espera promedio."
+            : `Correcto: ${label} gana con menor espera promedio.`;
+        feedback.classList.add("is-ok");
+      } else {
+        feedback.textContent =
+          winner === "TIE"
+            ? "Casi: en esta ronda FCFS y SJF empatan."
+            : `No esta vez: ${label} deja menor espera promedio.`;
+        feedback.classList.add("is-bad");
+      }
+
+      scoreEl.textContent = `Aciertos: ${correct} / ${answered}`;
+      nextBtn.hidden = false;
+      nextBtn.focus();
+    };
+
+    choices.addEventListener("click", (event) => {
+      const btn = event.target.closest("[data-choice]");
+      if (!btn || !choices.contains(btn) || locked) return;
+      reveal(btn.dataset.choice);
+    });
+
+    nextBtn.addEventListener("click", startRound);
+    startRound();
+  }
+
   document.querySelectorAll(".media-frame img").forEach((img) => {
     const frame = img.closest(".media-frame");
 
@@ -806,7 +1039,7 @@
     {
       title: "Gestión de procesos",
       hint: "Planificación, semáforos y deadlock",
-      text: "FCFS SJF sección crítica",
+      text: "FCFS SJF Scheduler Arena sección crítica",
       path: "temas/gestion-procesos.html",
     },
     {

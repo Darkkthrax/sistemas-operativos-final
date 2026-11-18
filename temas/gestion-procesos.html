@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/styles.css?v=20261115f" />
+    <link rel="stylesheet" href="../css/styles.css?v=20261117e" />
   </head>
   <body data-root="../">
     <header class="site-header">
@@ -721,40 +721,68 @@
             </div>
           </section>
 
-          <section class="activity" aria-labelledby="adivina-titulo">
-            <h2 id="adivina-titulo">Actividad: adivina el concepto</h2>
+          <section class="activity" aria-labelledby="arena-titulo">
+            <h2 id="arena-titulo">Actividad: Scheduler Arena</h2>
             <p>
-              Lee cada pista y escribe el concepto correspondiente. Usa una sola
-              palabra, sin espacios ni acentos. Como ayuda, las respuestas están
-              entre estas palabras: <strong>bloqueado</strong>,
-              <strong>FCFS</strong>, <strong>SJF</strong>,
-              <strong>semaforo</strong> y <strong>deadlock</strong>. El orden
-              de las pistas cambia cada vez que cargas la página o pulsas
-              “Nueva ronda”.
+              Cada ronda genera un conjunto distinto de procesos. Mira llegada y
+              ráfaga de CPU, y elige qué política da el
+              <strong>menor tiempo de espera promedio</strong>: FCFS, SJF no
+              apropiativo, o empate. Después verás ambos diagramas de Gantt y
+              las métricas.
             </p>
 
-            <div class="crossword">
-              <ol class="crossword-clues" id="guess-clues"></ol>
+            <div class="arena" id="scheduler-arena">
+              <div class="arena-meta" aria-live="polite">
+                <span id="arena-round">Ronda 1</span>
+                <span id="arena-score">Aciertos: 0 / 0</span>
+              </div>
+
+              <div class="table-wrap">
+                <table class="compare" id="arena-table">
+                  <caption>
+                    Procesos de esta ronda
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Proceso</th>
+                      <th scope="col">Llegada</th>
+                      <th scope="col">Ráfaga</th>
+                    </tr>
+                  </thead>
+                  <tbody id="arena-tbody"></tbody>
+                </table>
+              </div>
+
+              <p class="arena-prompt" id="arena-prompt">
+                ¿Qué algoritmo da menor tiempo de espera promedio?
+              </p>
 
               <div
-                class="crossword-board"
-                id="crossword-board"
-                data-activity="procesos"
-                aria-label="Respuestas de la actividad"
-              ></div>
+                class="arena-choices"
+                id="arena-choices"
+                role="group"
+                aria-labelledby="arena-prompt"
+              >
+                <button class="btn btn-secondary" type="button" data-choice="FCFS">
+                  FCFS
+                </button>
+                <button class="btn btn-secondary" type="button" data-choice="SJF">
+                  SJF
+                </button>
+                <button class="btn btn-secondary" type="button" data-choice="TIE">
+                  Empate
+                </button>
+              </div>
 
-              <div class="crossword-actions">
-                <button class="btn btn-primary" type="button" id="check-crossword">
-                  Comprobar
-                </button>
-                <button class="btn btn-secondary" type="button" id="reset-crossword">
-                  Limpiar
-                </button>
-                <button class="btn btn-secondary" type="button" id="shuffle-guess">
+              <div class="arena-results" id="arena-results" hidden></div>
+
+              <div class="arena-actions crossword-actions">
+                <button class="btn btn-primary" type="button" id="arena-next" hidden>
                   Nueva ronda
                 </button>
               </div>
-              <p class="crossword-feedback" id="crossword-feedback" aria-live="polite"></p>
+
+              <p class="arena-feedback" id="arena-feedback" aria-live="polite"></p>
             </div>
           </section>
 
@@ -811,6 +839,6 @@
       </div>
     </footer>
 
-    <script src="../js/main.js?v=20261115f"></script>
+    <script src="../js/main.js?v=20261117e"></script>
   </body>
 </html>
