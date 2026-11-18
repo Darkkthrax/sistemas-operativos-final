@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/styles.css?v=20261115f" />
+    <link rel="stylesheet" href="../css/styles.css?v=20261117f" />
   </head>
   <body data-root="../">
     <header class="site-header">
@@ -844,40 +844,96 @@
             </div>
           </section>
 
-          <section class="activity" aria-labelledby="adivina-titulo">
-            <h2 id="adivina-titulo">Actividad: adivina el concepto</h2>
+          <section class="activity" aria-labelledby="detective-titulo">
+            <h2 id="detective-titulo">Actividad: Transparency Detective</h2>
             <p>
-              Lee cada pista y escribe el concepto correspondiente. Usa una sola
-              palabra, sin espacios ni acentos. Como ayuda, las respuestas están
-              entre estas palabras: <strong>middleware</strong>,
-              <strong>RPC</strong>, <strong>transparencia</strong>,
-              <strong>failover</strong> y <strong>replicacion</strong>. El
-              orden de las pistas cambia cada vez que cargas la página o pulsas
-              “Nueva ronda”.
+              Cada ronda describe una situación en un sistema distribuido. Elige
+              qué tipo de transparencia está en juego:
+              <strong>acceso</strong>, <strong>ubicación</strong>,
+              <strong>migración</strong>, <strong>replicación</strong>,
+              <strong>concurrencia</strong> o <strong>fallos</strong>. Los casos
+              cambian en cada ronda.
             </p>
 
-            <div class="crossword">
-              <ol class="crossword-clues" id="guess-clues"></ol>
+            <div class="detective" id="transparency-detective">
+              <div class="arena-meta" aria-live="polite">
+                <span id="detective-round">Ronda 1</span>
+                <span id="detective-score">Aciertos: 0 / 0</span>
+              </div>
+
+              <article
+                class="detective-case"
+                id="detective-case"
+                aria-live="polite"
+              >
+                <p class="detective-kicker">Caso</p>
+                <p class="detective-story" id="detective-story"></p>
+              </article>
+
+              <p class="arena-prompt" id="detective-prompt">
+                ¿Qué transparencia describe mejor este caso?
+              </p>
 
               <div
-                class="crossword-board"
-                id="crossword-board"
-                data-activity="distribuidos"
-                aria-label="Respuestas de la actividad"
-              ></div>
+                class="arena-choices detective-choices"
+                id="detective-choices"
+                role="group"
+                aria-labelledby="detective-prompt"
+              >
+                <button class="btn btn-secondary" type="button" data-choice="acceso">
+                  Acceso
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  type="button"
+                  data-choice="ubicacion"
+                >
+                  Ubicación
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  type="button"
+                  data-choice="migracion"
+                >
+                  Migración
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  type="button"
+                  data-choice="replicacion"
+                >
+                  Replicación
+                </button>
+                <button
+                  class="btn btn-secondary"
+                  type="button"
+                  data-choice="concurrencia"
+                >
+                  Concurrencia
+                </button>
+                <button class="btn btn-secondary" type="button" data-choice="fallos">
+                  Fallos
+                </button>
+              </div>
 
-              <div class="crossword-actions">
-                <button class="btn btn-primary" type="button" id="check-crossword">
-                  Comprobar
-                </button>
-                <button class="btn btn-secondary" type="button" id="reset-crossword">
-                  Limpiar
-                </button>
-                <button class="btn btn-secondary" type="button" id="shuffle-guess">
+              <p class="detective-explain" id="detective-explain" hidden></p>
+
+              <div class="arena-actions crossword-actions">
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  id="detective-next"
+                  hidden
+                >
                   Nueva ronda
                 </button>
               </div>
-              <p class="crossword-feedback" id="crossword-feedback" aria-live="polite"></p>
+
+              <p
+                class="arena-feedback"
+                id="detective-feedback"
+                aria-live="polite"
+              ></p>
             </div>
           </section>
 
@@ -938,6 +994,6 @@
       </div>
     </footer>
 
-    <script src="../js/main.js?v=20261115f"></script>
+    <script src="../js/main.js?v=20261117f"></script>
   </body>
 </html>

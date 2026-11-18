@@ -78,36 +78,6 @@
         },
       ],
     },
-    distribuidos: {
-      success: "¡Correcto! Dominas los sistemas operativos distribuidos.",
-      items: [
-        {
-          clue: "Capa de software que intermedia entre aplicaciones, sistemas y redes.",
-          answer: "MIDDLEWARE",
-          maxLength: 14,
-        },
-        {
-          clue: "Llamada a un procedimiento en otra máquina que parece local.",
-          answer: "RPC",
-          maxLength: 8,
-        },
-        {
-          clue: "Oculta la separación de nodos para percibir el sistema como uno solo.",
-          answer: "TRANSPARENCIA",
-          maxLength: 16,
-        },
-        {
-          clue: "Cambio automático al servidor de respaldo cuando falla el principal.",
-          answer: "FAILOVER",
-          maxLength: 12,
-        },
-        {
-          clue: "Copias de un mismo recurso en varios nodos para disponibilidad.",
-          answer: "REPLICACION",
-          maxLength: 14,
-        },
-      ],
-    },
   };
 
   const activityKey = board?.dataset.activity || "componentes";
@@ -887,6 +857,230 @@
     startRound();
   }
 
+  const detectiveRoot = document.getElementById("transparency-detective");
+
+  if (detectiveRoot) {
+    const storyEl = document.getElementById("detective-story");
+    const choices = document.getElementById("detective-choices");
+    const explainEl = document.getElementById("detective-explain");
+    const feedback = document.getElementById("detective-feedback");
+    const nextBtn = document.getElementById("detective-next");
+    const roundEl = document.getElementById("detective-round");
+    const scoreEl = document.getElementById("detective-score");
+
+    const labels = {
+      acceso: "acceso",
+      ubicacion: "ubicación",
+      migracion: "migración",
+      replicacion: "replicación",
+      concurrencia: "concurrencia",
+      fallos: "fallos",
+    };
+
+    const cases = [
+      {
+        type: "acceso",
+        story:
+          "Abres un archivo con la misma llamada de siempre. No sabes si el dato está en tu disco o en un servidor de la red: la API se ve idéntica.",
+        why: "Se oculta si el recurso es local o remoto; la forma de acceder no cambia.",
+      },
+      {
+        type: "acceso",
+        story:
+          "Un programa llama a una función y recibe el resultado. Por detrás fue un RPC a otra máquina, pero el código se escribió como si fuera local.",
+        why: "La diferencia entre operación local y remota queda escondida detrás de la misma interfaz.",
+      },
+      {
+        type: "acceso",
+        story:
+          "Guardas un documento en la carpeta compartida de la universidad. El explorador de archivos se comporta igual que con una carpeta de tu laptop.",
+        why: "El usuario no distingue el acceso local del remoto al usar el recurso.",
+      },
+      {
+        type: "ubicacion",
+        story:
+          "Escribes docs.empresa.edu y el sistema te lleva al servidor correcto. No necesitas la dirección IP ni saber en qué edificio está la máquina.",
+        why: "Se oculta en qué nodo físico está el recurso; basta el nombre lógico.",
+      },
+      {
+        type: "ubicacion",
+        story:
+          "El servicio de nombres traduce “impresora-lab” a la máquina del laboratorio 3. Tú solo usaste el nombre, nunca la dirección.",
+        why: "La ubicación queda detrás de un nombre; no hace falta conocer el nodo.",
+      },
+      {
+        type: "ubicacion",
+        story:
+          "Una app móvil pide “api.tienda.com”. El DNS responde con la IP del centro de datos actual y el usuario no ve esa elección.",
+        why: "Se esconde dónde está el servidor; solo importa el nombre del servicio.",
+      },
+      {
+        type: "migracion",
+        story:
+          "Por mantenimiento, la base de datos se muda del servidor A al B. Las apps siguen usando el mismo nombre y nadie cambia su configuración.",
+        why: "El recurso se movió de nodo, pero eso queda oculto para quien lo usa.",
+      },
+      {
+        type: "migracion",
+        story:
+          "Un contenedor de video se reubica a otro host con más capacidad. Los espectadores siguen el mismo enlace y no notan el traslado.",
+        why: "Se oculta que el recurso cambió de máquina mientras el servicio continúa.",
+      },
+      {
+        type: "migracion",
+        story:
+          "El administrador mueve el repositorio Git a un rack nuevo. Los clones y pushes siguen con la misma URL de siempre.",
+        why: "La migración del servicio no obliga a cambiar cómo lo referencian los usuarios.",
+      },
+      {
+        type: "replicacion",
+        story:
+          "Descargas una actualización y el sistema elige una de tres copias en distintos nodos. Tú crees que hay un solo archivo.",
+        why: "Se oculta que existen varias réplicas del mismo recurso.",
+      },
+      {
+        type: "replicacion",
+        story:
+          "Una página web responde igual desde Europa o América porque hay espejos del contenido. El navegador no muestra “copia 2 de 4”.",
+        why: "Las múltiples copias se presentan como un único recurso.",
+      },
+      {
+        type: "replicacion",
+        story:
+          "Escribes en “mi-cuenta” y el sistema propaga el cambio a varias réplicas. La app solo habla de una cuenta, no de tres bases.",
+        why: "La existencia de copias queda oculta detrás de una sola imagen del recurso.",
+      },
+      {
+        type: "concurrencia",
+        story:
+          "Dos compañeros editan la misma hoja en la nube. Cada uno ve un documento coherente; el sistema coordina los cambios por detrás.",
+        why: "Se oculta que otros usuarios también están usando el mismo recurso a la vez.",
+      },
+      {
+        type: "concurrencia",
+        story:
+          "Reservas el último asiento en una sala. Otros intentaban lo mismo al mismo tiempo, pero la interfaz te trata como si fueras el único cliente.",
+        why: "La competencia concurrente por el recurso queda escondida al usuario.",
+      },
+      {
+        type: "concurrencia",
+        story:
+          "Imprimes un PDF y la cola acepta tu trabajo sin mostrarte que hay cinco trabajos más en otros laboratorios compartiendo la misma impresora lógica.",
+        why: "Se oculta el uso simultáneo del recurso por parte de otros procesos o personas.",
+      },
+      {
+        type: "fallos",
+        story:
+          "El servidor principal se cae y, en segundos, el respaldo toma el control. La app móvil solo notó un instante de espera, no un error fatal.",
+        why: "Se oculta que un componente falló y otro lo sustituyó (failover).",
+      },
+      {
+        type: "fallos",
+        story:
+          "Un nodo del clúster deja de responder. El balanceador deja de enviarle tráfico y las peticiones siguen completándose en los nodos vivos.",
+        why: "El fallo de un nodo se esconde; el servicio sigue aparente e íntegro.",
+      },
+      {
+        type: "fallos",
+        story:
+          "Durante una compra, un servidor se reinicia. La transacción se reintenta en otra instancia y el cliente termina viendo “pago exitoso”.",
+        why: "Se oculta la interrupción y la recuperación frente al usuario final.",
+      },
+    ];
+
+    let round = 0;
+    let correct = 0;
+    let answered = 0;
+    let locked = false;
+    let current = null;
+    let bag = [];
+
+    const shuffle = (items) => {
+      const copy = [...items];
+      for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    };
+
+    const drawCase = () => {
+      if (!bag.length) bag = shuffle(cases);
+      const next = bag.pop();
+      if (current && next.story === current.story && bag.length) {
+        const alt = bag.pop();
+        bag.push(next);
+        return alt;
+      }
+      return next;
+    };
+
+    const setChoiceEnabled = (enabled) => {
+      choices.querySelectorAll("[data-choice]").forEach((btn) => {
+        btn.disabled = !enabled;
+        btn.classList.remove("is-selected", "is-correct", "is-wrong");
+      });
+    };
+
+    const startRound = () => {
+      round += 1;
+      locked = false;
+      current = drawCase();
+      storyEl.textContent = current.story;
+      explainEl.hidden = true;
+      explainEl.textContent = "";
+      feedback.textContent = "";
+      feedback.classList.remove("is-ok", "is-bad");
+      nextBtn.hidden = true;
+      setChoiceEnabled(true);
+      roundEl.textContent = `Ronda ${round}`;
+      scoreEl.textContent = `Aciertos: ${correct} / ${answered}`;
+    };
+
+    const reveal = (choice) => {
+      if (locked || !current) return;
+      locked = true;
+
+      const ok = choice === current.type;
+      answered += 1;
+      if (ok) correct += 1;
+
+      choices.querySelectorAll("[data-choice]").forEach((btn) => {
+        btn.disabled = true;
+        const selected = btn.dataset.choice === choice;
+        const isAnswer = btn.dataset.choice === current.type;
+        btn.classList.toggle("is-selected", selected);
+        btn.classList.toggle("is-correct", isAnswer);
+        btn.classList.toggle("is-wrong", selected && !ok);
+      });
+
+      explainEl.hidden = false;
+      explainEl.textContent = current.why;
+
+      feedback.classList.remove("is-ok", "is-bad");
+      if (ok) {
+        feedback.textContent = `Correcto: transparencia de ${labels[current.type]}.`;
+        feedback.classList.add("is-ok");
+      } else {
+        feedback.textContent = `No esta vez: era transparencia de ${labels[current.type]}.`;
+        feedback.classList.add("is-bad");
+      }
+
+      scoreEl.textContent = `Aciertos: ${correct} / ${answered}`;
+      nextBtn.hidden = false;
+      nextBtn.focus();
+    };
+
+    choices.addEventListener("click", (event) => {
+      const btn = event.target.closest("[data-choice]");
+      if (!btn || !choices.contains(btn) || locked) return;
+      reveal(btn.dataset.choice);
+    });
+
+    nextBtn.addEventListener("click", startRound);
+    startRound();
+  }
+
   document.querySelectorAll(".media-frame img").forEach((img) => {
     const frame = img.closest(".media-frame");
 
@@ -1045,7 +1239,7 @@
     {
       title: "Sistemas operativos distribuidos",
       hint: "Redes, fallos y escalabilidad",
-      text: "cliente servidor RPC transparencia failover middleware",
+      text: "cliente servidor RPC transparencia failover middleware Transparency Detective",
       path: "temas/sistemas-distribuidos.html",
     },
     {

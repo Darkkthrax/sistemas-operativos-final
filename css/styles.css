@@ -1342,6 +1342,53 @@ figcaption {
   color: #b45309;
 }
 
+.detective {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+.detective-case {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  padding: 0.95rem 1rem;
+}
+
+.detective-kicker {
+  margin: 0 0 0.35rem;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.detective-story {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+.detective-choices .btn.is-correct {
+  border-color: #15803d;
+  box-shadow: inset 0 0 0 1px #15803d;
+}
+
+.detective-choices .btn.is-wrong {
+  border-color: #b45309;
+  box-shadow: inset 0 0 0 1px #b45309;
+}
+
+.detective-explain {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
 .topic-pager {
   display: flex;
   justify-content: space-between;
@@ -1667,7 +1714,8 @@ figcaption {
   .crossword-actions .btn,
   .flow-actions .btn,
   .arena-choices .btn,
-  .arena-actions .btn {
+  .arena-actions .btn,
+  .detective-choices .btn {
     width: 100%;
   }
 }
