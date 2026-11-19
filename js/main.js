@@ -1081,21 +1081,6 @@
     startRound();
   }
 
-  document.querySelectorAll(".media-frame img").forEach((img) => {
-    const frame = img.closest(".media-frame");
-
-    const markEmpty = () => {
-      img.style.display = "none";
-      frame?.classList.add("is-empty");
-    };
-
-    img.addEventListener("error", markEmpty);
-
-    if (img.complete && img.naturalWidth === 0) {
-      markEmpty();
-    }
-  });
-
   document.querySelectorAll("[data-video-frame]").forEach((frame) => {
     const video = frame.querySelector("video");
     const placeholder = frame.querySelector(".video-placeholder");

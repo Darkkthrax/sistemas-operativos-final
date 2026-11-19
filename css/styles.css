@@ -990,23 +990,6 @@ figcaption {
   background: #fff;
 }
 
-.media-frame .placeholder-label,
-.video-placeholder {
-  margin: 0;
-  padding: 0.8rem 0.9rem;
-  color: var(--muted);
-  font-size: 0.86rem;
-}
-
-.media-frame .placeholder-label {
-  display: none;
-}
-
-.media-frame.is-empty .placeholder-label,
-.video-frame.is-empty .video-placeholder {
-  display: block;
-}
-
 .video-frame {
   background: var(--code);
   aspect-ratio: 16 / 9;
@@ -1023,7 +1006,10 @@ figcaption {
 
 .video-placeholder {
   display: none;
+  margin: 0;
+  padding: 0.8rem 0.9rem;
   color: #e4e4e7;
+  font-size: 0.86rem;
 }
 
 .video-frame.is-empty .video-placeholder {
