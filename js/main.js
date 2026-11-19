@@ -1,4 +1,45 @@
 (() => {
+  const applyTheme = (theme) => {
+    document.documentElement.setAttribute("data-theme", theme);
+    const icon = document.querySelector('link[rel="icon"]');
+    if (icon) {
+      const file = theme === "dark" ? "logo-dark.png" : "logo-light.png";
+      icon.href = icon.href.replace(/logo-(?:light|dark)\.png/, file);
+    }
+    const themeToggle = document.querySelector(".theme-toggle");
+    if (themeToggle) {
+      const dark = theme === "dark";
+      themeToggle.setAttribute("aria-pressed", String(dark));
+      themeToggle.setAttribute(
+        "aria-label",
+        dark ? "Activar modo claro" : "Activar modo oscuro"
+      );
+    }
+  };
+
+  if (!document.body.classList.contains("doom")) {
+    const themeToggle = document.querySelector(".theme-toggle");
+    if (themeToggle) {
+      const current =
+        document.documentElement.getAttribute("data-theme") === "dark"
+          ? "dark"
+          : "light";
+      applyTheme(current);
+      themeToggle.addEventListener("click", () => {
+        const next =
+          document.documentElement.getAttribute("data-theme") === "dark"
+            ? "light"
+            : "dark";
+        try {
+          localStorage.setItem("theme", next);
+        } catch (error) {
+          /* preference stays for this visit */
+        }
+        applyTheme(next);
+      });
+    }
+  }
+
   const toggle = document.querySelector(".nav-toggle");
   const links = document.querySelector(".nav-links");
 
@@ -604,7 +645,7 @@
     const nextBtn = document.getElementById("arena-next");
     const roundEl = document.getElementById("arena-round");
     const scoreEl = document.getElementById("arena-score");
-    const processColors = ["#0055ff", "#0f766e", "#b45309", "#7c3aed", "#be123c"];
+    const processColors = ["#047857", "#0f766e", "#b45309", "#7c3aed", "#be123c"];
 
     let round = 0;
     let correct = 0;
