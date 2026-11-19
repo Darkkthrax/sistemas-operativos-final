@@ -6,7 +6,7 @@
     <title>Proyecto: Video tutorial | Sistemas Operativos</title>
     <meta
       name="description"
-      content="Video tutorial: crear un USB booteable e instalar un sistema operativo en un disco de almacenamiento nuevo o formateado."
+      content="Video tutorial: crear un USB booteable con Rufus e instalar Lubuntu en un disco nuevo o formateado."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/styles.css?v=20261115f" />
+    <link rel="stylesheet" href="../css/styles.css?v=20261118a" />
   </head>
   <body data-root="../">
     <header class="site-header">
@@ -65,174 +65,169 @@
       <nav class="doc-nav" aria-label="Temas del curso">
         <p class="rail-label">Temas</p>
         <ul>
-        <li><a href="../index.html">Inicio</a></li>
-        <li><a href="conocimientos-previos.html">Conocimientos previos</a></li>
-        <li><a href="introduccion.html">Introducción</a></li>
-        <li><a href="gestion-procesos.html">Gestión de procesos</a></li>
-        <li><a href="sistemas-distribuidos.html">Sistemas distribuidos</a></li>
-        <li><a href="proyecto-video.html" aria-current="page">Video tutorial</a></li>
+          <li><a href="../index.html">Inicio</a></li>
+          <li><a href="conocimientos-previos.html">Conocimientos previos</a></li>
+          <li><a href="introduccion.html">Introducción</a></li>
+          <li><a href="gestion-procesos.html">Gestión de procesos</a></li>
+          <li><a href="sistemas-distribuidos.html">Sistemas distribuidos</a></li>
+          <li>
+            <a href="proyecto-video.html" aria-current="page">Video tutorial</a>
+          </li>
         </ul>
       </nav>
 
       <div class="doc-main">
-      <section class="page-hero">
-        <div class="container content-column">
-<p class="kicker">Proyecto</p>
-          <h1>Proyecto: Video tutorial</h1>
-          <p>
-            Tutorial en video sobre cómo crear un USB booteable e instalar un
-            sistema operativo en un disco de almacenamiento nuevo o en un
-            computador recién formateado. Trabajo en colaboración.
-          </p>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="container content-column">
-          <article class="prose">
-            <div class="project-meta" aria-label="Datos del proyecto">
-              <div>
-                <span>Autores</span>
-                <strong>Jerónimo Orozco Urrego</strong>
-                <strong><!-- Nombre del colaborador -->Colaborador</strong>
-              </div>
-              <div>
-                <span>Estado</span>
-                <strong>Plantilla — contenido en preparación</strong>
-              </div>
-            </div>
-
-            <h2>¿De qué trata el proyecto?</h2>
+        <section class="page-hero">
+          <div class="container content-column">
+            <p class="kicker">Proyecto</p>
+            <h1>Proyecto: Video tutorial</h1>
             <p>
-              El objetivo es grabar un tutorial práctico, paso a paso, que
-              muestre cómo preparar un medio de instalación (USB booteable) y
-              cómo usarlo para instalar un sistema operativo en un disco nuevo
-              o en un equipo cuyo almacenamiento ya fue formateado.
+              Tutorial práctico para crear un USB booteable con Rufus e
+              instalar Lubuntu en un computador, dejando Windows en dual boot.
             </p>
-            <p>
-              <!-- Sustituye este párrafo cuando tengas el guion listo. -->
-              Aquí irá una introducción más detallada: qué sistema operativo se
-              instala, qué herramientas se usan para crear el USB y en qué
-              equipo se demuestra el proceso.
-            </p>
+          </div>
+        </section>
 
-            <h2>Video del tutorial</h2>
-            <p>
-              Cuando el video esté listo, colócalo en la carpeta
-              <code>video/</code> con el nombre
-              <code>tutorial-boot-usb.mp4</code>. La página lo cargará sola. Si
-              el archivo es demasiado pesado para GitHub, puedes incrustar un
-              enlace de YouTube o Drive en el bloque alternativo más abajo.
-            </p>
-
-            <figure class="video-block">
-              <div class="video-frame" data-video-frame>
-                <video
-                  controls
-                  preload="metadata"
-                  playsinline
-                  poster="../video/poster-tutorial.jpg"
-                >
-                  <source
-                    src="../video/tutorial-boot-usb.mp4"
-                    type="video/mp4"
-                  />
-                  Tu navegador no soporta la reproducción de video HTML5.
-                </video>
-                <p class="video-placeholder" hidden>
-                  Aún no hay video cargado. Agrega
-                  <code>video/tutorial-boot-usb.mp4</code> o usa el enlace
-                  externo de abajo.
-                </p>
+        <section class="section">
+          <div class="container content-column">
+            <article class="prose">
+              <div class="project-meta" aria-label="Datos del proyecto">
+                <div>
+                  <span>Autores</span>
+                  <strong>Jerónimo Orozco Urrego</strong>
+                  <strong>Alejandro Pérez Restrepo</strong>
+                </div>
+                <div>
+                  <span>Estado</span>
+                  <strong>Completado</strong>
+                </div>
               </div>
-              <figcaption>
-                Tutorial: USB booteable e instalación en disco nuevo o
-                formateado.
-              </figcaption>
-            </figure>
 
-            <!--
-              Alternativa si el video se publica en YouTube u otro servicio.
-              Quita el atributo hidden y pega el iframe o el enlace.
-            -->
-            <div class="video-external note" hidden>
-              <strong>Video externo:</strong>
-              <!--
-              <a href="https://www.youtube.com/watch?v=XXXX" target="_blank" rel="noopener noreferrer">
-                Ver tutorial en YouTube
+              <h2>¿De qué trata el proyecto?</h2>
+              <p>
+                El objetivo es mostrar, paso a paso, cómo preparar un medio de
+                instalación y usarlo para instalar un sistema operativo. En el
+                video se descarga Rufus en su versión portable y la imagen ISO
+                oficial de Lubuntu (Desktop 64 bit). Con esas dos piezas se
+                crea el USB de arranque y, desde ese USB, se sigue el asistente
+                de instalación de Lubuntu.
+              </p>
+              <p>
+                La demostración se hace en un equipo con Windows ya instalado.
+                Se configura el firmware UEFI, se prueba el entorno live
+                (Wi‑Fi, navegador, teclado y terminal) y después se instala
+                Lubuntu en una partición libre de unos 100 GB, sin borrar
+                Windows. Al final el equipo arranca con un menú dual boot.
+              </p>
+
+              <h2>Video del tutorial</h2>
+              <p>
+                El tutorial completo está publicado en YouTube. También puedes
+                abrirlo
+                <a
+                  href="https://www.youtube.com/watch?v=G_0VO7WS9Q4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >en una pestaña nueva</a
+                >.
+              </p>
+
+              <figure class="video-block">
+                <div class="video-embed">
+                  <iframe
+                    src="https://www.youtube.com/embed/G_0VO7WS9Q4"
+                    title="Tutorial: USB booteable e instalación de Lubuntu"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+                <figcaption>
+                  Tutorial: crear un USB booteable con Rufus e instalar Lubuntu.
+                </figcaption>
+              </figure>
+
+              <h2>Qué cubre el tutorial</h2>
+              <ul class="feature-list">
+                <li>
+                  Descarga de Rufus (versión portable) y de la ISO de Lubuntu
+                  Desktop 64 bit.
+                </li>
+                <li>
+                  Creación del USB de arranque en Rufus: selección de la
+                  unidad, de la ISO y del esquema de partición (MBR o GPT,
+                  comprobado con <code>diskpart</code>).
+                </li>
+                <li>
+                  Acceso al firmware UEFI desde el menú de recuperación de
+                  Windows y ajuste de arranque (modo UEFI, Fast Boot
+                  desactivado, USB Boot activado).
+                </li>
+                <li>
+                  Arranque desde el USB, prueba del entorno live (Wi‑Fi,
+                  Firefox, LibreOffice y comandos
+                  <code>uname -a</code>, <code>hostnamectl</code> y
+                  <code>lsblk</code>) e instalación normal de Lubuntu.
+                </li>
+                <li>
+                  Particionado manual para dual boot: partición EFI FAT32 de
+                  512 MB y el resto en ext4 como sistema raíz, en el espacio
+                  libre reservado.
+                </li>
+                <li>
+                  Reinicio final sin USB, menú de arranque Lubuntu/Windows y
+                  comprobación del sistema ya instalado.
+                </li>
+              </ul>
+
+              <h2>Materiales y herramientas</h2>
+              <ul class="feature-list">
+                <li>
+                  <strong>Rufus</strong> (portable), desde
+                  <a
+                    href="https://rufus.ie/es/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >rufus.ie</a
+                  >.
+                </li>
+                <li>
+                  <strong>Lubuntu</strong>, imagen ISO Desktop 64 bit desde
+                  <a
+                    href="https://lubuntu.me/?page_id=3200"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >lubuntu.me</a
+                  >.
+                </li>
+                <li>
+                  Memoria USB para el medio de instalación.
+                </li>
+                <li>
+                  Computador con Windows y espacio libre en disco para instalar
+                  Lubuntu en dual boot (en el video, unos 100 GB).
+                </li>
+              </ul>
+            </article>
+
+            <nav class="topic-pager" aria-label="Navegación entre temas">
+              <a href="sistemas-distribuidos.html">
+                <span>Anterior</span>
+                <strong>Sistemas operativos distribuidos</strong>
               </a>
-              -->
-              <!--
-              <div class="video-embed">
-                <iframe
-                  src="https://www.youtube.com/embed/XXXX"
-                  title="Tutorial USB booteable"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                ></iframe>
-              </div>
-              -->
-            </div>
+              <a class="next is-disabled" href="#" aria-disabled="true">
+                <span>Siguiente</span>
+                <strong>Fin del recorrido</strong>
+              </a>
+            </nav>
+          </div>
+        </section>
+      </div>
 
-            <h2>Qué cubrirá el tutorial</h2>
-            <p>
-              <!-- Lista provisional: ajústala al guion final. -->
-              Estructura sugerida del video. Márcala o reescríbela cuando
-              definan el orden definitivo:
-            </p>
-            <ul class="feature-list">
-              <li>
-                Requisitos: USB, imagen ISO del sistema operativo y herramienta
-                para crear el medio booteable.
-              </li>
-              <li>
-                Creación del USB de arranque (pasos en pantalla).
-              </li>
-              <li>
-                Configuración del BIOS/UEFI para arrancar desde el USB.
-              </li>
-              <li>
-                Instalación del sistema en un disco nuevo o formateado:
-                particiones, destino y primeros ajustes.
-              </li>
-              <li>
-                Comprobación final: el equipo inicia desde el disco instalado.
-              </li>
-            </ul>
-
-            <h2>Materiales y herramientas</h2>
-            <p>
-              <!-- Completar con marcas/versiones reales usadas en la grabación. -->
-              Espacio reservado para listar la memoria USB, el sistema
-              operativo elegido, el programa usado para grabar la ISO y el
-              equipo de demostración.
-            </p>
-
-            <div class="note">
-              <strong>Pendiente:</strong> guion del video, nombre del
-              colaborador, archivo MP4 (o enlace externo) y capturas o poster
-              opcional en <code>video/poster-tutorial.jpg</code>.
-            </div>
-          </article>
-
-          <nav class="topic-pager" aria-label="Navegación entre temas">
-            <a href="sistemas-distribuidos.html">
-              <span>Anterior</span>
-              <strong>Sistemas operativos distribuidos</strong>
-            </a>
-            <a class="next is-disabled" href="#" aria-disabled="true">
-              <span>Siguiente</span>
-              <strong>Fin del recorrido</strong>
-            </a>
-          </nav>
-        </div>
-      </section>
-    </div>
-
-    <aside class="doc-rail" aria-label="En esta página">
-      <div id="page-toc"></div>
-    </aside>
-  </main>
+      <aside class="doc-rail" aria-label="En esta página">
+        <div id="page-toc"></div>
+      </aside>
+    </main>
 
     <footer class="site-footer">
       <div class="footer-inner">
@@ -248,6 +243,6 @@
       </div>
     </footer>
 
-    <script src="../js/main.js?v=20261115f"></script>
+    <script src="../js/main.js?v=20261118a"></script>
   </body>
 </html>
