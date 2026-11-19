@@ -147,16 +147,11 @@ pre,
 }
 
 .brand-mark {
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-  background: var(--ink);
-  color: #fff;
-  border-radius: 6px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 7px;
+  object-fit: cover;
 }
 
 .nav-links {
