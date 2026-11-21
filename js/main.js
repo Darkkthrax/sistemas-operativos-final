@@ -1269,6 +1269,12 @@
       path: "temas/sistemas-distribuidos.html",
     },
     {
+      title: "Glosario",
+      hint: "Hardware, software, redes y seguridad",
+      text: "CPU RAM kernel proceso semáforo deadlock RPC socket permisos ACL autenticación",
+      path: "temas/glosario.html",
+    },
+    {
       title: "Proyecto: Video tutorial",
       hint: "USB booteable e instalación",
       text: "disco formateado",

@@ -33,7 +33,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/styles.css?v=20261119e" />
+    <link rel="stylesheet" href="../css/styles.css?v=20261120d" />
   </head>
   <body data-root="../">
     <header class="site-header">
@@ -62,6 +62,7 @@
           <li><a href="introduccion.html">Introducción</a></li>
           <li><a href="gestion-procesos.html">Gestión de procesos</a></li>
           <li><a href="sistemas-distribuidos.html">Sistemas distribuidos</a></li>
+          <li><a href="glosario.html">Glosario</a></li>
           <li>
             <a href="proyecto-video.html" aria-current="page">Video tutorial</a>
           </li>
@@ -133,6 +134,7 @@
           <li><a href="introduccion.html">Introducción</a></li>
           <li><a href="gestion-procesos.html">Gestión de procesos</a></li>
           <li><a href="sistemas-distribuidos.html">Sistemas distribuidos</a></li>
+          <li><a href="glosario.html">Glosario</a></li>
           <li>
             <a href="proyecto-video.html" aria-current="page">Video tutorial</a>
           </li>
@@ -267,12 +269,39 @@
                   Lubuntu en dual boot (en el video, unos 100 GB).
                 </li>
               </ul>
+
+              <section class="case-study" aria-labelledby="caso-practico">
+                <h2 id="caso-practico">
+                  Caso práctico: Instalar Lubuntu en dual boot
+                </h2>
+                <div class="case-parts">
+                  <section class="case-part">
+                    <h3>Problemática</h3>
+                    <p>
+                      El equipo solo tenía Windows y hacía falta instalar un
+                      sistema Linux para practicar administración del sistema
+                      operativo, sin borrar el entorno de trabajo ni perder
+                      archivos.
+                    </p>
+                  </section>
+                  <section class="case-part">
+                    <h3>Solución</h3>
+                    <p>
+                      Se preparó un USB booteable con Rufus y la ISO de
+                      Lubuntu, se ajustó el arranque UEFI y se instaló Lubuntu
+                      en una partición libre junto a Windows. El resultado es
+                      un menú dual boot: se elige el sistema al encender y
+                      ambos conviven en el mismo disco.
+                    </p>
+                  </section>
+                </div>
+              </section>
             </article>
 
             <nav class="topic-pager" aria-label="Navegación entre temas">
-              <a href="sistemas-distribuidos.html">
+              <a href="glosario.html">
                 <span>Anterior</span>
-                <strong>Sistemas operativos distribuidos</strong>
+                <strong>Glosario</strong>
               </a>
               <a class="next is-disabled" href="#" aria-disabled="true">
                 <span>Siguiente</span>

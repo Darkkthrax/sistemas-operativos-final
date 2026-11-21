@@ -33,7 +33,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/styles.css?v=20261119e" />
+    <link rel="stylesheet" href="../css/styles.css?v=20261120d" />
   </head>
   <body data-root="../">
     <header class="site-header">
@@ -66,6 +66,7 @@
             >
           </li>
           <li><a href="sistemas-distribuidos.html">Sistemas distribuidos</a></li>
+          <li><a href="glosario.html">Glosario</a></li>
           <li><a href="proyecto-video.html">Video tutorial</a></li>
         </ul>
 
@@ -135,6 +136,7 @@
         <li><a href="introduccion.html">Introducción</a></li>
         <li><a href="gestion-procesos.html" aria-current="page">Gestión de procesos</a></li>
         <li><a href="sistemas-distribuidos.html">Sistemas distribuidos</a></li>
+        <li><a href="glosario.html">Glosario</a></li>
         <li><a href="proyecto-video.html">Video tutorial</a></li>
         </ul>
       </nav>
@@ -170,6 +172,7 @@
                 <li><a href="#seccion-critica">Sección crítica</a></li>
                 <li><a href="#semaforos">Semáforos</a></li>
                 <li><a href="#deadlock">Bloqueos y deadlock</a></li>
+                <li><a href="#caso-practico">Caso práctico</a></li>
               </ol>
             </nav>
 
@@ -653,6 +656,38 @@
                 otros.
               </li>
             </ul>
+
+            <section class="case-study" aria-labelledby="caso-practico">
+              <h2 id="caso-practico">
+                Caso práctico: Demasiados procesos compitiendo por la CPU
+              </h2>
+              <div class="case-parts">
+                <section class="case-part">
+                  <h3>Problemática</h3>
+                  <p>
+                    Un computador ejecuta a la vez un navegador, un editor de
+                    imágenes, un reproductor multimedia y una aplicación de
+                    bases de datos. Varios programas se interrumpen y responden
+                    tarde: hay demasiados procesos e hilos compitiendo por la
+                    CPU, suben los cambios de contexto y, si la RAM se agota,
+                    el sistema cae a memoria virtual en disco.
+                  </p>
+                </section>
+                <section class="case-part">
+                  <h3>Solución</h3>
+                  <p>
+                    El kernel ya reparte la CPU con el planificador, pero la
+                    carga supera lo razonable. Se cierran procesos y programas
+                    en segundo plano que no hacen falta, se ajusta la prioridad
+                    de las tareas críticas y se limitan las aplicaciones de
+                    alto consumo. Si la competencia sigue, conviene más RAM, un
+                    SSD para la memoria virtual o un procesador con más núcleos
+                    cuando el trabajo sí se paraleliza. Así bajan las esperas y
+                    el equipo vuelve a responder.
+                  </p>
+                </section>
+              </div>
+            </section>
           </article>
 
           <section class="summary-block" aria-labelledby="resumen-conceptos">

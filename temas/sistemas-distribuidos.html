@@ -33,7 +33,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../css/styles.css?v=20261119e" />
+    <link rel="stylesheet" href="../css/styles.css?v=20261120d" />
   </head>
   <body data-root="../">
     <header class="site-header">
@@ -66,6 +66,7 @@
               >Sistemas distribuidos</a
             >
           </li>
+          <li><a href="glosario.html">Glosario</a></li>
           <li><a href="proyecto-video.html">Video tutorial</a></li>
         </ul>
 
@@ -135,6 +136,7 @@
         <li><a href="introduccion.html">Introducción</a></li>
         <li><a href="gestion-procesos.html">Gestión de procesos</a></li>
         <li><a href="sistemas-distribuidos.html" aria-current="page">Sistemas distribuidos</a></li>
+        <li><a href="glosario.html">Glosario</a></li>
         <li><a href="proyecto-video.html">Video tutorial</a></li>
         </ul>
       </nav>
@@ -170,6 +172,7 @@
                 <li><a href="#escalabilidad">Escalabilidad y disponibilidad</a></li>
                 <li><a href="#archivos">Sistemas de archivos distribuidos</a></li>
                 <li><a href="#empresarial">Aplicación empresarial</a></li>
+                <li><a href="#caso-practico">Caso práctico</a></li>
               </ol>
             </nav>
 
@@ -776,6 +779,37 @@
               conectividad inestable de los vehículos y dispositivos que deben
               adaptarse a perder la red.
             </p>
+
+            <section class="case-study" aria-labelledby="caso-practico">
+              <h2 id="caso-practico">
+                Caso práctico: MULTISERVICIOS S.A.
+              </h2>
+              <div class="case-parts">
+                <section class="case-part">
+                  <h3>Problemática</h3>
+                  <p>
+                    MULTISERVICIOS S.A. opera cuatro sedes con un solo servidor
+                    central para inventario, facturación, ventas y documentos.
+                    Cuando todos entran a la vez el sistema se satura; si el
+                    servidor cae, ninguna sede trabaja; el inventario no se
+                    refleja a tiempo y hay registros duplicados. La empresa,
+                    además, planea abrir tres sedes más.
+                  </p>
+                </section>
+                <section class="case-part">
+                  <h3>Solución</h3>
+                  <p>
+                    Se pasa a una arquitectura distribuida: nodos autónomos por
+                    sede, comunicación por mensajes, arquitectura
+                    cliente-servidor en capas, réplicas y failover para
+                    tolerancia a fallos, y un sistema de archivos distribuido
+                    con permisos por cargo. Eso elimina el cuello de botella y
+                    el punto único de falla, mejora la consistencia entre sedes
+                    y deja espacio para crecer.
+                  </p>
+                </section>
+              </div>
+            </section>
           </article>
 
           <section class="summary-block" aria-labelledby="resumen-conceptos">
@@ -1029,9 +1063,9 @@
               <span>Anterior</span>
               <strong>Gestión de procesos</strong>
             </a>
-            <a class="next" href="proyecto-video.html">
+            <a class="next" href="glosario.html">
               <span>Siguiente</span>
-              <strong>Proyecto: Video tutorial</strong>
+              <strong>Glosario</strong>
             </a>
           </nav>
         </div>

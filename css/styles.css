@@ -1128,6 +1128,77 @@ figcaption {
   border: 0;
 }
 
+.case-study {
+  margin: 2rem 0 0;
+  max-width: var(--measure);
+}
+
+.case-parts {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 0.85rem;
+}
+
+.case-part {
+  padding: 0.9rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.case-part h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.case-part p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+
+.glossary-group {
+  margin: 0 0 3rem;
+  max-width: var(--measure);
+}
+
+.glossary-group:last-of-type {
+  margin-bottom: 1.5rem;
+}
+
+.glossary-group h2 {
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.glossary {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.glossary li {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.glossary li:last-child {
+  margin-bottom: 0;
+}
+
+.glossary strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
 .project-meta {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
