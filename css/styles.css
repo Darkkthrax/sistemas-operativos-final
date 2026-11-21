@@ -1211,6 +1211,7 @@ figcaption {
   border-radius: var(--radius);
   background: var(--card);
   padding: 0.75rem 0.85rem;
+  text-align: center;
 }
 
 .project-meta span {
@@ -1224,16 +1225,31 @@ figcaption {
 }
 
 .project-meta strong {
-  display: block;
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
 
-.project-meta strong + strong {
-  margin-top: 0.15rem;
-  color: var(--muted);
-  font-weight: 500;
+.project-authors {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem 0.75rem;
+  margin: 0;
+}
+
+.project-meta .project-authors-sep {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  margin-bottom: 0;
+  background: var(--line);
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
 }
 
 .flip-grid {
